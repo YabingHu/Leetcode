@@ -180,3 +180,26 @@ class Solution(object):
             fast=fast.next
         return slow
     
+#133. Clone Graph
+#DFS Solution, both time and space are O(n)
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, neighbors):
+        self.val = val
+        self.neighbors = neighbors
+"""
+class Solution:
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        dict={}
+        return self.helper(node,dict)
+    def helper(self,node,dict):
+        if node ==None: return None
+        if node in dict:
+            return dict[node]
+        dup=Node(node.val,[])
+        dict[node]=dup
+        for neighbor in node.neighbors:
+            clone=self.helper(neighbor,dict)
+            dup.neighbors.append(clone)
+        return dup
