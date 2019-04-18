@@ -93,4 +93,54 @@ class Solution:
                     cnt-=1
         return res
         
-        
+#2. Add Two Numbers
+# time:O(max(m,n)), soace:O(max(m,n))+1 where m and n are length for l1,l2
+class Solution:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        dummy=ListNode(-1)
+        cur=dummy
+        carry=0
+        while l1 !=None or l2 !=None:
+            d1 = l1.val if l1 else 0
+            d2 = l2.val if l2 else 0
+            res=d1+d2+carry
+            carry = 1 if res>=10 else 0
+            cur.next=ListNode(res%10)
+            cur=cur.next
+            l1 = l1.next if l1 else None
+            l2 = l2.next if l2 else None
+        if carry==1:
+            cur.next=ListNode(1)
+        return dummy.next
+
+#445. Add Two Numbers II   
+time:O(max(m,n)), soace:O(max(m,n))+1+m+n where m and n are length for l1,l2
+class Solution:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        s1=[]
+        s2=[]
+        while l1!=None:
+            s1.append(l1.val)
+            l1=l1.next
+        while l2!=None:
+            s2.append(l2.val)
+            l2=l2.next
+        cur=ListNode((s1[-1]+s2[-1])%10)
+        carry=1 if s1[-1]+s2[-1]>9 else 0
+        s1.pop()
+        s2.pop()
+        while  s1 or  s2:
+            d1=s1[-1] if s1 else 0
+            d2=s2[-1] if s2 else 0
+            sum=d1+d2+carry
+            carry=1 if sum>9 else 0
+            temp=ListNode(sum%10)
+            temp.next=cur
+            cur=temp
+            s1.pop() if s1 else []
+            s2.pop() if s2 else []
+        if carry==1:
+            temp=ListNode(1)
+            temp.next=cur
+            cur=temp
+        return cur
