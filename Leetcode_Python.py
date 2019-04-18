@@ -144,3 +144,39 @@ class Solution:
             temp.next=cur
             cur=temp
         return cur
+
+#141. Linked List Cycle
+#Time:O(n), space:O(1)
+class Solution(object):
+    def hasCycle(self, head):
+        fast,slow=head,head
+        while fast!=None and fast.next!=None:
+            fast=fast.next.next
+            slow=slow.next
+            if fast==slow:
+                return True
+        return False
+    
+#142. Linked List Cycle II
+#Time:O(n), space:O(1)
+class Solution(object):
+    def detectCycle(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        fast,slow=head,head
+        while fast and fast.next:
+        #while fast !=None and fast.next!=None: 
+            fast=fast.next.next
+            slow=slow.next
+            if slow==fast:
+                break
+        if not fast or not fast.next: return None
+        #if fast== None or fast.next == None: return None
+        slow=head
+        while slow!=fast:
+            slow=slow.next
+            fast=fast.next
+        return slow
+    
