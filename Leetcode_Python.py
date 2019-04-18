@@ -221,7 +221,7 @@ class Solution:
         return dup
 
 #200. Number of Islands    
-#
+#Time and space O(m*n)
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
         if len(grid)==0 or len(grid[0])==0: return 0
