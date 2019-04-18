@@ -203,3 +203,19 @@ class Solution:
             clone=self.helper(neighbor,dict)
             dup.neighbors.append(clone)
         return dup
+#BFS Solution, both time and space are O(n)
+class Solution:
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        if not node: return None
+        dict={}
+        queue=[node]
+        dup=Node(node.val,[])
+        dict[node]=dup
+        while queue:
+            t=queue.pop(0)
+            for neighbor in t.neighbors:
+                if neighbor not in dict:
+                    dict[neighbor]=Node(neighbor.val,[])
+                    queue.append(neighbor)
+                dict[t].neighbors.append(dict[neighbor])
+        return dup
