@@ -270,3 +270,61 @@ class Solution:
         area=self.helper(grid,x,y-1,area)
         area=self.helper(grid,x,y+1,area)
         return area
+    
+    #Binary Seaarch
+    #34. Find First and Last Position of Element in Sorted Array
+    #One binary search, time O(n) in stead of O(logn) when whole array can have same number, space=O(1)
+    class Solution:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        idx=self.helper(nums,0,len(nums)-1,target)
+        if idx==-1: return[-1,-1]
+        left,right=idx,idx
+        while left>0 and nums[left-1]==nums[idx]:
+            left-=1
+        while right<len(nums)-1 and nums[right+1]==nums[idx]:
+            right+=1
+        return [left,right]
+    
+    def helper(self,nums,left,right,target):
+        if left>right: return -1
+        mid=left+int((right-left)/2)
+        if target==nums[mid]: return mid
+        elif nums[mid]<target:
+            return self.helper(nums,mid+1,right,target)
+        else: return self.helper(nums,left,mid-1,target)
+       
+#Two binary search, time=O(logn), space=O(1)
+class Solution:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        res=[-1]*2
+        if len(nums)==0: return res
+        left,right=0,len(nums)-1
+        while(left<right):
+            mid=left+int((right-left)/2)
+            if nums[mid]<target: left=mid+1
+            else: right=mid
+        if nums[right] !=target: return res
+        res[0]=right
+        right=len(nums)
+        while left<right:
+            mid=left+int((right-left)/2)
+            if nums[mid]<=target: left=mid+1
+            else: right=mid
+        res[1]=left-1
+        return res
+
+#35. Search Insert Position
+#Time=O(logn), space=O(1)
+class Solution:
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        if target>nums[-1]: return len(nums)
+        left,right=0,len(nums)-1
+        while left< right:
+            mid=left+int((right-left)/2)
+            if nums[mid]==target:
+                return mid
+            elif nums[mid]>target:
+                right=mid
+            else:
+                left=mid+1
+        return right
