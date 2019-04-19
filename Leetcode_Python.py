@@ -222,7 +222,7 @@ class Solution:
 
 #200. Number of Islands    
 #Time and space O(m*n)
-lass Solution:
+class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
         m=len(grid)
         if m==0 : return 0
@@ -244,3 +244,29 @@ lass Solution:
         self.helper(grid,visited,x+1,y)
         self.helper(grid,visited,x,y+1)
         self.helper(grid,visited,x,y-1)
+        
+#695. Max Area of Island
+#Time and space O(m*n)
+class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        m=len(grid)
+        if m==0 : return 0
+        n=len(grid[0])
+        res=0
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j]==1:
+                    area=self.helper(grid,i,j,0)
+                    res=max(res,area)   
+        return res
+    
+    def helper(self,grid,x,y,area):
+        m,n=len(grid),len(grid[0])
+        if x<0 or x>=m or y<0 or y>=n or grid[x][y]==0: return area
+        grid[x][y]=0
+        area+=1
+        area=self.helper(grid,x-1,y,area)
+        area=self.helper(grid,x+1,y,area)
+        area=self.helper(grid,x,y-1,area)
+        area=self.helper(grid,x,y+1,area)
+        return area
