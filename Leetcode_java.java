@@ -75,8 +75,35 @@ class Solution {
     }
 }
 
-
-
+//34. Find First and Last Position of Element in Sorted Array
+//Time=O(logn),sapce=O(1)
+//Two binary search solution
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int[] res=new int[2];
+        res[0]=-1;
+        res[1]=-1;
+        if(nums.length==0) return res;
+        int left=0;
+        int right=nums.length-1;
+        while(left<=right){
+            int mid=left+(right-left)/2;
+            if(nums[mid]<target) left=mid+1;
+            else right=mid-1;
+        }
+        if(right+1==nums.length) return res;
+        if(nums[right+1]!=target) return res;
+        res[0]=right+1;
+        right=nums.length-1;
+        while(left<=right){
+            int mid=left+(right-left)/2;
+            if(nums[mid]<=target) left=mid+1;
+            else right=mid-1;
+        }
+        res[1]=right;
+        return res;
+    }
+}
 
 //704. Binary Search
 //Time=O(logn),sapce=O(1)
