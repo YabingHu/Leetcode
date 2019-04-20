@@ -60,8 +60,26 @@ class Solution {
 }
 
 //Binary Search
+//35. Search Insert Position
+//Time=O(logn),sapce=O(1)
+class Solution {
+    public int searchInsert(int[] nums, int target) {
+        int left=0;
+        int right=nums.length-1;
+        while (left<=right){
+            int mid=left+(right-left)/2;
+            if(target>nums[mid]) left=mid+1;
+            else right=mid-1;
+        }
+        return right+1;
+    }
+}
+
+
+
+
 //704. Binary Search
-//Time=O(n),sapce=O(1)
+//Time=O(logn),sapce=O(1)
 class Solution {
     public int search(int[] nums, int target) {
         int left=0;
@@ -77,7 +95,7 @@ class Solution {
 }
 
 //33. Search in Rotated Sorted Array
-//Time=O(n),sapce=O(1)
+//Time=O(logn),sapce=O(1)
 class Solution {
     public int search(int[] nums, int target) {
         int left=0;
