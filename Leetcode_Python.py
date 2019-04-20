@@ -299,18 +299,19 @@ class Solution:
         res=[-1]*2
         if len(nums)==0: return res
         left,right=0,len(nums)-1
-        while(left<right):
+        while(left<=right):
             mid=left+int((right-left)/2)
             if nums[mid]<target: left=mid+1
-            else: right=mid
-        if nums[right] !=target: return res
-        res[0]=right
-        right=len(nums)
-        while left<right:
+            else: right=mid-1
+        if right+1==len(nums): return res
+        if nums[right+1] !=target: return res
+        res[0]=right+1
+        right=len(nums)-1
+        while left<=right:
             mid=left+int((right-left)/2)
             if nums[mid]<=target: left=mid+1
-            else: right=mid
-        res[1]=left-1
+            else: right=mid-1
+        res[1]=right
         return res
 
 #35. Search Insert Position
