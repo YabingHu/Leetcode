@@ -59,6 +59,32 @@ class Solution {
     }
 }
 
+//BFS solution, time and space O(n)
+class Solution {
+    public Node cloneGraph(Node node) {
+        if(node==null) return null;
+        HashMap<Node,Node> map=new HashMap<>();
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(node);
+        Node dup=new Node(node.val,new ArrayList<Node>());
+        map.put(node,dup);
+        while(!queue.isEmpty()){
+            Node t=queue.poll();
+            for(Node neighbor : t.neighbors){
+                 if(!map.containsKey(neighbor)){
+                     map.put(neighbor,new Node(neighbor.val,new ArrayList<Node>()));
+                     queue.add(neighbor);
+                 }
+                map.get(t).neighbors.add(map.get(neighbor));
+            }
+        }
+        return dup;
+    }
+}
+
+
+
+
 //Binary Search
 //35. Search Insert Position
 //Time=O(logn),sapce=O(1)
