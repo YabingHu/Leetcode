@@ -317,17 +317,15 @@ class Solution:
 #Time=O(logn), space=O(1)
 class Solution:
     def searchInsert(self, nums: List[int], target: int) -> int:
-        if target>nums[-1]: return len(nums)
         left,right=0,len(nums)-1
-        while left< right:
+        while left<= right:
             mid=left+int((right-left)/2)
-            if nums[mid]==target:
-                return mid
-            elif nums[mid]>target:
-                right=mid
-            else:
+            if nums[mid]<target:
                 left=mid+1
-        return right
+            else:
+                right=mid-1
+        return right+1
+            
 
 #704. Binary Search
 #Time=O(logn), space=O(1)
