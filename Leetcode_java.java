@@ -1,7 +1,89 @@
 //Dynamic Programming:
 //70. Climbing Stairs
 // Time and Space O(n) for all methods
+//Recursive
+class Solution {
+    public int climbStairs(int n) {
+        int[] res=new int[n+1];
+        return helper(n,res);
+    }
+    public int helper(int n , int[] res){
+        if(n<=1) return 1;
+        if(res[n]>0) return res[n];
+        res[n]=helper(n-1,res) + helper(n-2,res);
+        return res[n];
+    }
+}
+//iterative    
+class Solution {
+    public int climbStairs(int n) {
+        int[] dp=new int[n+1];
+        dp[0]=1;
+        dp[1]=1;
+        for (int i = 2;i<=n;i++){
+            dp[i]=dp[i-1]+dp[i-2];
+        }
+        return dp[n];
+    }
+}
 
+//746. Min Cost Climbing Stairs
+//Time =O(n), space=O(1)
+class Solution {
+    public int minCostClimbingStairs(int[] cost) {
+        int dp1=0;
+        int dp2=0;
+        int res=0;
+        for(int i=2;i<=cost.length;i++){
+            res=Math.min(dp1+cost[i-1],dp2+cost[i-2]);
+            dp2=dp1;
+            dp1=res;
+        }
+        return res;  
+    }
+}
+
+//space=O(n)
+class Solution {
+    public int minCostClimbingStairs(int[] cost) {
+        int[] dp=new int[cost.length+1];
+        for(int i=2;i<=cost.length;i++){
+            dp[i]=Math.min(dp[i-1]+cost[i-1],dp[i-2]+cost[i-2]);
+        }
+        return dp[cost.length];
+    }
+}
+
+//303. Range Sum Query
+//Time O(n), space O(1)
+class NumArray {
+    int[] rangeSum;
+
+    public NumArray(int[] nums) {
+        rangeSum = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            rangeSum[i] = (i == 0) ? nums[i] : rangeSum[i - 1] + nums[i];
+        }
+    }
+    
+    public int sumRange(int i, int j) {
+        return rangeSum[j] - ((i == 0) ? 0 : rangeSum[i - 1]);
+    }
+}
+
+//53. Maximum Subarray
+//Time=O(n), space=O(1)
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int res=Integer.MIN_VALUE;
+        int temp=0;
+        for(int i=0;i<nums.length;i++){
+            temp=Math.max(nums[i],temp+nums[i]);
+            res=Math.max(res,temp) ;
+        }
+        return res;
+    }
+}
 
 //Dvivde and Conquer
 //169. Majority Element
