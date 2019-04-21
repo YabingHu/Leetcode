@@ -82,8 +82,34 @@ class Solution {
     }
 }
 
+//138. Copy List with Random Pointer
+//Time:O(n), space:O(n)
+class Solution {
+    public Node copyRandomList(Node head) {
+        if (head == null) return null;
+        Map<Node, Node> map = new HashMap<Node, Node>();
+        Node node = head;
+        // loop 1. copy all the nodes
+        while (node != null) {
+            map.put(node, new Node(node.val));
+            node = node.next;
+        }
+         // loop 2. assign next and random pointers
+         node = head;
+         while (node != null) {
+             map.get(node).next = map.get(node.next);
+             map.get(node).random = map.get(node.random);
+             node = node.next;
+         }
+         return map.get(head);
+    }
+}
+
+
+
+
 //200. Number of Islands
-//
+//Time and space O(m*n)
 class Solution {
     public int numIslands(char[][] grid) {
         if(grid.length==0) return 0;
