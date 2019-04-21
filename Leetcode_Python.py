@@ -272,7 +272,29 @@ class Solution:
         self.helper(grid,visited,x+1,y)
         self.helper(grid,visited,x,y+1)
         self.helper(grid,visited,x,y-1)
-        
+ 
+#547. Friend Circles
+#Time O(n^2),space=O(1)
+class Solution:
+    def findCircleNum(self, M: List[List[int]]) -> int:
+        if not M:return 0
+        m=len(M)
+        visited=[0]*m
+        res=0
+        for i in range(m):
+            if visited[i]==1: continue
+            self.helper(M,i,m,visited)
+            res+=1
+        return res
+    
+    def helper(self,M,i,m,visited):
+        if visited[i]==1:return
+        visited[i]=1
+        for j in range(m):
+            if M[i][j] and visited[j]==0:
+                self.helper(M,j,m,visited)
+
+
 #695. Max Area of Island
 #Time and space O(m*n)
 class Solution:
