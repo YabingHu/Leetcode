@@ -82,7 +82,33 @@ class Solution {
     }
 }
 
-
+//200. Number of Islands
+//
+class Solution {
+    public int numIslands(char[][] grid) {
+        if(grid.length==0) return 0;
+        int m=grid.length, n=grid[0].length,res=0;
+        int[][] visited=new int[m][n];
+        for (int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]=='1' && visited[i][j]==0){
+                    helper(grid,visited,i,j);
+                    res++;
+                }
+            }
+        } 
+    return res;
+    }
+    
+    public void helper(char[][] grid,int[][] visited,int x,int y){
+        if(x<0 ||x>= grid.length||y<0||y>=grid[0].length||grid[x][y]=='0'||visited[x][y]==1) return;
+        visited[x][y]=1;
+        helper(grid,visited,x-1,y);
+        helper(grid,visited,x+1,y);
+        helper(grid,visited,x,y-1);
+        helper(grid,visited,x,y+1);
+    }
+}
 
 
 //Binary Search
