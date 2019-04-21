@@ -136,6 +136,32 @@ class Solution {
     }
 }
 
+//547. Friend Circles
+//Time=O(n^2), space=O(n)
+class Solution {
+    public int findCircleNum(int[][] M) {
+        if(M.length==0) return 0;
+        int m=M.length;
+        int[] visited=new int[m];
+        int res=0;
+        for (int i=0;i<m;i++){
+            if (visited[i]==1) continue;
+            helper(M,i,m,visited);
+            res++;
+        }
+        return res;
+    }
+    public void helper(int[][] M,int i ,int m,int[] visited){
+            if(visited[i]==1) return;
+            visited[i]=1;
+            for(int j=0;j<m;j++){
+                if(M[i][j]==1 && visited[j]==0)
+                helper(M,j,m,visited);
+            }
+    }
+}
+
+
 
 //Binary Search
 //35. Search Insert Position
