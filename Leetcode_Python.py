@@ -320,6 +320,25 @@ class Solution:
         area=self.helper(grid,x,y-1,area)
         area=self.helper(grid,x,y+1,area)
         return area
+
+#733. Flood Fill
+#Time=O(m*n),space=O(1)
+class Solution:
+    def floodFill(self, image: List[List[int]], sr: int, sc: int, newColor: int) -> List[List[int]]:
+        if image[sr][sc]==newColor: return image
+        m,n=len(image),len(image[0])
+        self.helper(image,sr,sc,image[sr][sc],newColor)
+        return image
+    def helper(self,image,x,y,preColor,newColor):
+        m,n=len(image),len(image[0])
+        if x<0 or x>=m or y<0 or y>=n: return
+        if image[x][y] !=preColor: return
+        image[x][y]=newColor
+        self.helper(image,x+1,y,preColor,newColor)
+        self.helper(image,x-1,y,preColor,newColor)
+        self.helper(image,x,y+1,preColor,newColor)
+        self.helper(image,x,y-1,preColor,newColor)
+
     
     #Binary Seaarch
     #34. Find First and Last Position of Element in Sorted Array
