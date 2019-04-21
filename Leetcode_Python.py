@@ -61,7 +61,15 @@ class NumArray:
             return self.dp[j]-self.dp[i-1]
         
 #53. Maximum Subarray    
-
+#Time O(n), space O(1)
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        cursum=0
+        res=float('-Inf')
+        for i in range(len(nums)):
+            cursum = max(cursum + nums[i], nums[i])
+            res = max(res, cursum)
+        return res
 
 #121. Best Time to Buy and Sell Stock
 #Time O(n),space O(1)
