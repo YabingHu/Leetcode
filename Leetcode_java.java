@@ -161,7 +161,28 @@ class Solution {
     }
 }
 
-
+//733. Flood Fill
+//Time=O(m*n),space=O(1)
+class Solution {
+    public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
+        if(image[sr][sc]==newColor) return image;
+        int m=image.length;
+        int n=image[0].length;
+        helper(image,sr,sc,image[sr][sc],newColor);
+        return image;
+    }
+    public void helper(int[][] image,int x, int y, int preColor, int newColor){
+        int m=image.length;
+        int n=image[0].length;
+        if(x<0||x>=m||y<0||y>=n) return;
+        if(image[x][y]!=preColor) return;
+        image[x][y]=newColor;
+        helper(image,x+1,y,preColor,newColor);
+        helper(image,x-1,y,preColor,newColor);
+        helper(image,x,y+1,preColor,newColor);
+        helper(image,x,y-1,preColor,newColor);
+    }
+}
 
 //Binary Search
 //35. Search Insert Position
