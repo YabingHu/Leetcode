@@ -221,6 +221,33 @@ class Solution:
                 dict[t].neighbors.append(dict[neighbor])
         return dup
 
+#138. Copy List with Random Pointer
+#Time and space O(n)
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, next, random):
+        self.val = val
+        self.next = next
+        self.random = random
+"""
+class Solution:
+    def copyRandomList(self, head: 'Node') -> 'Node':
+        if head == None: return None
+        dict={}
+        node=head
+        while node:
+            dict[node]=Node(node.val,None,None)
+            node=node.next
+        node=head
+        while node:
+            if node.next:
+                dict[node].next=dict[node.next]
+            if node.random:
+                dict[node].random=dict[node.random]
+            node=node.next
+        return dict[head]
+    
 #200. Number of Islands    
 #Time and space O(m*n)
 class Solution:
