@@ -478,31 +478,65 @@ class Solution:
             res.append(cur.val)
             cur=cur.right
         return res
+#144. Binary Tree Preorder Traversal
+#Time O(n), space=O(n) for both methods
+#Iterative:    
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
 
-    
-    #589. N-ary Tree Preorder Traversal
-    #Time O(n), space=O(n) for both methods
-    #Interative
-    class Solution:
-    def preorder(self, root: 'Node') -> List[int]:
-        res=[]
-        if root==None: return res
+class Solution:
+    def preorderTraversal(self, root: TreeNode) -> List[int]:
         s=[root]
-        while s:
+        res=[]
+        if root==None:
+            return res
+        while s :
             cur=s.pop()
             res.append(cur.val)
-            for i in range(len(cur.children)-1,-1,-1):
-                s.append(cur.children[i])
+            if cur.right != None: s.append(cur.right)
+            if cur.left != None: s.append(cur.left)
         return res
-    #Recursive
-    class Solution:
-    def preorder(self, root: 'Node') -> List[int]:
+#Recursive:
+class Solution:
+    def preorderTraversal(self, root: TreeNode) -> List[int]:     
         res=[]
         if root==None: return res
         self.helper(root,res)
         return res
     def helper(self,root,res):
-        if root==None: return 
+        if root==None: return
         res.append(root.val)
-        for child in root.children:
-            self.helper(child,res)
+        self.helper(root.left,res)
+        self.helper(root.right,res)
+            
+
+#589. N-ary Tree Preorder Traversal
+#Time O(n), space=O(n) for both methods
+#Iterative
+class Solution:
+def preorder(self, root: 'Node') -> List[int]:
+    res=[]
+    if root==None: return res
+    s=[root]
+    while s:
+        cur=s.pop()
+        res.append(cur.val)
+        for i in range(len(cur.children)-1,-1,-1):
+            s.append(cur.children[i])
+    return res
+#Recursive
+class Solution:
+def preorder(self, root: 'Node') -> List[int]:
+    res=[]
+    if root==None: return res
+    self.helper(root,res)
+    return res
+def helper(self,root,res):
+    if root==None: return 
+    res.append(root.val)
+    for child in root.children:
+        self.helper(child,res)
