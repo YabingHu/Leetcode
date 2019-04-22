@@ -349,3 +349,51 @@ class Solution {
         return -1;
     }
 }
+
+
+//94. Binary Tree Inorder Traversal
+//Time=O(n), space=O(n) for all methods.
+//Recursive solution
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> res =new ArrayList<Integer>();
+        if(root==null) return res;
+        helper(root,res);
+        return res;
+    }
+    public void helper(TreeNode root, List<Integer>res){
+        if(root==null) return;
+        helper(root.left,res);
+        res.add(root.val);
+        helper(root.right,res);
+    }
+}
+//Using stack
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> res=new ArrayList<Integer>();
+        Stack<TreeNode> s = new Stack<TreeNode>();
+        if (root ==null) return res;
+        TreeNode p =root;
+        while(p!=null || ! s.isEmpty()){
+            while(p!=null){
+                s.push(p);  
+                p=p.left;
+            }
+            p=s.peek();
+            s.pop();
+            res.add(p.val);
+            p=p.right;
+        }
+        return res; 
+    }
+}
