@@ -439,4 +439,41 @@ class Solution:
                     right=mid-1
                 else: left=mid+1
         return -1
-    
+ 
+#94. Binary Tree Inorder Traversal
+#Time=O(n), space=O(n) for all methods.
+#Recursive solution
+class Solution:
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        res=[]
+        if(not root): return res
+        self.helper(root,res)
+        return res
+    def helper(self,root,res):
+        if(not root): return
+        self.helper(root.left,res)
+        res.append(root.val)
+        self.helper(root.right,res)
+        
+#Using stack
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        res=[]
+        if(root==None): return res
+        s=[]
+        cur=root
+        while cur or s:
+            while cur:
+                s.append(cur)
+                cur=cur.left
+            cur=s.pop()
+            res.append(cur.val)
+            cur=cur.right
+        return res
