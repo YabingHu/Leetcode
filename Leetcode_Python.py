@@ -478,3 +478,31 @@ class Solution:
             res.append(cur.val)
             cur=cur.right
         return res
+
+    
+    #589. N-ary Tree Preorder Traversal
+    #Time O(n), space=O(n) for both methods
+    #Interative
+    class Solution:
+    def preorder(self, root: 'Node') -> List[int]:
+        res=[]
+        if root==None: return res
+        s=[root]
+        while s:
+            cur=s.pop()
+            res.append(cur.val)
+            for i in range(len(cur.children)-1,-1,-1):
+                s.append(cur.children[i])
+        return res
+    #Recursive
+    class Solution:
+    def preorder(self, root: 'Node') -> List[int]:
+        res=[]
+        if root==None: return res
+        self.helper(root,res)
+        return res
+    def helper(self,root,res):
+        if root==None: return 
+        res.append(root.val)
+        for child in root.children:
+            self.helper(child,res)
