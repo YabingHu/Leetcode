@@ -571,3 +571,21 @@ class Solution:
                 s.append(child)
         return res[::-1]
                 
+
+#114. Flatten Binary Tree to Linked List
+#Time=O(n), spcae=O(1)
+class Solution:
+    def flatten(self, root: TreeNode) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        self.pre = None
+        self.helper(root)
+
+    def helper(self,root):
+        if not root:return None
+        self.helper(root.right)
+        self.helper(root.left)
+        root.right = self.pre
+        root.left = None
+        self.pre = root
