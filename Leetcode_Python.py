@@ -540,3 +540,34 @@ def helper(self,root,res):
     res.append(root.val)
     for child in root.children:
         self.helper(child,res)
+
+#145. Binary Tree Postorder Traversal
+#Time=O(n), space=O(n)
+class Solution:
+    def postorderTraversal(self, root: TreeNode) -> List[int]:
+        res=[]
+        if root==None: return res
+        s=[root]
+        while s:
+            cur=s.pop()
+            res.append(cur.val)
+            if cur.left:
+                s.append(cur.left)
+            if cur.right:
+                s.append(cur.right)
+        return res[::-1]
+    
+#590. N-ary Tree Postorder Traversal
+#Time=O(n), space=O(n)
+class Solution:
+    def postorder(self, root: 'Node') -> List[int]:
+        res=[]
+        if root==None:return res
+        s=[root]
+        while s:
+            cur=s.pop()
+            res.append(cur.val)
+            for child in cur.children:
+                s.append(child)
+        return res[::-1]
+                
