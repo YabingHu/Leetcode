@@ -543,6 +543,7 @@ def helper(self,root,res):
 
 #145. Binary Tree Postorder Traversal
 #Time=O(n), space=O(n)
+#Iterative
 class Solution:
     def postorderTraversal(self, root: TreeNode) -> List[int]:
         res=[]
@@ -556,7 +557,19 @@ class Solution:
             if cur.right:
                 s.append(cur.right)
         return res[::-1]
-    
+#Recursive   
+class Solution:
+    def postorderTraversal(self, root: TreeNode) -> List[int]:
+        res=[]
+        if root==None: return res
+        self.helper(root,res)
+        return res
+    def helper(self,root,res):
+        if root==None: return 
+        self.helper(root.left,res)
+        self.helper(root.right,res)
+        res.append(root.val)
+        
 #590. N-ary Tree Postorder Traversal
 #Time=O(n), space=O(n)
 class Solution:
