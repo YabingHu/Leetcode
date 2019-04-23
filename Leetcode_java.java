@@ -397,3 +397,47 @@ class Solution {
         return res; 
     }
 }
+
+//144. Binary Tree Preorder Traversal
+//Time O(n), space=O(n) for both methods
+//Iterative:    
+class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<Integer>();
+        Stack<TreeNode> s = new Stack<TreeNode>();
+        if (root==null) return res;
+        s.push(root);
+        while(!s.isEmpty()){
+            TreeNode cur=s.pop();
+            res.add(cur.val);
+            if(cur.right!=null) s.push(cur.right);
+            if(cur.left!=null) s.push(cur.left);
+        }
+        return res;
+    }
+}
+
+//Recursive:
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<Integer>();
+        if (root==null) return res;
+        helper(root,res);
+        return res;
+    }
+    public void helper(TreeNode root, List<Integer> res){
+        if(root==null) return;
+        res.add(root.val);
+        helper(root.left,res);
+        helper(root.right,res);
+    }
+}
