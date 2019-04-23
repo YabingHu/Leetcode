@@ -441,3 +441,95 @@ class Solution {
         helper(root.right,res);
     }
 }
+
+//589. N-ary Tree Preorder Traversal
+//Time O(n), space=O(n) for both methods
+//Iterative
+class Solution {
+    public List<Integer> preorder(Node root) {
+        List<Integer> res = new ArrayList<Integer>();
+        if (root==null) return res;
+        Stack<Node> s=new Stack<Node>();
+        s.push(root);
+        while (! s.isEmpty()){
+            Node cur=s.pop();
+            res.add(cur.val);
+            for(int i=cur.children.size()-1;i>=0;i--){
+                s.push(cur.children.get(i));
+            }
+        }
+        return res;
+    }
+}
+
+//Recursive
+class Solution {
+    public List<Integer> preorder(Node root) {
+        List<Integer> res = new ArrayList<Integer>();
+        if (root==null) return res;
+        helper(root,res);
+        return res;
+    }
+    public void helper(Node root, List<Integer>res){
+        if(root==null) return;
+        res.add(root.val);
+        for(Node child : root.children){
+            helper(child,res);
+        }
+    }
+}
+
+//145. Binary Tree Postorder Traversal
+//Time=O(n), space=O(n)
+//Iterative
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> res=new ArrayList<Integer>();
+        if(root==null) return res;
+        Stack<TreeNode> s = new Stack<TreeNode>();
+        s.push(root);
+        TreeNode head=root;
+        while(!s.isEmpty()){
+            TreeNode t=s.pop();
+            res.add(0,t.val);
+            if(t.left!=null) s.push(t.left);
+            if(t.right!=null) s.push(t.right);
+        }
+            
+        return res;
+    }
+}
+//Recursive
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if(root==null) return res;
+        helper(res,root);
+        return res;
+    }
+    public static void helper(List<Integer>res, TreeNode root){
+        if(root==null) return;
+        helper(res,root.left);
+        helper(res,root.right);
+        res.add(root.val);
+    }
+}
+//590. N-ary Tree Postorder Traversal
+//Time=O(n), space=O(n)
+class Solution {
+    public List<Integer> postorder(Node root) {
+        List<Integer> res = new ArrayList<Integer>();
+        if (root==null) return res;
+        Stack<Node> s=new Stack<Node>();
+        s.push(root);
+        while (! s.isEmpty()){
+            Node cur=s.pop();
+            res.add(cur.val);
+            for(Node child:cur.children){
+                s.push(child);
+            }
+        }
+        Collections.reverse(res);
+        return res;
+    }
+}
