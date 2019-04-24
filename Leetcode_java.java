@@ -646,3 +646,22 @@ class Solution {
     S[i] ^= 1 << 5;
   }
 }
+
+//22. Generate Parentheses
+//Time=O(n!)， seems like O(2^n) but using Catalan number theory, get O(n!), space=O(n)
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> res= new ArrayList<String>();
+        helper(n, n,"", res);
+        return res;
+    }
+    public void helper(int left, int right, String out, List<String> res){
+        if(left<0 || right<0|| left>right) return;
+        if(left==0 && right==0){
+            res.add(out);
+            return;
+        }
+        helper(left-1,right,out+'(',res);
+        helper(left,right-1,out+')',res);
+    }
+}
