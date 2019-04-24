@@ -602,3 +602,41 @@ class Solution:
         root.right = self.pre
         root.left = None
         self.pre = root
+
+#Search:
+#46. Permutations
+#Time=O(n* n!), space=O(n)
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        res=[]
+        out=[]
+        visited=[0]*len(nums)
+        self.helper(nums,0,visited,out,res)
+        return res
+    
+    def helper(self,nums,level,visited,out,res):
+        if level==len(nums):
+            res.append(out[:])
+            return
+        for i in range(len(nums)):
+            if visited[i]==1: continue
+            visited[i]=1
+            out.append(nums[i])
+            self.helper(nums,level+1,visited,out,res)
+            out.pop()
+            visited[i]=0
+            
+ #Time=O(n!), space=O(n)
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        res=[]
+        self.helper(nums,0,res)
+        return res
+    def helper(self,nums,start,res):
+        if start>=len(nums):
+            res.append(nums[:])
+            return
+        for i in range(start,len(nums)):
+            nums[start],nums[i]=nums[i],nums[start]
+            self.helper(nums,start+1,res)
+            nums[start],nums[i]=nums[i],nums[start]
