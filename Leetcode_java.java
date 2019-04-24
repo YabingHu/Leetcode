@@ -564,7 +564,7 @@ class Solution {
 };
 
 //Another mothod
-//Time=O(n*n!), space=O(n!)
+//Time=O(n!), space=O(n!)
 class Solution {
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> res =new ArrayList<List<Integer>>();
@@ -594,7 +594,7 @@ class Solution {
 }
 
 //47. Permutations II
-//Time=O(n*n!), space=O(n!)
+//Time=O(n!), space=O(n!)
 class Solution {
     public List<List<Integer>> permuteUnique(int[] nums) {
         List<List<Integer>> res =new ArrayList<List<Integer>>();
