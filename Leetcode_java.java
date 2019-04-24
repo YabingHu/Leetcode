@@ -592,3 +592,35 @@ class Solution {
         
     }
 }
+
+//47. Permutations II
+//Time=O(n*n!), space=O(n!)
+class Solution {
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> res =new ArrayList<List<Integer>>();
+        List<Integer> out = new ArrayList<Integer>();
+        List<Integer> visited = new ArrayList<Integer>();
+        for (int i = 0; i < nums.length; i++) {
+          visited.add(0);
+        }
+        Arrays.sort(nums); 
+        helper(nums,0,visited,out,res);
+        return res;
+    }
+    public void helper(int[] nums,int start,List<Integer> visited,List<Integer> out,List<List<Integer>> res){
+        if(nums.length==start){
+            res.add(new ArrayList<Integer>(out));
+            return;
+        }
+        for (int i=0;i<nums.length;i++){
+            if(visited.get(i)==1) continue;
+            if(i>0 && nums[i]==nums[i-1]&& visited.get(i-1)==0) continue;
+            visited.set(i,1);
+            out.add(nums[i]);
+            helper(nums,start+1,visited,out,res);
+            out.remove(out.size()-1);
+            visited.set(i,0);
+        }
+        
+    }
+}
