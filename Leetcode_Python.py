@@ -633,7 +633,7 @@ class Solution:
         self.helper(nums,0,res)
         return res
     def helper(self,nums,start,res):
-        if start>=len(nums):
+        if start==len(nums):
             res.append(nums[:])
             return
         for i in range(start,len(nums)):
