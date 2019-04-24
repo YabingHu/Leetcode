@@ -605,7 +605,7 @@ class Solution:
 
 #Search:
 #46. Permutations
-#Time=O(n* n!), space=O(n!), in fact recusion has the form T(n)=T(n-1）+T（n-2）+.... has the time complexity O(2^(n)),here since 
+#Time=O(n!), space=O(n!), in fact recusion has the form T(n)=T(n-1）+T（n-2）+.... has the time complexity O(2^(n)),here since 
 #this line: if visited[i]==1: continue , it reduce the time complexity from O(2^n) to O(n!)
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
@@ -627,7 +627,7 @@ class Solution:
             out.pop()
             visited[i]=0
             
- #Time=O(n!), space=O(n)
+#Time=O(n!), space=O(n)
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
         res=[]
@@ -641,3 +641,58 @@ class Solution:
             nums[start],nums[i]=nums[i],nums[start]
             self.helper(nums,start+1,res)
             nums[start],nums[i]=nums[i],nums[start]
+
+#47. Permutations II          
+#Time=O(n!), space=O(n!)
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        res=[]
+        out=[]
+        visited=[0]*len(nums)
+        nums.sort()
+        self.helper(nums,0,visited,out,res)
+        return res
+    def helper(self,nums,level,visited,out,res):
+        if level==len(nums):
+            res.append(out[:])
+            return
+        for i in range(len(nums)):
+            if visited[i]==1: continue
+            if i>0 and nums[i]==nums[i-1] and visited[i-1]==0: continue
+            visited[i]=1
+            out.append(nums[i])
+            self.helper(nums,level+1,visited,out,res)
+            out.pop()
+            visited[i]=0
+
+#784. Letter Case Permutation
+#Time=O(n* 2^l, l the number of letters in a string), space=O(n)+O(n*2^l)
+class Solution:
+    def letterCasePermutation(self, S: str) -> List[str]:
+        ans = []
+        self.helper(list(S), 0, len(S),ans)
+        return ans
+    def helper(self,S, i, n,ans):
+        if i == n:
+            ans.append(''.join(S))
+            return
+        self.helper(S, i + 1, n,ans)      
+        if not S[i].isalpha(): return      
+        S[i] = chr(ord(S[i]) ^ (1<<5))
+        self.helper(S, i + 1, n,ans)
+        S[i] = chr(ord(S[i]) ^ (1<<5))
+
+#22. Generate Parentheses
+#Time=O(n!)， seems like O(2^n) but using Catalan number theory, get O(n!), space=O(n)
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        res=[]
+        self.helper(n,n,'',res)
+        return res
+    def helper(self,left,right,out,res):
+        if left<0 or right<0 or left>right: return
+        if left==0 and right==0:
+            res.append(out)
+            return
+        self.helper(left-1,right,out+'(',res)
+        self.helper(left,right-1,out+')',res)
