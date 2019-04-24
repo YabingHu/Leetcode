@@ -605,7 +605,8 @@ class Solution:
 
 #Search:
 #46. Permutations
-#Time=O(n* n!), space=O(n)
+#Time=O(n* n!), space=O(n!), in fact recusion has the form T(n)=T(n-1）+T（n-2）+.... has the time complexity O(2^(n)),here since 
+#this line: if visited[i]==1: continue , it reduce the time complexity from O(2^n) to O(n!)
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
         res=[]
