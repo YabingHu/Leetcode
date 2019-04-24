@@ -533,3 +533,62 @@ class Solution {
         return res;
     }
 }
+
+//46. Permutations
+//Time=O(n!), space=O(n!)
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        helper(nums,0,res);
+        return res;
+    }
+     public static void helper(int[]nums,int start, List<List<Integer>> res) {
+         if (start == nums.length) {
+            List<Integer> temp = new ArrayList<>();
+            for(int k = 0; k < nums.length; k++){
+            temp.add(nums[k]);}
+            res.add(temp);
+            return;
+        }
+        for (int i = start; i < nums.length; ++i) {
+            int tmp = nums[start];
+            nums[start] = nums[i];
+            nums[i] = tmp;
+            helper(nums, start + 1, res);
+            tmp = nums[start];
+            nums[start] = nums[i];
+            nums[i] = tmp;
+        }
+         
+    }
+};
+
+//Another mothod
+//Time=O(n*n!), space=O(n!)
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> res =new ArrayList<List<Integer>>();
+        List<Integer> out = new ArrayList<Integer>();
+        List<Integer> visited = new ArrayList<Integer>();
+        for (int i = 0; i < nums.length; i++) {
+          visited.add(0);
+        }
+        helper(nums,0,visited,out,res);
+        return res;
+    }
+    public void helper(int[] nums,int start,List<Integer> visited,List<Integer> out,List<List<Integer>> res){
+        if(nums.length==start){
+            res.add(new ArrayList<Integer>(out));
+            return;
+        }
+        for (int i=0;i<nums.length;i++){
+            if(visited.get(i)==1) continue;
+            visited.set(i,1);
+            out.add(nums[i]);
+            helper(nums,start+1,visited,out,res);
+            out.remove(out.size()-1);
+            visited.set(i,0);
+        }
+        
+    }
+}
