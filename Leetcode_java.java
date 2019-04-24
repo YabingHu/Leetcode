@@ -624,3 +624,25 @@ class Solution {
         
     }
 }
+
+//784. Letter Case Permutation
+//Time=O(n* 2^l, l the number of letters in a string), space=O(n)+O(n*2^l)
+class Solution {
+    public List<String> letterCasePermutation(String S) {
+    List<String> ans = new ArrayList<>();
+    dfs(S.toCharArray(), 0, ans);
+    return ans;
+  }
+  
+  public void dfs(char[] S, int i, List<String> ans) {
+    if (i == S.length) {
+      ans.add(new String(S));
+      return;
+    }    
+    dfs(S, i + 1, ans);    
+    if (!Character.isLetter(S[i])) return;
+    S[i] ^= 1 << 5;
+    dfs(S, i + 1, ans);
+    S[i] ^= 1 << 5;
+  }
+}
