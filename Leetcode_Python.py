@@ -722,8 +722,8 @@ class Solution:
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         graph = [[] for _ in range(numCourses)]
-        for course, prerequisites in prerequisites:
-            graph[course].append(prerequisites)
+        for course, prerequisite in prerequisites:
+            graph[prerequisite].append(course)
         visited=[0]*numCourses
         for i in range(numCourses):
             if self.helper(i,graph,visited):
@@ -738,4 +738,30 @@ class Solution:
             if self.helper(ele,graph,visited):
                 return True
         visited[curr]=2
+        return False
+    
+#210. Course Schedule II
+#Time=O(E+V)->O(n), space=O(n)
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        graph = [[] for _ in range(numCourses)]
+        res=[]
+        for course, prerequisite in prerequisites:
+            graph[prerequisite].append(course)
+        visited=[0]*numCourses
+        for i in range(numCourses):
+            if self.helper(i,graph,visited,res):
+                return []
+        return res[::-1]
+    #If there is a cycle, return False
+    def helper(self,curr,graph,visited,res):
+        if visited[curr]==1: return True
+        if visited[curr]==2: return False
+        visited[curr]=1
+        for ele in graph[curr]:
+            if self.helper(ele,graph,visited,res):
+                return True
+        visited[curr]=2
+        res.append(curr)
+        print(curr)
         return False
