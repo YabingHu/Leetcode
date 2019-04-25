@@ -718,7 +718,7 @@ class Solution:
 
     
 #207. Course Schedule
-#Finding cycles O(n^2) -> Topological sort O(n), space=O(n^2)+O(n)
+#Finding cycles O(n^2) -> Topological sort O(n), space=O(n)
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         graph = [[] for _ in range(numCourses)]
