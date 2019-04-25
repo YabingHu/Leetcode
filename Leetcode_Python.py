@@ -717,3 +717,25 @@ class Solution:
         return dp[n1-1][n2-1]
 
     
+#207. Course Schedule
+#Finding cycles O(n^2) -> Topological sort O(n), space=O(n^2)+O(n)
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        graph = [[] for _ in range(numCourses)]
+        for course, prerequisites in prerequisites:
+            graph[course].append(prerequisites)
+        visited=[0]*numCourses
+        for i in range(numCourses):
+            if self.helper(i,graph,visited):
+                return False
+        return True
+    #If there is a cycle, return False
+    def helper(self,curr,graph,visited):
+        if visited[curr]==1: return True
+        if visited[curr]==2: return False
+        visited[curr]=1
+        for ele in graph[curr]:
+            if self.helper(ele,graph,visited):
+                return True
+        visited[curr]=2
+        return False
