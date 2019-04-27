@@ -603,6 +603,75 @@ class Solution:
         root.left = None
         self.pre = root
 
+#102. Binary Tree Level Order Traversal        
+#Time=O(n), space=O(n) for both BFS and DFS solutions
+#BFS solution
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        res=[]
+        if root == None:
+            return res
+        q=[root]
+        while q:
+            res_sub=[]
+            for i in range(len(q)):
+                t=q.pop(0)
+                res_sub.append(t.val)
+                if t.left !=None: 
+                    q.append(t.left)
+                if t.right !=None:
+                    q.append(t.right)
+            res.append(res_sub)
+        return res
+        
+#DFS solution:
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        res=[]
+        self.helper(root,0,res)
+        return res
+    def helper(self,root,depth,res):
+        if root==None: return
+        while len(res)<=depth:
+            res.append([])
+        res[depth].append(root.val)
+        self.helper(root.left,depth+1,res)
+        self.helper(root.right,depth+1,res)
+        
+#107. Binary Tree Level Order Traversal II
+#Time=O(n), space=O(n) for both BFS and DFS solutions
+#BFS solution
+class Solution:
+    def levelOrderBottom(self, root: TreeNode) -> List[List[int]]:
+        res=[]
+        if not root: return  res
+        q=[root]
+        while q:
+            res_sub=[]
+            for i in range(len(q)):
+                t=q.pop(0)
+                res_sub.append(t.val)
+                if t.left !=None: 
+                    q.append(t.left)
+                if t.right !=None:
+                    q.append(t.right)
+            res.append(res_sub)
+        return res[::-1]
+
+#DFS, preorder
+class Solution:
+    def levelOrderBottom(self, root: TreeNode) -> List[List[int]]:
+        res=[]
+        self.helper(root,0,res)
+        return res[::-1]
+    def helper(self,root,depth,res):
+        if root==None: return
+        while len(res)<=depth:
+            res.append([])
+        res[depth].append(root.val)
+        self.helper(root.left,depth+1,res)
+        self.helper(root.right,depth+1,res)
+        
 #Search:
 #46. Permutations
 #Time=O(n!), space=O(n!), in fact recusion has the form T(n)=T(n-1）+T（n-2）+.... has the time complexity O(2^(n)),here since 
