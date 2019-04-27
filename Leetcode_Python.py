@@ -671,7 +671,61 @@ class Solution:
         res[depth].append(root.val)
         self.helper(root.left,depth+1,res)
         self.helper(root.right,depth+1,res)
-        
+ 
+#108. Convert Sorted Array to Binary Search Tree
+#Time=O(nlogn),space=O(n)
+class Solution:
+    def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
+        return self.helper(nums,0,len(nums)-1)
+    def helper(self,nums,left,right):
+        if left>right: return None
+        mid=left+int((right-left)/2)
+        cur=TreeNode(nums[mid])
+        cur.left=self.helper(nums,left,mid-1)
+        cur.right=self.helper(nums,mid+1,right)
+        return cur
+
+#129. Sum Root to Leaf Numbers
+#Time=O(n),space=O(1)
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def sumNumbers(self, root: TreeNode) -> int:
+        return self.helper(root,0)
+    def helper(self,root,prefix):
+        if root==None: return 0
+        if root.left ==None and root.right==None:
+            return prefix*10+root.val  
+        return self.helper(root.left,prefix*10+root.val)+self.helper(root.right,prefix*10+root.val)
+
+#669. Trim a Binary Search Tree
+#Time=O(n),space=0(1)
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def trimBST(self, root: TreeNode, L: int, R: int) -> TreeNode:
+        if root==None: return None
+        if L<=root.val and R>=root.val:
+            root.left=self.trimBST(root.left,L,R)
+            root.right=self.trimBST(root.right,L,R)
+        elif root.val<L:
+            root=self.trimBST(root.right,L,R)
+        else:
+            root=self.trimBST(root.left,L,R)
+        return root
+    
+    
+    
 #Search:
 #46. Permutations
 #Time=O(n!), space=O(n!), in fact recusion has the form T(n)=T(n-1）+T（n-2）+.... has the time complexity O(2^(n)),here since 
