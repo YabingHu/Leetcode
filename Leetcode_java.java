@@ -534,6 +534,113 @@ class Solution {
     }
 }
 
+//102. Binary Tree Level Order Traversal        
+//Time=O(n), space=O(n) for both BFS and DFS solutions
+//BFS solution
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        Queue<TreeNode> q = new LinkedList<TreeNode>();
+        q.add(root);
+        if(root== null) return res;
+        while(!q.isEmpty()){
+            List<Integer> res_sub = new ArrayList<Integer>();
+            int n=q.size();
+            for(int i=0;i<n;i++){
+            TreeNode t =q.poll();
+            res_sub.add(t.val);
+            if(t.left!=null) q.add(t.left);
+            if(t.right!=null) q.add(t.right);
+            }
+            res.add(res_sub);
+        }
+        return res;
+    }
+    
+}
+
+//107. Binary Tree Level Order Traversal II
+//Time=O(n), space=O(n) for both BFS and DFS solutions
+//BFS solution
+
+class Solution {
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        List<List<Integer>> res=new ArrayList<List<Integer>>();
+        if(root== null) return res;
+        Queue<TreeNode> q=new LinkedList<TreeNode>();
+        q.add(root);
+        while (! q.isEmpty()){
+            List<Integer> res_sub=new ArrayList<Integer>();
+            int n= q.size();
+            for (int i=0;i<n;i++){
+                TreeNode cur= q.poll();
+                res_sub.add(cur.val);
+                if(cur.left!=null) q.add(cur.left);
+                if(cur.right!=null) q.add(cur.right);
+            }
+            res.add(res_sub);
+        }
+        Collections.reverse(res);
+        return res ;
+    }
+}
+
+
+//108. Convert Sorted Array to Binary Search Tree
+//Time=O(logn),space=O(n)
+class Solution {
+    public TreeNode sortedArrayToBST(int[] nums) {
+        return helper(nums,0,nums.length-1);
+    }
+    public TreeNode helper(int[] nums,int left,int right){
+        if (left>right) return null;
+        int mid=left+(right-left)/2;
+        TreeNode root=new TreeNode(nums[mid]);
+        root.left=helper(nums, left,mid-1);
+        root.right=helper(nums,mid+1,right);
+        return root;
+    }    
+}
+
+//129. Sum Root to Leaf Numbers
+//Time=O(n),space=O(1)
+class Solution {
+    public int sumNumbers(TreeNode root) {
+        return helper(root,0);
+    }
+    public int helper(TreeNode root, int pre){
+        if(root==null) return 0;
+        if(root.left==null && root.right==null){
+            return 10*pre+root.val;
+        }
+        return helper(root.left,10*pre+root.val)+helper(root.right,10*pre+root.val);
+    }
+}
+
+//669. Trim a Binary Search Tree
+//Time=O(n),space=0(1)
+// Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def trimBST(self, root: TreeNode, L: int, R: int) -> TreeNode:
+        if root==None: return None
+        if L<=root.val and R>=root.val:
+            root.left=self.trimBST(root.left,L,R)
+            root.right=self.trimBST(root.right,L,R)
+        elif root.val<L:
+            root=self.trimBST(root.right,L,R)
+        else:
+            root=self.trimBST(root.left,L,R)
+        return root
+
+
+
+
 //46. Permutations
 //Time=O(n!), space=O(n!)
 class Solution {
