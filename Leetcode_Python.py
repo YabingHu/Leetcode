@@ -673,7 +673,7 @@ class Solution:
         self.helper(root.right,depth+1,res)
  
 #108. Convert Sorted Array to Binary Search Tree
-#Time=O(nlogn),space=O(n)
+#Time=O(logn),space=O(n)
 class Solution:
     def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
         return self.helper(nums,0,len(nums)-1)
