@@ -440,6 +440,99 @@ class Solution:
                 else: left=mid+1
         return -1
  
+#209. Minimum Size Subarray Sum
+#Time=O(n), space=O(1)
+class Solution:
+    def minSubArrayLen(self, s: int, nums: List[int]) -> int:
+        if not s: return 0
+        left,right,sum_=0,0,0
+        res=len(nums)+1
+        while right<len(nums):
+            while right<len(nums) and sum_<s:
+                sum_+=nums[right]
+                right+=1
+            while sum_>=s:
+                res=min(res,right-left)
+                sum_-=nums[left]
+                left+=1
+        res=0 if res==len(nums)+1 else res
+        return res
+
+#Binary search method
+#Time=O(nlgn), space=O(n)
+class Solution:
+    def minSubArrayLen(self, s: int, nums: List[int]) -> int:
+        res=float('Inf')
+        n=len(nums)
+        sums=[0]*(n+1)
+        for i in range(1,n+1):
+            sums[i]=sums[i-1]+nums[i-1]
+        for i in range(n):
+            left=i+1
+            right=n
+            t=sums[i]+s
+            while left<=right:
+                mid=left+int((right-left)/2)
+                if sums[mid]<t: left=mid+1
+                else:right=mid-1
+            if left==n+1: break
+            res=min(res,left-i)
+        res=0 if res==float('Inf') else res
+        return res
+
+#852. Peak Index in a Mountain Array    
+#Time=O(n).space=O(1)
+class Solution:
+    def peakIndexInMountainArray(self, A: List[int]) -> int:
+        for i in range(1,len(A)+1):
+            if A[i-1]>A[i]:
+                break
+        return i-1
+    
+#Binary search method
+#Time=O(nlgn), space=O(1)
+class Solution:
+    def peakIndexInMountainArray(self, A: List[int]) -> int:
+        lo, hi = 0, len(A) - 1
+        while lo <= hi:
+            mi = lo+int((hi-lo)/2)
+            if A[mi] < A[mi + 1]:
+                lo = mi + 1
+            else:
+                hi = mi-1
+        return lo
+
+#29. Divide Two Integers
+#Time and space=(nlogn)
+class Solution:
+    def divide(self, dividend: int, divisor: int) -> int:
+        if (dividend>0 and divisor>0) or  (dividend<0 and divisor<0):
+            sign=1
+        else:
+            sign=-1
+        dividend=abs(dividend)
+        divisor=abs(divisor)
+        if dividend<divisor or dividend==0:return 0
+        res=self.helper(dividend,divisor)
+        res=res if sign==1 else -res
+        return min(max(-2147483648, res), 2147483647)
+    
+    def helper(self,dividend,divisor):
+        if dividend<divisor:return 0
+        sum_=divisor
+        multiple=1
+        while sum_+sum_<=dividend:
+            sum_+=sum_
+            multiple+=multiple
+        return multiple+self.divide(dividend-sum_,divisor)
+
+
+
+
+
+
+
+
 #Tree:
 #94. Binary Tree Inorder Traversal
 #Time=O(n), space=O(n) for all methods.
