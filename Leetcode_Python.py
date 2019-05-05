@@ -566,9 +566,81 @@ class Solution:
                 right=mid-1
         return False
     
-        
-      
+#278. First Bad Version        
+#Time=O(logn),space=O(1)
+class Solution:
+    def firstBadVersion(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        left=1
+        right=n
+        while left<=right:
+            mid=left+int((right-left)/2)
+            if isBadVersion(mid):
+                right=mid-1
+            else:
+                left=mid+1
+        return left
 
+#658. Find K Closest Elements
+#Time=O(logn),space=O(1)
+class Solution:
+    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+        left=0
+        right=len(arr)-k
+        while left< right:
+            mid=left+int((right-left)/2)
+            if x-arr[mid]>arr[mid+k]-x:
+                left=mid+1
+            else: right=mid
+        return arr[left:left+k]
+    
+#240. Search a 2D Matrix II
+#Time=O(log(n!)), space=O(1)
+class Solution:
+    def searchMatrix(self, matrix, target):
+        """
+        :type matrix: List[List[int]]
+        :type target: int
+        :rtype: bool
+        """
+        m=len(matrix)
+        if m==0: return False
+        n=len(matrix[0])
+        if n==0:
+            return False
+        if matrix[0][0]>target or matrix[-1][-1]<target: return False
+        for i in range(m):
+            if self.helper(matrix[i],target): return True
+        return False
+        
+    def helper(self,nums,target):
+        left=0
+        right=len(nums)-1
+        while left<=right:
+            mid=left+int((right-left)/2)
+            if target==nums[mid]:
+                return True
+            elif nums[mid]<target:
+                left=mid+1
+            else: right=mid-1
+        return False
+    
+    
+#270. Closest Binary Search Tree Value
+#Time=O(n),space=O(1)
+class Solution:
+    def closestValue(self, root: TreeNode, target: float) -> int:
+        res=root.val
+        while root!=None:
+            if abs(res-target)>=abs(root.val-target):
+                res=root.val
+            if root.val>target:
+                root=root.left
+            else: root=root.right
+        return res
 
 
 
