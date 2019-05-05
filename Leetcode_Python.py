@@ -627,7 +627,49 @@ class Solution:
                 left=mid+1
             else: right=mid-1
         return False
+
+#410. Split Array Largest Sum
+#Time=O(log(sum(nums))*n),space=O(1)
+class Solution:
+    def splitArray(self, nums: List[int], m: int) -> int:
+        l=max(nums)
+        r=sum(nums)+1
+        while l<r:
+            limit=l+int((r-l)/2)
+            if self.helper(nums,limit)>m:
+                l=limit+1
+            else: r=limit
+        return l
+    def helper(self,nums,limit):
+        sum_=0
+        groups=1
+        for num in nums:
+            if sum_+num>limit:
+                sum_=num
+                groups+=1
+            else: sum_+=num
+        return groups
+
+#Dynamical programming method   
+#Time=O(m*n^2), space=O(mn)
+#Time Limit Exceeded
+class Solution:
+    def splitArray(self, nums: List[int], m: int) -> int:
+        n=len(nums)
+        sums=[0]*n
+        dp=[[float('Inf')]*n for _ in range(m+1)]
+        sums[0]=nums[0]
+        for i in range(1,n):
+            sums[i]=nums[i]+sums[i-1]
+        for i in range(n):
+            dp[1][i]=sums[i]
+        for i in range(2,m+1):
+            for j in range(i-1,n):
+                for k in range(j):
+                    dp[i][j]=min(dp[i][j],max(dp[i-1][k],sums[j]-sums[k]))
+        return dp[m][n-1]
     
+
     
 #270. Closest Binary Search Tree Value
 #Time=O(n),space=O(1)
