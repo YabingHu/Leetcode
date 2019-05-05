@@ -81,6 +81,24 @@ class Solution:
             buy=min(prices[i],buy)
             res=max(res,prices[i]-buy)
         return res
+
+#787. Cheapest Flights Within K Stops
+#Time=O(K*|E| |E| is ), space=O(K*n)
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, K: int) -> int:
+        kInfCost=1e9
+        dp=[[kInfCost]*(n) for _ in range(K+2)]
+        dp[0][src]=0
+        for i in range(1,K+2):
+            dp[i][src]=0
+            for p in flights:
+                dp[i][p[1]]=min(dp[i][p[1]],dp[i-1][p[0]]+p[2])
+        return -1 if dp[K+1][dst]>=kInfCost else dp[K+1][dst]
+    
+    
+    
+    
+    
     
 #Divide and Conquer
 #169. Majority Element
@@ -1160,3 +1178,5 @@ class Solution:
         res.append(curr)
         print(curr)
         return False
+
+
