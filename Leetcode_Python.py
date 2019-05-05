@@ -526,8 +526,48 @@ class Solution:
             multiple+=multiple
         return multiple+self.divide(dividend-sum_,divisor)
 
-
-
+#349. Intersection of Two Arrays
+#Time=O(n), space=O(n)
+class Solution:
+    def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        dict={}
+        res=[]
+        for num in nums1:
+            if num in dict:
+                dict[num]+=1
+            else:
+                dict[num]=1
+        for num in nums2:
+            if num in dict:
+                res.append(num)
+        res=list(set(res))
+        return res
+            
+#349. Intersection of Two Arrays
+#Time=O(nlogn), space=O(n)
+class Solution:
+    def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        nums2.sort()
+        res=[]
+        for num in nums1:
+            if self.helper(num,nums2):
+                res.append(num)
+        return list(set(res))
+    
+    def helper(self,target,nums2):
+        left,right=0,len(nums2)-1
+        while left<=right:
+            mid=left+int((right-left)/2)
+            if target==nums2[mid]:
+                return True
+            elif target>nums2[mid]:
+                left=mid+1
+            else:
+                right=mid-1
+        return False
+    
+        
+      
 
 
 
