@@ -1202,3 +1202,77 @@ class Solution:
                 r, c = r + dr[di], c + dc[di]
         return ans
 
+#55. Jump Game
+#Dynamical programming, time=O(n),space=O(n)
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        dp=[0]*len(nums)
+        dp[0]=0
+        for i in range(1,len(nums)):
+            dp[i]=max(dp[i-1],nums[i-1])-1
+            if dp[i]<0:
+                return False
+        return True
+
+#Greedy
+# time=O(n),space=O(1)
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        if len(nums)<2: return True
+        reach=0
+        for i in range(len(nums)):
+            if i > reach or reach >= len(nums) - 1:
+                break
+            reach=max(nums[i]+i,reach)
+        return reach >= len(nums) - 1
+    
+#228. Summary Ranges
+#Time=O(n), space=O(n)
+class Solution:
+    def summaryRanges(self, nums: List[int]) -> List[str]:
+        i=0
+        n=len(nums)
+        res=[]
+        while i<n:
+            j=1
+            while i+j<n and nums[i+j]-nums[i]==j:
+                j+=1
+            if j<=1:
+                 res.append(str(nums[i]))
+            else:
+                 res.append(str(nums[i])+"->"+ str(nums[i+j-1]))
+            i+=j
+        return res
+    
+#189. Rotate Array
+#Time=O(n), space=O(n)
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        temp=nums[:]
+        for i in range(len(nums)):
+            nums[(i+k)%len(nums)]=temp[i]
+
+#Time=O(n),space=O(1)
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        n=len(nums)
+        if n==0 or k%len(nums)==0:return
+        nums[0:(n-k)]=nums[0:(n-k)][::-1]
+        nums[(n-k):]=nums[(n-k):][::-1]
+        nums[:]=nums[::-1]
+  
+#628. Maximum Product of Three Numbers
+#Time=O(nlogn) for sorting, space=O(logn) for sorting
+class Solution:
+    def maximumProduct(self, nums: List[int]) -> int:
+        n=len(nums)
+        if n==3: return nums[0]*nums[1]*nums[2]
+        nums.sort()
+        p= nums[0] * nums[1] * nums[-1]
+        return max(p, nums[n - 1] * nums[n - 2] * nums[n - 3])
