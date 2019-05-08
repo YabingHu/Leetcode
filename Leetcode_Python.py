@@ -1276,3 +1276,19 @@ class Solution:
         nums.sort()
         p= nums[0] * nums[1] * nums[-1]
         return max(p, nums[n - 1] * nums[n - 2] * nums[n - 3])
+
+#1. Two Sum
+#Time=O(n),space=O(n)
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        dict={}
+        res=[]
+        for i in range(len(nums)):
+            temp=target-nums[i]
+            if temp in dict:
+                res.append(i)
+                res.append(dict[temp])
+                break
+            dict[nums[i]]=i
+        return res
+    
