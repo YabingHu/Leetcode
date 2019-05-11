@@ -365,7 +365,49 @@ class Solution:
         self.helper(image,x,y+1,preColor,newColor)
         self.helper(image,x,y-1,preColor,newColor)
 
-    
+#841. Keys and Rooms
+#Time=O(E+V),space=O(V)
+class Solution:
+    def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
+        m=len(rooms)
+        if m ==1:return True
+        visited=[0]*m
+        self.helper(0,rooms,visited)
+        if sum(visited)==m:
+            return True
+        else:
+            return False
+    def helper(self,i,rooms,visited):
+        if visited[i]==1: return
+        visited[i]=1
+        for j in rooms[i]:
+             self.helper(j,rooms,visited)
+        
+
+#802. Find Eventual Safe States
+#Time=O(V+E),space=O(V+E)
+class Solution:
+    def eventualSafeNodes(self, graph: List[List[int]]) -> List[int]:
+        states=['UNKNOWN']*len(graph)
+        ans=[]
+        for i in range(len(graph)):
+            if self.helper(graph,i,states)=='SAFE':
+                ans.append(i)
+        return ans
+    def helper(self,graph,cur,states):
+        if states[cur]=='VISITING':
+            states[cur]='UNSAFE'
+            return states[cur]
+        if states[cur] != 'UNKNOWN':
+            return states[cur]
+        states[cur] = 'VISITING'
+        for j in graph[cur]:
+            if self.helper(graph,j,states)=='UNSAFE':
+                states[cur]='UNSAFE'
+                return states[cur]
+        states[cur]='SAFE'
+        return states[cur]
+        
     #Binary Seaarch
     #34. Find First and Last Position of Element in Sorted Array
     #One binary search, time O(n) in stead of O(logn) when whole array can have same number, space=O(1)
@@ -932,21 +974,21 @@ class Solution:
 #Time=O(n), space=O(n) for both BFS and DFS solutions
 #BFS solution
 class Solution:
-    def levelOrderBottom(self, root: TreeNode) -> List[List[int]]:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
         res=[]
-        if not root: return  res
-        q=[root]
-        while q:
+        if root==None:return res
+        s=[root]
+        while s:
             res_sub=[]
-            for i in range(len(q)):
-                t=q.pop(0)
-                res_sub.append(t.val)
-                if t.left !=None: 
-                    q.append(t.left)
-                if t.right !=None:
-                    q.append(t.right)
+            for i in range(len(s)):
+                cur=s.pop(0)
+                res_sub.append(cur.val)
+                if cur.left:
+                    s.append(cur.left)
+                if cur.right:
+                    s.append(cur.right)
             res.append(res_sub)
-        return res[::-1]
+        return res
 
 #DFS, preorder
 class Solution:
@@ -1014,7 +1056,55 @@ class Solution:
             root=self.trimBST(root.left,L,R)
         return root
     
+#100. Same Tree
+#Time=O(n),space=O(n)
+class Solution:
+    def isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
+        if not p and not q: return True
+        if not p or not q or p.val!=q.val:return False
+        return self.isSameTree(p.left,q.left) and self.isSameTree(p.right,q.right)
+        
+#572. Subtree of Another Tree
+#Time=O(n),space=O(n)
+class Solution:
+    def isSubtree(self, s: TreeNode, t: TreeNode) -> bool:
+        if s==None:return False
+        if self.helper(s,t):
+            return True
+        return self.isSubtree(s.left,t) or self.isSubtree(s.right,t)
+    def helper(self,s,t):
+        if not s and not t:return True
+        if (not s and t) or (s and not t) or s.val!=t.val:
+            return False
+        return self.helper(s.left,t.left) and self.helper(s.right,t.right)
     
+#965. Univalued Binary Tree    
+#Time=O(n),space=O(1)
+class Solution:
+    def isUnivalTree(self, root: TreeNode) -> bool:
+        if root==None:return True
+        target=root.val
+        if self.helper(root,target):
+            return True
+        return False
+    def helper(self,root,target):
+        if root==None:return True
+        if root.val!=target:
+            return False
+        return self.helper(root.left,target) and self.helper(root.right,target)
+
+#872. Leaf-Similar Trees
+#Time and space =O(T1+T2), where T1 and T2 is the length of the trees
+class Solution:
+    def leafSimilar(self, root1: TreeNode, root2: TreeNode) -> bool:
+        return self.helper(root1)==self.helper(root2)
+    def helper(self,root):
+        if root==None:return []
+        if not root.left and not root.right:
+            return [root.val]
+        return self.helper(root.left)+self.helper(root.right)
+    
+
     
 #Search:
 #46. Permutations
