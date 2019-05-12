@@ -955,7 +955,57 @@ class Solution:
                     q.append(t.right)
             res.append(res_sub)
         return res
+ 
+#99. Recover Binary Search Tree
+#Time=O(n),space=O(1)
+class Solution:
+    def recoverTree(self, root: TreeNode) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        pre,first,second=None,None,None
+        s=[]
+        cur=root
+        while s or cur:
+            while cur:
+                s.append(cur)
+                cur=cur.left
+            cur=s.pop()
+            if pre:
+                if pre.val>cur.val:
+                    if not first:
+                        first=pre
+                    second=cur
+            pre=cur
+            cur=cur.right
+        first.val,second.val=second.val,first.val
+
+#501. Find Mode in Binary Search Tree
+#Time=O(n),space=O(n)
+class Solution:
+    def findMode(self, root: TreeNode) -> List[int]:
+        if root==None:return []
+        s=[]
+        cur=root
+        m={}
+        mx=0
+        res=[]
+        while s or cur:
+            while cur:
+                s.append(cur)
+                cur=cur.left
+            cur=s.pop()
+            if cur.val in m:
+                m[cur.val]+=1
+            else:m[cur.val]=1
+            mx=max(mx,m[cur.val])
+            cur=cur.right
         
+        for item in m:
+            if m[item]==mx:
+                res.append(item)
+        return res
+
 #DFS solution:
 class Solution:
     def levelOrder(self, root: TreeNode) -> List[List[int]]:
