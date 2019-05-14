@@ -1318,6 +1318,97 @@ class Solution:
         res.append(curr)
         print(curr)
         return False
+    
+#17. Letter Combinations of a Phone Number
+#Time=O(4^n),space=O(4^n+n)
+class Solution:
+    def letterCombinations(self, digits):
+        if not digits:return []
+        dict = {"1":"", "2":"abc", "3":"def", "4":"ghi", "5":"jkl", "6":"mno", "7":"pqrs","8":"tuv","9":"wxyz","10":" "}
+        res = []        
+        self.dfs(dict,digits,0,"",res)
+        return res
+            
+    def dfs(self,dict,string,level,out,res):
+        if level ==len(string):
+            res.append(out)
+            return
+        for i in dict[string[level]]:
+            self.dfs(dict,string,level+1,out+i,res)
+    
+#39. Combination Sum
+#Time=(2^n),space=O(k*n) where k is the number of answers
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        res=[]
+        self.helper(candidates,target,[],0,res)
+        return res
+    def helper(self,candidates,target,out,index,res):
+        if target<0:return
+        if target==0:
+            res.append(out)
+        for i in range(index,len(candidates)):
+            self.helper(candidates,target-candidates[i],out+[candidates[i]],i,res)
+        
+    
+#40. Combination Sum II
+#Time=(2^n),space=O(k*n) where k is the number of answers
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        res=[]
+        candidates.sort()
+        self.helper(candidates,target,[],0,res)
+        return res
+    def helper(self,candidates,target,out,index,res):
+        if target<0:return
+        if target==0:
+            res.append(out)
+        for i in range(index,len(candidates)):
+            if i>index and candidates[i]==candidates[i-1]:continue
+            self.helper(candidates,target-candidates[i],out+[candidates[i]],i+1,res)
+            
+#77. Combinations
+#Time=O(k*C^n_{k}), space=O(C^n_{k})
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        res=[]
+        self.helper(n,k,1,[],res)
+        return res
+    def helper(self,n,k,index,out,res):
+        if len(out)==k:
+            res.append(out)
+            return
+        for i in range(index,n+1):
+            self.helper(n,k,i+1,out+[i],res)
+        return
+            
+#78. Subsets
+#Time=O(n!),space=(n!)
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        res=[]
+        self.helper(nums,0,[],res)
+        return res
+    def helper(self,nums,start,out,res):
+        res.append(out)
+        for i in range(start,len(nums)):
+            self.helper(nums,i+1,out+[nums[i]],res)
+        return
+            
+#90. Subsets II
+#Time=O(n!),space=(n!)
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        res=[]
+        nums.sort()
+        self.helper(nums,[],0,res)
+        return res
+    def helper(self,nums,out,index,res):
+        res.append(out)
+        for i in range(index,len(nums)):
+            if i>index and nums[i]==nums[i-1]:continue
+            self.helper(nums,out+[nums[i]],1+i,res)
+                     
 
 #Array
 #54. Spiral Matrix
@@ -1459,3 +1550,41 @@ class Solution:
                     left+=1
                     right-=1
         return res
+
+#252. Meeting Rooms
+#Time=O(n*logn) sorting ,O(n) for go through the array and determine if there is any overlap,space=O(1)
+class Solution:
+    def canAttendMeetings(self, intervals: List[List[int]]) -> bool:
+        
+        intervals.sort(key=lambda x: x[0])
+    
+        for i in range(1, len(intervals)):
+            if intervals[i][0] < intervals[i-1][1]:
+                return False
+
+        return True
+
+#253. Meeting Rooms II
+#Time=O(n*logn) sorting ,O(n) for go through the program, space=O(1)
+class Solution:
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        start=[]
+        end=[]
+        for interval in intervals:
+            start.append(interval[0])
+            end.append(interval[1])
+        start.sort()
+        end.sort()
+        s,e=0,0
+        rooms,availability=0,0
+        while s<len(start):
+            if start[s]<end[e]:
+                if availability==0:
+                    rooms+=1
+                else:
+                    availability-=1
+                s+=1
+            else:
+                availability+=1
+                e+=1
+        return rooms
