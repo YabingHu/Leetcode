@@ -1409,7 +1409,48 @@ class Solution:
             if i>index and nums[i]==nums[i-1]:continue
             self.helper(nums,out+[nums[i]],1+i,res)
                      
-
+#79. Word Search
+#Time=O(m*n*4^l, where l in the length of a word), space=(m*n+l)
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        m=len(board)
+        if m==0:return False
+        n=len(board[0])
+        if n==0:return False
+        visited=[[0] * n for _ in range(m)]
+        for i in range(m):
+            for j in range(n):
+                if self.helper(board,visited,word,0,i,j):
+                    return True
+        return False
+ 
+    def helper(self,board,visited,word,level,x,y):
+        if level==len(word):return True
+        m=len(board)
+        n=len(board[0])
+        if x>=m or x<0 or y>=n or y<0 or visited[x][y]==1 or word[level]!=board[x][y]:
+            return False
+        visited[x][y]=1
+        res= self.helper(board,visited,word,level+1,x+1,y) or self.helper(board,visited,word,level+1,x-1,y) or self.helper(board,visited,word,level+1,x,y-1) or self.helper(board,visited,word,level+1,x,y+1)
+        visited[x][y]=0
+        return res
+        
+#22. Generate Parentheses
+#Time=O(2^n), space=O(n)
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        res=[]
+        self.helper(n,n,res,'')
+        return res
+    def helper(self,left,right,res,out):
+        if left<0 or right <0 or left>right:return
+        if left==0 and right==0:
+            res.append(out)
+        self.helper(left-1,right,res,out+"(")
+        self.helper(left,right-1,res,out+")")
+                
+                
+                
 #Array
 #54. Spiral Matrix
 #Time=O(n), space=O(n)
