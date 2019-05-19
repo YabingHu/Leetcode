@@ -482,7 +482,34 @@ class Solution:
                 return states[cur]
         states[cur]='SAFE'
         return states[cur]
-        
+
+#399. Evaluate Division
+#Time=O(number of equations+e*num of queries),space=O(e)
+class Solution:
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        res=[]
+        g=collections.defaultdict(dict)
+        for (x,y),v in zip(equations,values):
+            g[x][y]=v
+            g[y][x]=1/v
+            
+        for (x,y) in queries:
+            res.append(self.helper(g,x,y,[]) if x in g and y in g else -1)
+        return res
+    def helper(self,g,x,y,visited):
+        if x==y:return 1
+        visited.append(x)
+        for neigh in g[x]:
+            if neigh in visited:continue
+            visited.append(neigh)
+            d=self.helper(g,neigh,y,visited)
+            if d>0:return d*g[x][neigh]
+        return -1
+    
+    
+    
+    
+    
     #Binary Seaarch
     #34. Find First and Last Position of Element in Sorted Array
     #One binary search, time O(n) in stead of O(logn) when whole array can have same number, space=O(1)
