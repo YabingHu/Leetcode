@@ -535,7 +535,30 @@ class Solution:
     def union(self,x,y,p):
         p[self.find(x,p)]=p[self.find(y,p)]
 
-    
+#990. Satisfiability of Equality Equations
+#Time=O(n),space=O(26)->O(1)
+class Solution:
+    def equationsPossible(self, equations: List[str]) -> bool:
+        UF={}
+        for eq in equations:
+            x,e1,e2,y=eq
+            if x not in UF:UF[x]=x
+            if y not in UF:UF[y]=y
+            if e1=="=":
+                UF[self.find(x,UF)]=UF[self.find(y,UF)]
+        for eq in equations:
+            x,e1,e2,y=eq
+            if e1=="=" and self.find(x,UF)!=self.find(y,UF):
+                return False
+            if e1=="!" and self.find(x,UF)==self.find(y,UF):
+                return False
+        return True
+    def find(self,x,UF):
+        while x!=UF[x]:
+            UF[x]=UF[UF[x]]
+            x=UF[x]
+        return x
+            
     
     #Binary Seaarch
     #34. Find First and Last Position of Element in Sorted Array
