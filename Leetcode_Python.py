@@ -507,7 +507,34 @@ class Solution:
         return -1
     
     
+#952. Largest Component Size by Common Factor
+#Time complexity: O(n*Σsqrt(A[i])) Space complexity: O(max(A))
+class Solution:
+    def largestComponentSize(self, A: List[int]) -> int:
+        p=list(range(max(A)+1))
+        for a in A:
+            for i in range(2,int(math.sqrt(a)+1)):
+                if a % i ==0:
+                    self.union(a,i,p)
+                    self.union(a,int(a/i),p)
+        dict={}
+        ans=1
+        for a in A:
+            if self.find(a,p) in dict:
+                dict[self.find(a,p)]+=1
+            else:dict[self.find(a,p)]=1
+            ans=max(ans,dict[self.find(a,p)])
+        return ans
     
+    def find(self,x,p):
+        while x!=p[x]:
+            p[x]=p[p[x]]
+            x=p[x]
+        return x
+    
+    def union(self,x,y,p):
+        p[self.find(x,p)]=p[self.find(y,p)]
+
     
     
     #Binary Seaarch
