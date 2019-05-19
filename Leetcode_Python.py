@@ -1,5 +1,80 @@
 #Dynamic Programming:
 
+#198. House Robber
+#Time=O(n),space=O(n)
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        if len(nums)==0:return 0
+        dp=[0]*(len(nums))
+        for i in range(len(nums)):
+            a=0 if i==0 else dp[i-1]
+            b=0 if i<=1 else dp[i-2]
+            dp[i]=max(a,b+nums[i])
+        return dp[-1]
+    
+#213. House Robber II
+#Time=O(n),space=O(n)
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        if len(nums)==0:return 0
+        if len(nums)<=2:return max(nums)
+        return max(self.helper(nums[1:]),self.helper(nums[:-1]))
+    def helper(self,nums):
+        dp=[0]*len(nums)
+        for i in range(len(nums)):
+            a=0 if i==0 else dp[i-1]
+            b=0 if i<=1 else dp[i-2]
+            dp[i]=max(a,b+nums[i])
+        return dp[-1]
+        
+#740. Delete and Earn
+#Time=O(n),space=O(n)
+class Solution:
+    def deleteAndEarn(self, nums: List[int]) -> int:
+        sums=[0]*10001
+        for num in nums:
+            sums[num]+=num
+        dp=[0]*(len(sums))
+        for i in range(len(sums)):
+            a=0 if i==0 else dp[i-1]
+            b=0 if i<=1 else dp[i-2]
+            dp[i]=max(a,b+sums[i])
+        return dp[-1]
+        
+#790. Domino and Tromino Tiling
+#Time=O(n),space=O(n)
+class Solution:
+    def numTilings(self, N: int) -> int:
+        if N==1:return 1
+        M=1e9+7
+        dp=[0]*(N+1)
+        dp[0]=1
+        dp[1]=1
+        dp[2]=2
+        for i in range(3,N+1):
+            dp[i]=(dp[i-1]*2+dp[i-3])%M
+        return int(dp[N])
+
+#801. Minimum Swaps To Make Sequences Increasing
+#Time=O(n),space=O(n)
+class Solution:
+    def minSwap(self, A: List[int], B: List[int]) -> int:
+        n=len(A)
+        swap=[n]*n
+        noSwap=[n]*n
+        swap[0] = 1
+        noSwap[0] = 0
+        for i in range(1,n):
+            if A[i]>A[i-1] and B[i]>B[i-1]:
+                swap[i]=swap[i-1]+1
+                noSwap[i]=noSwap[i-1]
+            if A[i]>B[i-1] and B[i]>A[i-1]:
+                swap[i]=min(swap[i],noSwap[i-1]+1)
+                noSwap[i]=min(noSwap[i],swap[i-1])
+        return min(swap[n - 1], noSwap[n - 1])
+            
+    
+    
 #70. Climbing Stairs
 # Time and Space O(n) for all methods
 
