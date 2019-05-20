@@ -483,6 +483,54 @@ class Solution:
         states[cur]='SAFE'
         return states[cur]
 
+#207. Course Schedule
+#Time=O(n),space=O(1)
+def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        graph = [[] for _ in range(numCourses)]
+        for course, prerequisite in prerequisites:
+            graph[prerequisite].append(course)
+        visited=[0]*numCourses
+        for i in range(numCourses):
+            if self.helper(i,graph,visited):
+                return False
+        return True
+    #If there is a cycle, return TRUE
+    #1 visiting/2 visited
+    def helper(self,curr,graph,visited):
+        if visited[curr]==1: return True
+        if visited[curr]==2: return False
+        visited[curr]=1
+        for ele in graph[curr]:
+            if self.helper(ele,graph,visited):
+                return True
+        visited[curr]=2
+        return False
+    
+#210. Course Schedule II
+#Time=O(n),space=O(n)
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        graph = [[] for _ in range(numCourses)]
+        res=[]
+        for course, prerequisite in prerequisites:
+            graph[prerequisite].append(course)
+        visited=[0]*numCourses
+        for i in range(numCourses):
+            if self.helper(i,graph,visited,res):
+                return []
+        return res[::-1]
+    #If there is a cycle, return True
+    def helper(self,curr,graph,visited,res):
+        if visited[curr]==1: return True
+        if visited[curr]==2: return False
+        visited[curr]=1
+        for ele in graph[curr]:
+            if self.helper(ele,graph,visited,res):
+                return True
+        visited[curr]=2
+        res.append(curr)
+        return False
+    
 #399. Evaluate Division
 #Time=O(number of equations+e*num of queries),space=O(e)
 class Solution:
