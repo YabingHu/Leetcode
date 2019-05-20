@@ -1372,7 +1372,58 @@ class Solution:
                 report.extend(sorted(node.val for node in seen[x][y]))
             ans.append(report)
         return ans
+
+#814. Binary Tree Pruning
+#Time=O(n),Space=O(H),H is the height of the tree
+class Solution:
+    def pruneTree(self, root: TreeNode) -> TreeNode:
+        if root==None:return None
+        root.left=self.pruneTree(root.left)
+        root.right=self.pruneTree(root.right)
+        if root.left==None and root.right==None and root.val==0:
+            return None
+        else:return root
     
+#437. Path Sum III
+#Time=O(n),Space=O(H),H is the height of the tree
+class Solution:
+    def pathSum(self, root: TreeNode, sum: int) -> int:
+        if root==None:return 0
+        return self.helper(root,0,sum)+self.pathSum(root.left,sum)+self.pathSum(root.right,sum)
+    def helper(self,root,pre,sum):
+        if root==None:return 0
+        cur=pre+root.val
+        return (cur==sum) +self.helper(root.left,cur,sum)+self.helper(root.right,cur,sum)
+
+#124. Binary Tree Maximum Path Sum
+#Time=O(n),Space=O(H),H is the height of the tree
+class Solution:
+    def maxPathSum(self, root: TreeNode) -> int:
+        if root==None:return 0
+        self.ans=float('-Inf')
+        self.helper(root)
+        return self.ans
+    def helper(self,root):
+        if root==None:return float('-Inf')
+        l=max(0,self.helper(root.left))
+        r=max(0,self.helper(root.right))
+        self.ans = max(self.ans, root.val + l + r)
+        return root.val + max(l, r)
+    
+#543. Diameter of Binary Tree
+#Time=O(n),Space=O(H),H is the height of the tree
+class Solution:
+    def diameterOfBinaryTree(self, root: TreeNode) -> int:
+        self.ans=0
+        self.helper(root)
+        return self.ans
+    def helper(self,root):
+        if root==None:return -1
+        l=self.helper(root.left)+1
+        r=self.helper(root.right)+1
+        self.ans=max(self.ans,l+r)
+        return max(l,r)
+
 #Search:
 #46. Permutations
 #Time=O(n!), space=O(n!), in fact recusion has the form T(n)=T(n-1）+T（n-2）+.... has the time complexity O(2^(n)),here since 
