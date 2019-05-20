@@ -1354,7 +1354,24 @@ class Solution:
             return [root.val]
         return self.helper(root.left)+self.helper(root.right)
     
-
+#987. Vertical Order Traversal of a Binary Tree
+#Time=O(n*logn),Space=O(n)
+class Solution:
+    def verticalTraversal(self, root: TreeNode) -> List[List[int]]:
+        seen = collections.defaultdict(lambda: collections.defaultdict(list))
+        def dfs(node, x, y):
+            if node:
+                seen[x][y].append(node)
+                dfs(node.left, x-1, y-1)
+                dfs(node.right, x+1, y-1)
+        dfs(root,0,0)
+        ans = []
+        for x in sorted(seen):
+            report = []
+            for y in sorted(seen[x],reverse=True):
+                report.extend(sorted(node.val for node in seen[x][y]))
+            ans.append(report)
+        return ans
     
 #Search:
 #46. Permutations
