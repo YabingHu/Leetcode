@@ -623,7 +623,7 @@ class Solution:
         return x
             
     
-    #Binary Seaarch
+    #Binary Search
     #34. Find First and Last Position of Element in Sorted Array
     #One binary search, time O(n) in stead of O(logn) when whole array can have same number, space=O(1)
     class Solution:
@@ -644,6 +644,21 @@ class Solution:
         elif nums[mid]<target:
             return self.helper(nums,mid+1,right,target)
         else: return self.helper(nums,left,mid-1,target)
+        
+#875. Koko Eating Bananas
+# Time=O(NlogW), where N is the number of piles, and W is the maximum size of a pile
+class Solution:
+    def minEatingSpeed(self, piles: List[int], H: int) -> int:
+        left=1
+        right=1e9
+        while left<=right:
+            mid=left+int((right-left)/2)
+            cnt=0
+            for pile in piles:
+                cnt+=int((pile+mid-1)/mid)
+            if cnt>H:left=mid+1
+            else:right=mid-1
+        return left
        
 #Two binary search, time=O(logn), space=O(1)
 class Solution:
