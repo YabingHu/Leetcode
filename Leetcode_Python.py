@@ -1155,7 +1155,24 @@ class Solution:
                     q.append(t.right)
             res.append(res_sub)
         return res
- 
+
+#DFS solution
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        res=[]
+        if root==None:return res
+        self.helper(0,root,res)
+        return res
+    def helper(self,depth,root,res):
+        if root==None:return 
+        if len(res)<=depth:
+            res.append([])
+        res[depth].append(root.val)
+        self.helper(depth+1,root.left,res)
+        self.helper(depth+1,root.right,res)
+    
+    
+    
 #99. Recover Binary Search Tree
 #Time=O(n),space=O(1)
 class Solution:
