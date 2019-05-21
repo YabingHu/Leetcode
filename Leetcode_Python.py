@@ -1,4 +1,19 @@
 #Dynamic Programming:
+#Time=O(m*n),space=O(m*n)
+class Solution:
+    def calculateMinimumHP(self, dungeon: List[List[int]]) -> int:
+        m=len(dungeon)
+        n=len(dungeon[0])
+        dp=[[float('Inf')]*(n+1) for _ in range(m+1)]
+        dp[m][n-1]=1
+        dp[m-1][n]=1
+        for x in range(m-1,-1,-1):
+            for y in range(n-1,-1,-1):
+                dp[x][y]=max(1,min(dp[x+1][y],dp[x][y+1])-dungeon[x][y])
+        return dp[0][0]
+
+
+
 
 #198. House Robber
 #Time=O(n),space=O(n)
