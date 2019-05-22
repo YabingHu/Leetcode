@@ -1764,7 +1764,57 @@ class Solution:
         self.helper(left-1,right,res,out+"(")
         self.helper(left,right-1,res,out+")")
                 
-                
+#51. N-Queens
+#Time=O(n!),space=O(n)
+class Solution:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        res=[]
+        queenCol=[-1]*n
+        self.helper(0,queenCol,res)
+        return res
+    def helper(self,curRow,queenCol,res):
+        n=len(queenCol)
+        if curRow==n:
+            tmp='.'*n
+            out=[]
+            for i in range(n):
+                out.extend([tmp[:queenCol[i]]+"Q"+tmp[queenCol[i]+1:]])
+            res.append(out)
+            return
+        for i in range(n):
+            if self.isValid(queenCol,curRow,i):
+                queenCol[curRow]=i
+                self.helper(curRow+1,queenCol,res)
+                queenCol[curRow]=-1
+    def isValid(self,queenCol,row,col):
+        for i in range(row):
+            if col==queenCol[i] or abs(row-i)==abs(col-queenCol[i]):
+                return False
+        return True
+
+#52. N-Queens II
+#Time=O(n!),space=O(n)      
+class Solution:
+    def totalNQueens(self, n: int) -> int:
+        self.cnt=0
+        queenCol=[-1]*n
+        self.helper(0,queenCol,self.cnt)
+        return self.cnt
+    def helper(self,curRow,queenCol,cnt):
+        n=len(queenCol)
+        if curRow==n:
+            self.cnt+=1
+            return
+        for i in range(n):
+            if self.isValid(queenCol,curRow,i):
+                queenCol[curRow]=i
+                self.helper(curRow+1,queenCol,self.cnt)
+                queenCol[curRow]=-1
+    def isValid(self,queenCol,row,col):
+        for i in range(row):
+            if col==queenCol[i] or abs(row-i)==abs(col-queenCol[i]):
+                return False
+        return True
                 
 #Array
 #54. Spiral Matrix
