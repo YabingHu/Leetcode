@@ -310,6 +310,55 @@ class Solution(object):
             fast=fast.next
         return slow
 
+#21. Merge Two Sorted Lists
+#time O(n+m),space O(1)
+class Solution:
+    def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
+        dummy=ListNode(-1)
+        cur=dummy
+        while l1!=None and l2 !=None:
+            if l1.val<=l2.val:
+                cur.next=l1
+                l1=l1.next
+            else:
+                cur.next=l2
+                l2=l2.next
+            cur=cur.next
+        if l1 ==None:
+            cur.next=l2
+        else:
+            cur.next=l1
+        return dummy.next
+
+#23. Merge k Sorted Lists
+#time O(n*logn),space O(1)
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        n=len(lists)
+        if n==0:return lists
+        while n>1:
+            k=int((n+1)/2)
+            for i in range(int(n/2)):
+                lists[i]=self.helper(lists[i],lists[i+k])
+            n=k
+        return lists[0]
+    def helper(self,l1,l2):
+        dummy=ListNode(-1)
+        cur=dummy
+        while l1 and l2:
+            if l1.val<=l2.val:
+                cur.next=l1
+                l1=l1.next
+            else:
+                cur.next=l2
+                l2=l2.next
+            cur=cur.next
+        if not l2 and l1:
+            cur.next=l1
+        if not l1 and l2:
+            cur.next=l2
+        return dummy.next
+    
 #Graph    
 #133. Clone Graph
 #DFS Solution, both time and space are O(n)
