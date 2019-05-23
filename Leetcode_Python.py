@@ -12,6 +12,20 @@ class Solution:
                 dp[x][y]=max(1,min(dp[x+1][y],dp[x][y+1])-dungeon[x][y])
         return dp[0][0]
 
+#115. Distinct Subsequences
+#Time=O(m*n),space=O(m*n)
+class Solution:
+    def numDistinct(self, s: str, t: str) -> int:
+        ls=len(s)
+        lt=len(t)
+        dp=[[0]*(ls+1) for _ in range(lt+1)]
+        for i in range(ls+1):
+            dp[0][i]=1
+        for i in range(1,lt+1):
+            for j in range(1,ls+1):
+                dp[i][j]=dp[i][j-1]+(dp[i-1][j-1] if s[j-1]==t[i-1] else 0)    
+        return dp[lt][ls]
+        
 
 
 
