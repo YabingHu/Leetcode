@@ -1566,6 +1566,32 @@ class Solution:
             self.helper(root.left,res,out+str(root.val)+'->')
         if root.right:
             self.helper(root.right,res,out+str(root.val)+'->')
+
+#508. Most Frequent Subtree Sum            
+#Time=O(n),space=O(n)
+class Solution:
+    def findFrequentTreeSum(self, root: TreeNode) -> List[int]:
+        res=[]
+        m={}
+        self.cnt=0
+        self.helper(root,m,self.cnt,res)
+        return res
+    def helper(self,root,m,cnt,res):
+        if root==None:return 0
+        left=self.helper(root.left,m,self.cnt,res)
+        right=self.helper(root.right,m,self.cnt,res)
+        sum=left+right+root.val
+        if sum in m:
+            m[sum]+=1
+        else:m[sum]=1
+        if m[sum]>=self.cnt:
+            if m[sum]>self.cnt:
+                res.clear()
+            res.append(sum)
+            self.cnt=m[sum]
+        return sum            
+            
+            
             
 #Search:
 #46. Permutations
