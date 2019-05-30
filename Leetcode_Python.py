@@ -1534,6 +1534,23 @@ class Solution:
         self.ans=max(self.ans,l+r)
         return max(l,r)
 
+#687. Longest Univalue Path   
+#Time=O(n), space=O(logn)->O(n) worst case
+class Solution:
+    def longestUnivaluePath(self, root: TreeNode) -> int:
+        self.res=0
+        self.helper(root)
+        return self.res
+    def helper(self,root):
+        if root==None:return 0
+        left=self.helper(root.left)
+        right=self.helper(root.right)
+        left=left+1 if (root.left and root.left.val==root.val) else 0
+        right=right+1 if (root.right and root.right.val==root.val) else 0
+        self.res=max(self.res,left+right)
+        return max(left,right) 
+    
+    
 #Search:
 #46. Permutations
 #Time=O(n!), space=O(n!), in fact recusion has the form T(n)=T(n-1）+T（n-2）+.... has the time complexity O(2^(n)),here since 
