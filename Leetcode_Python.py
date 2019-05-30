@@ -1591,7 +1591,32 @@ class Solution:
             self.cnt=m[sum]
         return sum            
             
-            
+#297. Serialize and Deserialize Binary Tree
+#Time=O(n),space=O(n)
+class Codec:
+    def serialize(self, root):
+        self.out=''
+        self.helper(root,self.out)
+        return self.out
+    def helper(self,root,out):
+        if not root:self.out+='None,'
+        else:
+            self.out+=str(root.val)+','
+            self.helper(root.left,self.out)
+            self.helper(root.right,self.out)
+
+    def deserialize(self, data):
+        data_list=data.split(',')
+        root=self.helper2(data_list)
+        return root
+    def helper2(self,data_list):
+        if data_list[0]=='None':
+            data_list.pop(0)
+            return
+        root=TreeNode( data_list.pop(0))
+        root.left=self.helper2(data_list)
+        root.right=self.helper2(data_list)
+        return root
             
 #Search:
 #46. Permutations
