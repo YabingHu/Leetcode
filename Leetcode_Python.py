@@ -1550,7 +1550,23 @@ class Solution:
         self.res=max(self.res,left+right)
         return max(left,right) 
     
-    
+#257. Binary Tree Paths
+#Time=O(n), space=O(logn)->O(n) worst case
+class Solution:
+    def binaryTreePaths(self, root: TreeNode) -> List[str]:
+        res=[]
+        self.helper(root,res,'')
+
+        return res
+    def helper(self,root,res,out):
+        if not root:return 
+        if not root.left and not root.right:
+            res.append(out+str(root.val))
+        if root.left:
+            self.helper(root.left,res,out+str(root.val)+'->')
+        if root.right:
+            self.helper(root.right,res,out+str(root.val)+'->')
+            
 #Search:
 #46. Permutations
 #Time=O(n!), space=O(n!), in fact recusion has the form T(n)=T(n-1）+T（n-2）+.... has the time complexity O(2^(n)),here since 
