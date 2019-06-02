@@ -213,20 +213,36 @@ class Solution:
     
     
 # 309. Best Time to Buy and Sell Stock with Cooldown   
-#Time=O(n),space=O(1)
-class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        sold=0
+#Time=O(n),space=O(n)->O(1)
+class Solution(object):
+    def maxProfit(self, prices):
+        n=len(prices)
+        if n<=1:return 0
+        hold=-prices[0]
         rest=0
-        hold=float('-Inf')
+        sold=float('-Inf')
         for price in prices:
-            pre_sold=sold
+            pre_rest=rest
+            rest=max(pre_rest,sold)
             sold=hold+price
-            hold=max(hold,rest-price)
-            rest=max(pre_sold,rest)
-        return max(sold,rest)
+            hold=max(pre_rest-price,hold)
+        return max(rest,sold)    
     
-    
+class Solution(object):
+    def maxProfit(self, prices):
+        n=len(prices)
+        if n<=1:return 0
+        hold=[0]*n
+        rest=[0]*n
+        sold=[0]*n
+        hold[0]= -prices[0]
+        rest[0]=0
+        sold[0]=float('-Inf')
+        for i in range(1,n):
+            rest[i]=max(rest[i-1],sold[i-1])
+            hold[i]=max(rest[i-1]-prices[i],hold[i-1])
+            sold[i]=hold[i-1]+prices[i]
+        return max(sold[n-1],rest[n-1])
     
 #Divide and Conquer
 #169. Majority Element
