@@ -118,7 +118,7 @@ class Solution:
         if res[n]>0: return res[n]
         res[n]=self.helper(n-1,res)+self.helper(n-2,res)
         return res[n]
-#iterative       
+#iterative,dp     
 class Solution:
     def climbStairs(self, n: int) -> int:
         dp=[0]*(n+1)
@@ -126,6 +126,18 @@ class Solution:
         for i in range(2,n+1):
             dp[i]=dp[i-1]+dp[i-2]
         return dp[n]
+    
+#DP with space=O(1)
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        dp=1
+        dp1=dp2=1
+        for i in range(2,n+1):
+            dp=dp1+dp2
+            dp2=dp1
+            dp1=dp
+        return dp
+        
   
 #746. Min Cost Climbing Stairs
 # Time and Space O(n) for all methods
