@@ -57,7 +57,7 @@ class Solution:
         return dp[-1]
         
 #740. Delete and Earn
-#Time=O(n),space=O(n)
+#Time=O(100001+n),space=O(n+10001)
 class Solution:
     def deleteAndEarn(self, nums: List[int]) -> int:
         sums=[0]*10001
@@ -69,6 +69,23 @@ class Solution:
             b=0 if i<=1 else dp[i-2]
             dp[i]=max(a,b+sums[i])
         return dp[-1]
+#Time=O(n+max(nums)),space=O(max(nums))    
+class Solution:
+    def deleteAndEarn(self, nums: List[int]) -> int:
+        if len(nums)==0:return 0
+        r=max(nums)
+        m=[0]*(r+1)
+        for num in nums:
+            m[num]+=num
+        return self.rob(m)
+    def rob(self,m):
+        dp1=dp2=dp=0
+        for ele in m:
+            dp=max(dp1,dp2+ele)
+            dp2=dp1
+            dp1=dp
+        return dp
+        
         
 #790. Domino and Tromino Tiling
 #Time=O(n),space=O(n)
