@@ -212,7 +212,19 @@ class Solution:
         return -1 if dp[K+1][dst]>=kInfCost else dp[K+1][dst]
     
     
-    
+# 309. Best Time to Buy and Sell Stock with Cooldown   
+#Time=O(n),space=O(1)
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        sold=0
+        rest=0
+        hold=float('-Inf')
+        for price in prices:
+            pre_sold=sold
+            sold=hold+price
+            hold=max(hold,rest-price)
+            rest=max(pre_sold,rest)
+        return max(sold,rest)
     
     
     
