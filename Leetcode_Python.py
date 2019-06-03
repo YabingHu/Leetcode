@@ -14,7 +14,24 @@ class Solution:
                     break
         return bool (dp[n])
     
+#140. Word Break II
+#T
+class Solution:
+    def wordBreak(self, s, wordDict):
+        dp={}
+        return self.dfs(s, wordDict, dp)
 
+    def dfs(self,s,wordDict, dp):
+        if s in dp: return dp[s]
+        if not s: return [""]
+        res=[]
+        for word in wordDict:
+            if s[:len(word)] !=word:continue
+            memo=self.dfs(s[len(word):],wordDict,dp)
+            for string in memo:
+                res.append(word+("" if not string else " ") +string)
+        dp[s]=res
+        return res
 
 #Time=O(m*n),space=O(m*n)
 class Solution:
