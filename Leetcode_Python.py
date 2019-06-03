@@ -449,6 +449,20 @@ class Solution:
         if not l1 and l2:
             cur.next=l2
         return dummy.next
+
+#203. Remove Linked List Elements
+#Time=O(n),space=O(1)
+class Solution:
+    def removeElements(self, head: ListNode, val: int) -> ListNode:
+        if head==None:return None
+        cur=head
+        while cur.next:
+            if cur.next.val==val:
+                cur.next=cur.next.next
+            else:cur=cur.next
+        return head if head.val!=val else head.next
+    
+    
     
 #Graph    
 #133. Clone Graph
