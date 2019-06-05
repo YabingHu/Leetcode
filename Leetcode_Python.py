@@ -1,3 +1,4 @@
+#######################################################################
 #Dynamic Programming:
 #312. Burst Balloons
 #Time=O(n^3),space=O(n^2)
@@ -329,7 +330,8 @@ class Solution:
                 else:
                     cnt-=1
         return res
-        
+###########################3##################################################################
+#LinkedList    
 #2. Add Two Numbers
 # time:O(max(m,n)), soace:O(max(m,n))+1 where m and n are length for l1,l2
 class Solution:
@@ -477,9 +479,51 @@ class Solution:
                 cur.next=cur.next.next
             else:cur=cur.next
         return head if head.val!=val else head.next
+
+#147. Insertion Sort List
+#Time=O(n^2),space=O(1)
+class Solution(object):
+    def insertionSortList(self, head):
+        dummy=ListNode(-1)
+        cur=head
+        dummy.next=head
+        while head and head.next:
+            if head.val>head.next.val:
+                cur=head.next
+                pre=dummy
+                while pre.next.val<cur.val:
+                    pre=pre.next
+                head.next=cur.next
+                cur.next=pre.next
+                pre.next=cur
+            else:
+                head=head.next
+        return dummy.next
+
+#206. Reverse Linked List
+#Iterative,Time=O(n),space=O(1)
+class Solution:
+    def reverseList(self, head: ListNode) -> ListNode:
+        prev = None
+        curr = head
+        while curr:
+            nextTemp = curr.next
+            curr.next = prev
+            prev = curr
+            curr = nextTemp
+        
+        return prev
     
-    
-    
+#recursive, Time=O(n),space=O(n)
+class Solution:
+    def reverseList(self, head: ListNode) -> ListNode:
+        if not head or not head.next:return head
+        res=self.reverseList(head.next)
+        head.next.next=head
+        head.next=None
+        return res
+        
+###############################################################################################    
 #Graph    
 #133. Clone Graph
 #DFS Solution, both time and space are O(n)
@@ -1185,7 +1229,7 @@ class Solution:
 
 
 
-
+#########################################################################
 #Tree:
 #94. Binary Tree Inorder Traversal
 #Time=O(n), space=O(n) for all methods.
@@ -1738,7 +1782,7 @@ class Codec:
         root.left=self.helper2(data_list)
         root.right=self.helper2(data_list)
         return root
-            
+###############################################################################            
 #Search:
 #46. Permutations
 #Time=O(n!), space=O(n!), in fact recusion has the form T(n)=T(n-1）+T（n-2）+.... has the time complexity O(2^(n)),here since 
