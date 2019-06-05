@@ -32,7 +32,7 @@ class Solution:
         return bool (dp[n])
     
 #140. Word Break II
-#T
+#Time=O(n^2),space=O(n)
 class Solution:
     def wordBreak(self, s, wordDict):
         dp={}
@@ -49,7 +49,8 @@ class Solution:
                 res.append(word+("" if not string else " ") +string)
         dp[s]=res
         return res
-
+    
+#174. Dungeon Game
 #Time=O(m*n),space=O(m*n)
 class Solution:
     def calculateMinimumHP(self, dungeon: List[List[int]]) -> int:
