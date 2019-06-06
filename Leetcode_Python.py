@@ -1292,7 +1292,35 @@ class Solution(object):
         elif root.val<val:
             return self.searchBST(root.right,val)
         else:return root
-        
+
+#701. Insert into a Binary Search Tree
+#Time=O(H),Space=O(H)
+class Solution:
+    def insertIntoBST(self, root: TreeNode, val: int) -> TreeNode:
+        if root==None:return TreeNode(val)
+        if root.val>val:root.left=self.insertIntoBST(root.left,val)
+        else: root.right=self.insertIntoBST(root.right,val)
+        return root
+   
+#230. Kth Smallest Element in a BST
+#Time=O(H+k), time=O(H+k)
+class Solution:
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
+        if root==None:return None
+        s=[]
+        res=[]
+        cnt=0
+        cur=root
+        while s or cur:
+            while cur:
+                s.append(cur)
+                cur=cur.left
+            cur=s.pop()
+            res.append(cur.val)
+            cnt+=1
+            if cnt==k:
+                return res[-1]
+            cur=cur.right
 #########################################################################
 #Tree:
 #94. Binary Tree Inorder Traversal
