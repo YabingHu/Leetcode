@@ -1252,8 +1252,20 @@ class Solution:
             else: root=root.right
         return res
 
-
-
+##############################################################################################333
+#Binary serach Tree
+#98. Validate Binary Search Tree
+#Time =O(n), space=O(n)
+class Solution:
+    def isValidBST(self, root: TreeNode) -> bool:
+        if root==None:return True
+        return self.helper(root,float('-Inf'),float('Inf'))
+    def helper(self,root,left,right):
+        if root==None:return True
+        if root.val>=right or root.val<=left:
+            return False
+        return self.helper(root.left,left,root.val) and self.helper(root.right,root.val,right)
+        
 #########################################################################
 #Tree:
 #94. Binary Tree Inorder Traversal
