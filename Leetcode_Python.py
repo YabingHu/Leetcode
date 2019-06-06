@@ -331,8 +331,32 @@ class Solution:
                 else:
                     cnt-=1
         return res
-###########################3##################################################################
-#LinkedList    
+##############################################################################################
+#LinkedList   
+
+#19. Remove Nth Node From End of List
+#Time=O(n),space=O(1)
+class Solution:
+    def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
+        if not head:return None
+        pre=head
+        cur=head
+        for i in range(n):
+            cur=cur.next
+        if not cur:return head.next
+        while cur.next:
+            pre=pre.next
+            cur=cur.next
+        pre.next=pre.next.next
+        return head
+            
+
+
+
+
+
+
+
 #2. Add Two Numbers
 # time:O(max(m,n)), soace:O(max(m,n))+1 where m and n are length for l1,l2
 class Solution:
@@ -851,7 +875,7 @@ class Solution:
             x=UF[x]
         return x
             
-    
+##################################################################################################    
     #Binary Search
     #34. Find First and Last Position of Element in Sorted Array
     #One binary search, time O(n) in stead of O(logn) when whole array can have same number, space=O(1)
