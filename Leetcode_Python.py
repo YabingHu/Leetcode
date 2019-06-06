@@ -1265,6 +1265,33 @@ class Solution:
         if root.val>=right or root.val<=left:
             return False
         return self.helper(root.left,left,root.val) and self.helper(root.right,root.val,right)
+    
+#530. Minimum Absolute Difference in BST
+#Time =O(n), space=O(n)
+class Solution(object):
+    def getMinimumDifference(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        res=float('Inf')
+        return self.helper(root,float('-Inf'),float('Inf'),res)
+    def helper(self,root,low,high,res):
+        if not root:return res
+        temp=min(root.val-low, high-root.val)
+        res=min(res,temp)
+        return min(self.helper(root.left,low,root.val,res),self.helper(root.right,root.val,high,res))
+ 
+#700. Search in a Binary Search Tree
+#Time =O(n), space=O(n)
+class Solution(object):
+    def searchBST(self, root, val):
+        if not root:return None
+        if root.val>val:
+            return self.searchBST(root.left,val)
+        elif root.val<val:
+            return self.searchBST(root.right,val)
+        else:return root
         
 #########################################################################
 #Tree:
