@@ -1321,6 +1321,25 @@ class Solution:
             if cnt==k:
                 return res[-1]
             cur=cur.right
+            
+            
+#108. Convert Sorted Array to Binary Search Tree
+#Time=O(n),space=O(n)
+class Solution(object):
+    def sortedArrayToBST(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: TreeNode
+        """
+        return self.helper(nums,0,len(nums)-1)
+    def helper(self,nums,left,right):
+        if left > right:
+            return
+        mid=left+(right-left)//2
+        root=TreeNode(nums[mid])
+        root.left=self.helper(nums,left,mid-1)
+        root.right=self.helper(nums,mid+1,right)
+        return root
 #########################################################################
 #Tree:
 #94. Binary Tree Inorder Traversal
