@@ -1365,6 +1365,27 @@ class Solution:
             if mx==dict[ele]:
                 res.append(ele)
         return res
+  
+
+#450. Delete Node in a BST
+#Time=O(logn), space=O(n)
+class Solution:
+    def deleteNode(self, root: TreeNode, key: int) -> TreeNode:
+        if root==None:return None
+        if root.val>key:
+            root.left=self.deleteNode(root.left,key)
+        elif root.val<key:
+            root.right=self.deleteNode(root.right,key)
+        else:
+            if (not root.left) or (not root.right):
+                root=root.right if not root.left else root.left
+            else:
+                cur=root.right
+                while cur.left:cur=cur.left
+                root.val=cur.val
+                root.right=self.deleteNode(root.right,cur.val)
+        return root
+                
 #########################################################################
 #Tree:
 #94. Binary Tree Inorder Traversal
