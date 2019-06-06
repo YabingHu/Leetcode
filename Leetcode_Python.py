@@ -1340,6 +1340,31 @@ class Solution(object):
         root.left=self.helper(nums,left,mid-1)
         root.right=self.helper(nums,mid+1,right)
         return root
+    
+#230. Kth Smallest Element in a BST
+#Time=O(n),space=O(n)
+class Solution:
+    def findMode(self, root: TreeNode) -> List[int]:
+        dict={}
+        if root==None:return []
+        s=[]
+        res=[]
+        cur=root
+        mx=0
+        while s or cur:
+            while cur:
+                s.append(cur)
+                cur=cur.left
+            cur=s.pop()
+            if cur.val not in dict:
+                dict[cur.val]=1
+            else:dict[cur.val]+=1
+            mx=max(mx,dict[cur.val])
+            cur=cur.right
+        for ele in dict:
+            if mx==dict[ele]:
+                res.append(ele)
+        return res
 #########################################################################
 #Tree:
 #94. Binary Tree Inorder Traversal
