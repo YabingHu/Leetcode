@@ -1385,7 +1385,30 @@ class Solution:
                 root.val=cur.val
                 root.right=self.deleteNode(root.right,cur.val)
         return root
-                
+
+#99. Recover Binary Search Tree
+#Time=O(n),space=O(n)
+class Solution:
+    def recoverTree(self, root: TreeNode) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        pre,first,second=None,None,None
+        s=[]
+        cur=root
+        while s or cur:
+            while cur:
+                s.append(cur)
+                cur=cur.left
+            cur=s.pop()
+            if pre:
+                if pre.val>cur.val:
+                    if not first:
+                        first=pre
+                    second=cur
+            pre=cur
+            cur=cur.right
+        first.val, second.val =second.val,first.val
 #########################################################################
 #Tree:
 #94. Binary Tree Inorder Traversal
