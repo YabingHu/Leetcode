@@ -643,7 +643,7 @@ class Solution:
         self.helper(grid,visited,x,y-1)
  
 #547. Friend Circles
-#Time O(n^2),space=O(1)
+#Time O(n^2),space=O(n)
 class Solution:
     def findCircleNum(self, M: List[List[int]]) -> int:
         if not M:return 0
