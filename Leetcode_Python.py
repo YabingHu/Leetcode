@@ -2486,3 +2486,31 @@ class Solution:
                 availability+=1
                 e+=1
         return rooms
+    
+#####################################################################################################
+#string
+#8. String to Integer (atoi)
+#Time=O(n),spcae=O(1)
+class Solution:
+    def myAtoi(self, str: str) -> int:
+        if not str:return 0
+        n=len(str)
+        base=0
+        sign=1
+        i=0
+        while i<n and str[i]==' ':
+            i+=1
+        if i< n and (str[i]=='+' or str[i]=='-'):
+            sign=1 if str[i]=='+' else -1
+            i+=1
+        while i<n and str[i]>='0' and str[i]<='9':
+            if base > int((2**31-1)/10) or (base == int((2**31-1)/10) and str[i]>'7'):
+                return 2**31-1 if sign==1 else -2**31
+            base=10*base+ord(str[i])-ord('0')
+            i+=1
+        return base*sign
+
+
+
+
+
