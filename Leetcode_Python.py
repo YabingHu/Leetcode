@@ -1252,6 +1252,16 @@ class Solution:
             else: root=root.right
         return res
 
+#965. Univalued Binary Tree
+#Time=O(n), space=O(n)
+class Solution:
+    def isUnivalTree(self, root: TreeNode) -> bool:
+        val=root.val
+        return self.helper(root,val)
+    def helper(self,root,val):
+        if not root :return True
+        if root.val != val:return False
+        return self.helper(root.left,val) and self.helper(root.right,val)
 ##############################################################################################333
 #Binary serach Tree
 #98. Validate Binary Search Tree
