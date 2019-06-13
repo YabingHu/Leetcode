@@ -1962,6 +1962,21 @@ class Codec:
         root.left=self.helper2(data_list)
         root.right=self.helper2(data_list)
         return root
+    
+#572. Subtree of Another Tree    
+#Time=O(m*n), space=O(n), n=# nodes in s
+class Solution:
+    def isSubtree(self, s: TreeNode, t: TreeNode) -> bool:
+        if not s and not t :return True
+        if not s or not t : return False
+        if self.helper(s,t):return True
+        else:
+            return self.isSubtree(s.left,t) or self.isSubtree(s.right,t) 
+    def helper(self,s,t):
+        if not s and not t :return True
+        if not s or not t or s.val != t.val:return False
+        return self.helper(s.left,t.left) and self.helper(s.right,t.right)
+            
 ###############################################################################            
 #Search:
 #46. Permutations
