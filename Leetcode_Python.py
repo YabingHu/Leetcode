@@ -2535,7 +2535,22 @@ class Solution:
             i+=1
         return base*sign
 
-
+#20. Valid Parentheses
+#Time=O(n), space=O(n)
+class Solution:
+    def isValid(self, s: str) -> bool:
+        stack=[]
+        dict={')':'(','}':'{',']':'['}
+        for i in s:
+            if i in {'(','{','['}:
+                stack.append(i)
+            else:
+                if not stack or dict[i] != stack[-1]:
+                    return False
+                stack.pop()
+        return not stack
+    
+   
 
 
 
