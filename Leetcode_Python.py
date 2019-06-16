@@ -1,5 +1,23 @@
 #######################################################################
 #Dynamic Programming:
+
+1039. Minimum Score Triangulation of Polygon
+#dp[i][j] means the minimum score to triangulate A[i] ~ A[j],while there is edge connect A[i] and A[j].
+#Time=O(n^3), spcae=O(n^2)
+class Solution:
+    def minScoreTriangulation(self, A: List[int]) -> int:
+        n=len(A)
+        dp=[[0]*n for _ in range(n)]
+        for d in range(2,n):
+            for i in range(n-d):
+                j=i+d
+                dp[i][j]=float('Inf')
+                for k in range(i+1,j):
+                    dp[i][j]=min(dp[i][j],dp[i][k]+dp[k][j]+A[i]*A[k]*A[j])
+        return dp[0][n-1]
+            
+
+
 #312. Burst Balloons
 #Time=O(n^3),space=O(n^2)
 class Solution:
