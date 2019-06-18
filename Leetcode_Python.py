@@ -2040,7 +2040,27 @@ class Solution:
         if not s and not t :return True
         if not s or not t or s.val != t.val:return False
         return self.helper(s.left,t.left) and self.helper(s.right,t.right)
-            
+
+#298. Binary Tree Longest Consecutive Sequence
+#Time=O(n), space=O(n)
+class Solution:
+    def longestConsecutive(self, root: TreeNode) -> int:
+        if not root:return 0
+        self.res=0
+        self.helper(root,root.val,0)
+        return self.res
+    def helper(self,root,val,temp):
+        if not root : return 0
+        if root.val==val+1:temp+=1
+        else: temp=1
+        self.res=max(self.res,temp)
+        self.helper(root.left,root.val,temp)
+        self.helper(root.right,root.val,temp)
+        
+
+    
+    
+    
 ###############################################################################            
 #Search:
 #46. Permutations
