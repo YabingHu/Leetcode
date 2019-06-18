@@ -906,7 +906,29 @@ class Solution:
             UF[x]=UF[UF[x]]
             x=UF[x]
         return x
-            
+
+#785. Is Graph Bipartite?
+#Time=O(n*m), space=O(n)
+class Solution:
+    def isBipartite(self, graph: List[List[int]]) -> bool:
+        p=list(range(len(graph)))
+        for i in range(len(graph)):
+            if not graph[i]:continue
+            x=self.find(p,i)
+            y=self.find(p,graph[i][0])
+            if x==y:return False
+            for j in range(1,len(graph[i])):
+                temp=self.find(p,graph[i][j])
+                if x==temp:return False
+                p[temp]=y
+        return True
+    def find(self,p,x):
+        while x!=p[x]:
+            p[x]=p[p[x]]
+            x=p[x]
+        return x
+        
+
 ##################################################################################################    
     #Binary Search
     #34. Find First and Last Position of Element in Sorted Array
