@@ -1904,7 +1904,7 @@ class Solution:
         else:return root
 
 #112. Path Sum        
-##Time=O(n), space=O(n)
+#Time=O(n), space=O(n)
 class Solution:
     def hasPathSum(self, root: TreeNode, sum: int) -> bool:
         if not root: return False
@@ -1913,7 +1913,20 @@ class Solution:
         return self.hasPathSum(root.left,sum-root.val) or self.hasPathSum(root.right,sum-root.val)
 
     
-        
+#113. Path Sum II
+#Time=O(n), space=O(n)
+class Solution:
+    def pathSum(self, root: TreeNode, sum: int) -> List[List[int]]:
+        res=[]
+        if not root: return res
+        self.helper(root,sum,[],res)
+        return res
+    def helper(self,root,sum,out,res):
+        if not root:return 
+        if not root.left and not root.right and root.val==sum:
+            res.append(out+[root.val])
+        self.helper(root.left,sum-root.val,out+[root.val],res)
+        self.helper(root.right,sum-root.val,out+[root.val],res)
         
 #437. Path Sum III
 #Time=O(n),Space=O(H),H is the height of the tree
