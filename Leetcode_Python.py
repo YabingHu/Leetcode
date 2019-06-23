@@ -2379,7 +2379,42 @@ class Solution:
             res.append(out)
         self.helper(left-1,right,res,out+"(")
         self.helper(left,right-1,res,out+")")
-                
+
+#37. Sudoku Solver
+
+class Solution:
+    def solveSudoku(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        self.dfs(board,0,0)
+    def dfs(self,board,i,j):
+        if i==9:return True
+        if j>=9:return self.dfs(board,i+1,0)
+        if board[i][j]==".":
+            for k in range(1,10):
+                board[i][j]=str(k)
+                if self.helper(board,i,j):
+                    if self.dfs(board,i,j+1):return True
+                board[i][j]="."
+        else:
+            return self.dfs(board,i,j+1)
+        return False
+    def helper(self,board,i,j):
+        for col in range(9):
+            if j !=col and board[i][j]==board[i][col]:
+                return False
+        for row in range(9):
+            if i !=row and board[i][j]==board[row][j]:
+                return False
+        for row in range((i//3)*3,(i//3)*3+3):
+            for col in range((j//3)*3,(j//3)*3+3):
+                if (i != row or j != col) and board[row][col]==board[i][j]:
+                    return False
+        return True
+        
+        
+        
 #51. N-Queens
 #Time=O(n!),space=O(n)
 class Solution:
