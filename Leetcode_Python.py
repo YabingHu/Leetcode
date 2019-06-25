@@ -784,7 +784,7 @@ class Solution:
         return states[cur]
 
 #207. Course Schedule
-#Time=O(n),space=O(1)
+#Time=O(n),space=O(n)
 def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         graph = [[] for _ in range(numCourses)]
         for course, prerequisite in prerequisites:
