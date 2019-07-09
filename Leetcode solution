@@ -38,6 +38,62 @@ class Solution:
                 if (i != row or j != col) and board[i][j]==board[row][col]:
                     return False
         return True
+        
+#51. N-Queens
+#Time=O(n!), space=O(n!)
+class Solution:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        res=[]
+        out=[-1]*n
+        self.helper(0,out,res)
+        return res
+    def helper(self,cur,out,res):
+        n=len(out)
+        if cur==n:
+            output=[]
+            dot='.'*n
+            for i in out:
+                output.append(dot[:i]+'Q'+dot[(i+1):])
+            res.append(output)
+            return
+        for i in range(n):
+            if self.valid(cur,i,out):
+                out[cur]=i
+                self.helper(cur+1,out,res)
+                out[cur]=-1
+        return 
+    def valid(self,row,col,out):
+        for r in range(row):
+            if out[r]==col:
+                return False
+            if abs(r-row)==abs(out[r]-col):
+                return False
+        return True
+ 
+#52. N-Queens II
+#Time=O(n!), sapce=O(n!)
+class Solution:
+    def totalNQueens(self, n: int) -> int:
+        out=[-1]*n
+        return self.helper(0,out,0)
+    def helper(self,cur,out,cnt):
+        n=len(out)
+        if cur==n:
+            cnt+=1
+            return cnt
+        for i in range(n):
+            if self.valid(cur,i,out):
+                out[cur]=i
+                cnt=self.helper(cur+1,out,cnt)
+                out[cur]=-1
+        return cnt
+    def valid(self,row,col,out):
+        for r in range(row):
+            if out[r]==col:
+                return False
+            if abs(r-row)==abs(out[r]-col):
+                return False
+        return True
 ####################################################
 #DP
 
