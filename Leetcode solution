@@ -94,6 +94,35 @@ class Solution:
             if abs(r-row)==abs(out[r]-col):
                 return False
         return True
+
+#79. Word Search
+#Time=O(4^len(word)*m*n), space=O(m*n)+O(4^len(word)*m*n) during recursion
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        m=len(board)
+        if m==0: return False
+        n=len(board[0])
+        if n==0: return False
+        visited=[[0]*n for _ in range(m)]
+        for i in range(m):
+            for j in range(n):
+                if self.helper(board,word,visited,i,j,0):
+                    return True
+        return False
+    
+    def helper(self,board,word,visited,i,j,level):
+        if level==len(word):
+            return True
+        m=len(board)
+        n=len(board[0])
+        if i<0 or j<0 or i>=m or j>=n or visited[i][j]!=0 or board[i][j]!=word[level]:
+            return False
+        visited[i][j]=1
+        res= self.helper(board,word,visited,i+1,j,level+1) or self.helper(board,word,visited,i-1,j,level+1) or self.helper(board,word,visited,i,j+1,level+1) or self.helper(board,word,visited,i,j-1,level+1)
+        visited[i][j]=0
+        return res
+        
+        
 ####################################################
 #DP
 
