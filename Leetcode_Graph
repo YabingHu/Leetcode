@@ -512,3 +512,29 @@ class Solution:
             vu=HP[e[1]] if e[1] in HP else 0
             ans+=min(e[2],uv+vu)
         return ans
+
+#847. Shortest Path Visiting All Nodes
+class Solution:
+    def shortestPathLength(self, graph: List[List[int]]) -> int:
+        n=len(graph)
+        kAns=(1<< n)-1
+        visited=[[0]*(1<<n) for _ in range(n)]
+        q=[]
+        for i in range(len(graph)):
+            q.append((i,1<<i))
+        steps=0
+        while q:
+            s=len(q)
+            for j in range(s):
+                p=q.pop(0)
+                state=p[1]
+                node=p[0]
+                if state==kAns:return steps
+                if visited[node][state]:continue
+                visited[node][state]=1
+                for next_ in graph[node]:
+                    q.append((next_ , state | (1<<next_)))
+            steps+=1
+              
+        return -1
+        
