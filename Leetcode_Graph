@@ -1,0 +1,23 @@
+#684. Redundant Connection
+#Time=O(n), space=O(n)
+class Solution:
+    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
+        p = [0]*(len(edges) + 1)
+        s = [1]*(len(edges) + 1)
+        
+        for u, v in edges:
+            if p[u] == 0: p[u] = u
+            if p[v] == 0: p[v] = v
+            pu, pv = self.find(u,p), self.find(v,p)
+            if pu == pv: return [u, v]
+            
+            if s[pv] > s[pu]: u, v = v, u
+            p[pv] = pu
+            s[pu] += s[pv]
+        return []
+    
+    def find(self,u,p):
+        while p[u] != u:
+            p[u] = p[p[u]]
+            u = p[u]
+        return u
