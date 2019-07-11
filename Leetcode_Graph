@@ -401,3 +401,49 @@ class Solution:
             p[u] = p[p[u]]
             u = p[u]
         return u
+
+#685. Redundant Connection II
+#Time=O(n), space=O(n)
+class Solution:
+    def findRedundantDirectedConnection(self, edges: List[List[int]]) -> List[int]:
+        p = [0]*(len(edges) + 1)
+        r = [0]*(len(edges) + 1)
+        s = [1]*(len(edges) + 1)
+        ans1=[]
+        ans2=[]
+        for edge in edges:
+            u=edge[0]
+            v=edge[1]
+            #if a node has two parents，case 2
+            if p[v]>0:
+                ans1=[p[v],v]
+                ans2=[u,v]
+                edge[0]=-1
+                edge[1]=-1
+            p[v]=u
+        
+        for edge in edges:
+            u=edge[0]
+            v=edge[1]
+            if u<0 or v<0:
+                continue
+            if not r[u]: r[u] = u
+            if not r[v]: r[v] = v
+            pu= self.find(u,r)
+            pv= self.find(v,r)
+            #case 1 and case 2.2
+            if pu == pv:
+                if not ans1: 
+                    return edge
+                else: return ans1
+            if s[pv] > s[pu]: u, v = v, u
+            r[pv] = pu
+            s[pu] += s[pv]
+        #case 2.1, no cycle
+        return ans2
+    
+    def find(self,u,p):
+        while p[u] != u:
+            p[u] = p[p[u]]
+            u = p[u]
+        return u
