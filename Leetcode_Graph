@@ -1,3 +1,383 @@
+#133. Clone Graph
+#DFS Solution, both time and space are O(n)
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, neighbors):
+        self.val = val
+        self.neighbors = neighbors
+"""
+class Solution:
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        dict={}
+        return self.helper(node,dict)
+    def helper(self,node,dict):
+        if node ==None: return None
+        if node in dict:
+            return dict[node]
+        dup=Node(node.val,[])
+        dict[node]=dup
+        for neighbor in node.neighbors:
+            clone=self.helper(neighbor,dict)
+            dup.neighbors.append(clone)
+        return dup
+#BFS Solution, both time and space are O(n)
+class Solution:
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        if not node: return None
+        dict={}
+        queue=[node]
+        dup=Node(node.val,[])
+        dict[node]=dup
+        while queue:
+            t=queue.pop(0)
+            for neighbor in t.neighbors:
+                if neighbor not in dict:
+                    dict[neighbor]=Node(neighbor.val,[])
+                    queue.append(neighbor)
+                dict[t].neighbors.append(dict[neighbor])
+        return dup
+
+#138. Copy List with Random Pointer
+#Time and space O(n)
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, next, random):
+        self.val = val
+        self.next = next
+        self.random = random
+"""
+class Solution:
+    def copyRandomList(self, head: 'Node') -> 'Node':
+        if head == None: return None
+        dict={}
+        node=head
+        while node:
+            dict[node]=Node(node.val,None,None)
+            node=node.next
+        node=head
+        while node:
+            if node.next:
+                dict[node].next=dict[node.next]
+            if node.random:
+                dict[node].random=dict[node.random]
+            node=node.next
+        return dict[head]
+    
+#200. Number of Islands    
+#Time and space O(m*n)
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        m=len(grid)
+        if m==0 : return 0
+        n=len(grid[0])
+        visited=[[0]*n for _ in range(m) ]
+        res=0
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j]=='1' and visited[i][j]==0:
+                    self.helper(grid,visited,i,j)
+                    res+=1
+        return res
+    
+    def helper(self,grid,visited,x,y):
+        m,n=len(grid),len(grid[0])
+        if x<0 or x>=m or y<0 or y>=n or visited[x][y]==1 or grid[x][y] !='1': return
+        visited[x][y]=1
+        self.helper(grid,visited,x-1,y)
+        self.helper(grid,visited,x+1,y)
+        self.helper(grid,visited,x,y+1)
+        self.helper(grid,visited,x,y-1)
+ 
+#547. Friend Circles
+#Time O(n^2),space=O(n)
+class Solution:
+    def findCircleNum(self, M: List[List[int]]) -> int:
+        if not M:return 0
+        m=len(M)
+        visited=[0]*m
+        res=0
+        for i in range(m):
+            if visited[i]==1: continue
+            self.helper(M,i,m,visited)
+            res+=1
+        return res
+    
+    def helper(self,M,i,m,visited):
+        if visited[i]==1:return
+        visited[i]=1
+        for j in range(m):
+            if M[i][j] and visited[j]==0:
+                self.helper(M,j,m,visited)
+
+
+#695. Max Area of Island
+#Time and space O(m*n)
+class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        m=len(grid)
+        if m==0 : return 0
+        n=len(grid[0])
+        res=0
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j]==1:
+                    area=self.helper(grid,i,j,0)
+                    res=max(res,area)   
+        return res
+    
+    def helper(self,grid,x,y,area):
+        m,n=len(grid),len(grid[0])
+        if x<0 or x>=m or y<0 or y>=n or grid[x][y]==0: return area
+        grid[x][y]=0
+        area+=1
+        area=self.helper(grid,x-1,y,area)
+        area=self.helper(grid,x+1,y,area)
+        area=self.helper(grid,x,y-1,area)
+        area=self.helper(grid,x,y+1,area)
+        return area
+
+#733. Flood Fill
+#Time=O(m*n),space=O(1)
+class Solution:
+    def floodFill(self, image: List[List[int]], sr: int, sc: int, newColor: int) -> List[List[int]]:
+        if image[sr][sc]==newColor: return image
+        m,n=len(image),len(image[0])
+        self.helper(image,sr,sc,image[sr][sc],newColor)
+        return image
+    def helper(self,image,x,y,preColor,newColor):
+        m,n=len(image),len(image[0])
+        if x<0 or x>=m or y<0 or y>=n: return
+        if image[x][y] !=preColor: return
+        image[x][y]=newColor
+        self.helper(image,x+1,y,preColor,newColor)
+        self.helper(image,x-1,y,preColor,newColor)
+        self.helper(image,x,y+1,preColor,newColor)
+        self.helper(image,x,y-1,preColor,newColor)
+
+#827. Making A Large Island
+
+#841. Keys and Rooms
+#Time=O(E+V),space=O(V)
+class Solution:
+    def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
+        m=len(rooms)
+        if m ==1:return True
+        visited=[0]*m
+        self.helper(0,rooms,visited)
+        if sum(visited)==m:
+            return True
+        else:
+            return False
+    def helper(self,i,rooms,visited):
+        if visited[i]==1: return
+        visited[i]=1
+        for j in rooms[i]:
+             self.helper(j,rooms,visited)
+        
+#802. Find Eventual Safe States
+#Time=O(V+E),space=O(V+E)
+class Solution:
+    def eventualSafeNodes(self, graph: List[List[int]]) -> List[int]:
+        states=['UNKNOWN']*len(graph)
+        ans=[]
+        for i in range(len(graph)):
+            if self.helper(graph,i,states)=='SAFE':
+                ans.append(i)
+        return ans
+    def helper(self,graph,cur,states):
+        if states[cur]=='VISITING':
+            states[cur]='UNSAFE'
+            return states[cur]
+        if states[cur] != 'UNKNOWN':
+            return states[cur]
+        states[cur] = 'VISITING'
+        for j in graph[cur]:
+            if self.helper(graph,j,states)=='UNSAFE':
+                states[cur]='UNSAFE'
+                return states[cur]
+        states[cur]='SAFE'
+        return states[cur]
+
+#207. Course Schedule
+#Time=O(n),space=O(n)
+def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        graph = [[] for _ in range(numCourses)]
+        for course, prerequisite in prerequisites:
+            graph[prerequisite].append(course)
+        visited=[0]*numCourses
+        for i in range(numCourses):
+            if self.helper(i,graph,visited):
+                return False
+        return True
+    #If there is a cycle, return TRUE
+    #1 visiting/2 visited
+    def helper(self,curr,graph,visited):
+        if visited[curr]==1: return True
+        if visited[curr]==2: return False
+        visited[curr]=1
+        for ele in graph[curr]:
+            if self.helper(ele,graph,visited):
+                return True
+        visited[curr]=2
+        return False
+    
+#210. Course Schedule II
+#Time=O(n),space=O(n)
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        graph = [[] for _ in range(numCourses)]
+        res=[]
+        for course, prerequisite in prerequisites:
+            graph[prerequisite].append(course)
+        visited=[0]*numCourses
+        for i in range(numCourses):
+            if self.helper(i,graph,visited,res):
+                return []
+        return res[::-1]
+    #If there is a cycle, return True
+    def helper(self,curr,graph,visited,res):
+        if visited[curr]==1: return True
+        if visited[curr]==2: return False
+        visited[curr]=1
+        for ele in graph[curr]:
+            if self.helper(ele,graph,visited,res):
+                return True
+        visited[curr]=2
+        res.append(curr)
+        return False
+    
+#399. Evaluate Division
+#Time=O(number of equations+e*num of queries),space=O(e)
+class Solution:
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        res=[]
+        g=collections.defaultdict(dict)
+        for (x,y),v in zip(equations,values):
+            g[x][y]=v
+            g[y][x]=1/v
+            
+        for (x,y) in queries:
+            res.append(self.helper(g,x,y,[]) if x in g and y in g else -1)
+        return res
+    def helper(self,g,x,y,visited):
+        if x==y:return 1
+        visited.append(x)
+        for neigh in g[x]:
+            if neigh in visited:continue
+            visited.append(neigh)
+            d=self.helper(g,neigh,y,visited)
+            if d>0:return d*g[x][neigh]
+        return -1
+    
+    
+#952. Largest Component Size by Common Factor
+#Time complexity: O(n*Σsqrt(A[i])) Space complexity: O(max(A))
+class Solution:
+    def largestComponentSize(self, A: List[int]) -> int:
+        p=list(range(max(A)+1))
+        for a in A:
+            for i in range(2,int(math.sqrt(a)+1)):
+                if a % i ==0:
+                    self.union(a,i,p)
+                    self.union(a,int(a/i),p)
+        dict={}
+        ans=1
+        for a in A:
+            if self.find(a,p) in dict:
+                dict[self.find(a,p)]+=1
+            else:dict[self.find(a,p)]=1
+            ans=max(ans,dict[self.find(a,p)])
+        return ans
+    
+    def find(self,x,p):
+        while x!=p[x]:
+            p[x]=p[p[x]]
+            x=p[x]
+        return x
+    
+    def union(self,x,y,p):
+        p[self.find(x,p)]=p[self.find(y,p)]
+
+#990. Satisfiability of Equality Equations
+#Time=O(n),space=O(26)->O(1)
+class Solution:
+    def equationsPossible(self, equations: List[str]) -> bool:
+        UF={}
+        for eq in equations:
+            x,e1,e2,y=eq
+            if x not in UF:UF[x]=x
+            if y not in UF:UF[y]=y
+            if e1=="=":
+                UF[self.find(x,UF)]=UF[self.find(y,UF)]
+        for eq in equations:
+            x,e1,e2,y=eq
+            if e1=="=" and self.find(x,UF)!=self.find(y,UF):
+                return False
+            if e1=="!" and self.find(x,UF)==self.find(y,UF):
+                return False
+        return True
+    def find(self,x,UF):
+        while x!=UF[x]:
+            UF[x]=UF[UF[x]]
+            x=UF[x]
+        return x
+
+#721. Accounts Merge
+#Time=O(n), space=O(n)
+class Solution:
+    def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]: 
+        res=[]
+        p=list(range(10001))
+        em_name={}
+        em_id={}
+        i=0
+        for account in accounts:
+            for em in account[1:]:
+                em_name[em]=account[0]
+                if em not in em_id:
+                    em_id[em]=i
+                    i+=1
+                self.union(p,em_id[account[1]],em_id[em])
+                
+        ans=collections.defaultdict(list)
+        for em in em_name:
+            ans[self.find(p,em_id[em])].append(em)
+        for v in ans.values():
+            res.append([em_name[v[0]]]+sorted(v))
+        return res
+    
+    def union(self,p,x,y):
+        p[self.find(p,x)]=self.find(p,y)
+    
+    def find(self,p,x):
+        while x != p[x]:
+            p[x]=p[p[x]]
+            x=p[x]
+        return x
+
+#785. Is Graph Bipartite?
+#Time=O(n*m), space=O(n)
+class Solution:
+    def isBipartite(self, graph: List[List[int]]) -> bool:
+        p=list(range(len(graph)))
+        for i in range(len(graph)):
+            if not graph[i]:continue
+            x=self.find(p,i)
+            y=self.find(p,graph[i][0])
+            if x==y:return False
+            for j in range(1,len(graph[i])):
+                temp=self.find(p,graph[i][j])
+                if x==temp:return False
+                p[temp]=y
+        return True
+    def find(self,p,x):
+        while x!=p[x]:
+            p[x]=p[p[x]]
+            x=p[x]
+        return x
+
 #684. Redundant Connection
 #Time=O(n), space=O(n)
 class Solution:
