@@ -469,3 +469,4 @@ class Solution:
                     q.append((neigh, stops+1, price+price_to_neigh))
 
         return min_price if min_price!=float('inf') else -1
+
