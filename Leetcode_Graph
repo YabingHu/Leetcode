@@ -486,3 +486,29 @@ class Solution:
                 dp[v-1]=min(dp[v-1],dp[u-1]+w)
         res=max(dp)
         return -1 if res==MAX_TIME else res
+
+#882. Reachable Nodes In Subdivided Graph
+#Time=E*log(E), space=O(E)
+class Solution:
+    def reachableNodes(self, edges: List[List[int]], M: int, N: int) -> int:
+        g= collections.defaultdict(dict)
+        for e in edges:
+            g[e[0]][e[1]]=g[e[1]][e[0]]=e[2]
+        q = [(-M, 0)]
+        HP={}
+        while q:
+            hp, cur= heapq.heappop(q)
+            if cur in HP:continue
+            HP[cur]=-hp
+            for pair in g[cur]:
+                nxt=pair
+                nxt_hp=-hp-g[cur][pair]-1
+                if nxt not in HP and nxt_hp>=0:
+                    heapq.heappush(q, (-nxt_hp, nxt))
+        ans=len(HP)
+        print(HP)
+        for e in edges:
+            uv=HP[e[0]] if e[0] in HP else 0
+            vu=HP[e[1]] if e[1] in HP else 0
+            ans+=min(e[2],uv+vu)
+        return ans
