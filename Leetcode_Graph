@@ -447,3 +447,25 @@ class Solution:
             p[u] = p[p[u]]
             u = p[u]
         return u
+
+#787. Cheapest Flights Within K Stops
+#BFS, time=O(n*(k+1)), space=O(n*(k+1))
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, K: int) -> int:
+        graph = collections.defaultdict(list)
+        q=[]
+        min_price = float('inf')
+
+        for u, v, w in flights: graph[u].append((w, v))
+        q.append((src, 0, 0))
+        while q:
+            city, stops, price = q.pop(0)
+            if city==dst:
+                min_price = min(min_price, price)
+                continue
+
+            if stops<=K and price<=min_price:
+                for price_to_neigh, neigh in graph[city]:
+                    q.append((neigh, stops+1, price+price_to_neigh))
+
+        return min_price if min_price!=float('inf') else -1
