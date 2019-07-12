@@ -538,3 +538,26 @@ class Solution:
               
         return -1
         
+#815. Bus Routes
+#Time=O(n^2), space=O(n^2)
+class Solution:
+    def numBusesToDestination(self, routes: List[List[int]], S: int, T: int) -> int:
+        if S==T: return 0
+        res=0
+        stop2bus= collections.defaultdict(list)
+        q=[S]
+        visited=[]
+        for i in range(len(routes)):
+            for j in routes[i]:
+                stop2bus[j].append(i)
+        while q:
+            res+=1
+            for i in range(len(q)):
+                t=q.pop(0)
+                for bus in stop2bus[t]:
+                    if bus in visited: continue
+                    visited.append(bus)
+                    for stop in routes[bus]:
+                        if stop ==T: return res
+                        q.append(stop)
+        return -1
