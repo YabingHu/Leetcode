@@ -63,12 +63,11 @@ class Solution:
         res=[]
         self.helper(root,res,'')
         return res
+    
     def helper(self,root,res,out):
-        if not root:return 
+        if not root: return
         if not root.left and not root.right:
             res.append(out+str(root.val))
-        if root.left:
-            self.helper(root.left,res,out+str(root.val)+'->')
-        if root.right:
-            self.helper(root.right,res,out+str(root.val)+'->')
+        self.helper(root.left,res,out+str(root.val)+'->')
+        self.helper(root.right,res,out+str(root.val)+'->')
             
