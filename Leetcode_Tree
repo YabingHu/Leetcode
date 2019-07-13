@@ -45,3 +45,13 @@ class Solution:
         self.res=max(self.res,right+left)
         return max(left,right)
         
+#129. Sum Root to Leaf Numbers
+#Time=O(n), space=O(h)
+class Solution:
+    def sumNumbers(self, root: TreeNode) -> int:
+        return self.helper(root,0)
+    def helper(self,root,res):
+        if not root: return 0
+        if (not root.left) and (not root.right):
+            return res*10+root.val
+        return self.helper(root.left,10*res+root.val)+self.helper(root.right,10*res+root.val)
