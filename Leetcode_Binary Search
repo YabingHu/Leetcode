@@ -1,0 +1,17 @@
+#378. Kth Smallest Element in a Sorted Matrix
+#Time=O(nlgn*lgX),X is the difference between the maximum and minimum, space=O(1)
+class Solution:
+    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
+        left=matrix[0][0]
+        right=matrix[-1][-1]
+        while left <= right:
+            mid=left+(right-left)//2
+            cnt=0
+            for i in range(len(matrix)):
+                cnt+=bisect.bisect_right(matrix[i], mid)
+            if cnt<k:
+                left=mid+1
+            else:
+                right=mid-1
+        return left
+            
