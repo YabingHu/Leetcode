@@ -1,3 +1,50 @@
+#98. Validate Binary Search Tree
+#Time =O(n), space=O(h)
+class Solution:
+    def isValidBST(self, root: TreeNode) -> bool:
+        if root==None:return True
+        return self.helper(root,float('-Inf'),float('Inf'))
+    def helper(self,root,left,right):
+        if root==None:return True
+        if root.val>=right or root.val<=left:
+            return False
+        return self.helper(root.left,left,root.val) and self.helper(root.right,root.val,right)
+
+#530. Minimum Absolute Difference in BST
+#Time=O(n), space=O(h)
+class Solution:
+    def getMinimumDifference(self, root: TreeNode) -> int:
+        self.res=float('Inf')
+        self.helper(root,float('-Inf'),float('Inf'))
+        return self.res
+    def helper(self,root,low,high):
+        if not root: return 0
+        temp=min(self.res,root.val-low,high-root.val)
+        self.res=min(self.res,temp)
+        return min(self.helper(root.left,low,root.val),self.helper(root.right,root.val,high))
+
+#700. Search in a Binary Search Tree
+#Time=O(h),space=O(h)
+class Solution(object):
+    def searchBST(self, root, val):
+        if not root:return None
+        if root.val>val:
+            return self.searchBST(root.left,val)
+        elif root.val<val:
+            return self.searchBST(root.right,val)
+        else:return root
+        
+#701. Insert into a Binary Search Tree       
+#Time=O(h),Space=O(h), worst case O(n)
+class Solution:
+    def insertIntoBST(self, root: TreeNode, val: int) -> TreeNode:
+        if not root:return TreeNode(val)
+        if root.val>val:
+            root.left=self.insertIntoBST(root.left,val)
+        else:
+            root.right=self.insertIntoBST(root.right,val)
+        return root 
+
 #99. Recover Binary Search Tree
 #Time=O(n),space=O(n)
 class Solution:
@@ -23,7 +70,30 @@ class Solution:
             cur=cur.right
         first.val,second.val=second.val,first.val
 
-
+#501. Find Mode in Binary Search Tree
+#Time=O(n),space=O(n)
+class Solution:
+    def findMode(self, root: TreeNode) -> List[int]:
+        dict={}
+        if root==None:return []
+        s=[]
+        res=[]
+        cur=root
+        mx=0
+        while s or cur:
+            while cur:
+                s.append(cur)
+                cur=cur.left
+            cur=s.pop()
+            if cur.val not in dict:
+                dict[cur.val]=1
+            else:dict[cur.val]+=1
+            mx=max(mx,dict[cur.val])
+            cur=cur.right
+        for ele in dict:
+            if mx==dict[ele]:
+                res.append(ele)
+        return res
 
 #450. Delete Node in a BST
 #Time=O(h), space=O(h)
