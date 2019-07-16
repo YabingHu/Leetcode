@@ -45,6 +45,27 @@ class Solution:
             root.right=self.insertIntoBST(root.right,val)
         return root 
 
+#230. Kth Smallest Element in a BST
+##Time=O(h+k), space=O(h+k)
+class Solution:
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
+        if root==None:return None
+        s=[]
+        res=[]
+        cnt=0
+        cur=root
+        while s or cur:
+            while cur:
+                s.append(cur)
+                cur=cur.left
+            cur=s.pop()
+            res.append(cur.val)
+            cnt+=1
+            if cnt==k:
+                return res[-1]
+            cur=cur.right
+        
+
 #99. Recover Binary Search Tree
 #Time=O(n),space=O(n)
 class Solution:
