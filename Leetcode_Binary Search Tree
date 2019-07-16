@@ -91,6 +91,23 @@ class Solution:
             cur=cur.right
         first.val,second.val=second.val,first.val
 
+#108. Convert Sorted Array to Binary Search Tree
+#Time=O(n),space=O(n)
+class Solution:
+    def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
+        return self.helper(nums)
+    def helper(self,nums):
+        if len(nums)==0:return 
+        left=0
+        right=len(nums)-1
+        mid=left+(right-left)//2
+        root=TreeNode(nums[mid])
+        root.left=self.helper(nums[:mid])
+        root.right=self.helper(nums[mid+1:])
+        return root
+
+
+
 #501. Find Mode in Binary Search Tree
 #Time=O(n),space=O(n)
 class Solution:
