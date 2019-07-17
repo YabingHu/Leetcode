@@ -1,6 +1,3 @@
-####################################################
-#Search
-
 #37. Sudoku Solver
 #Time=O(9^81) much less than that, space=O(9^81) recusion on stack
 class Solution:
@@ -149,27 +146,29 @@ class Solution:
             res+=1
         return 0
    
-####################################################
-#DP
-
-####################################################
-#Graph
-
-####################################################
-#Tree
-
-####################################################
-#Binary Search
-
-####################################################
-#Binary Search
-
-####################################################
-#Linked List
-
-####################################################
-#Array
-
-
-####################################################
-#String
+#752. Open the Lock
+#Time=O(10000*8),space=O(10000+nums of deadends), 8 means 8 possible ways to change the lock by one #digits,from 0000 to 9999, 
+#there are 10000 states
+class Solution:
+    def openLock(self, deadends: List[str], target: str) -> int:
+        start='0000'
+        deadends = set(deadends)
+        if start in deadends: return -1
+        if start==target:return 0
+        q=[start]
+        visited=set(start)
+        step=0
+        while q:
+            step+=1
+            size=len(q)
+            for k in range(size):
+                curr=q.pop(0)
+                for i in range(4):
+                    for j in range(-1,2):
+                        next_ = curr[:i] + str((int(curr[i]) + j + 10) % 10) + curr[i+1:]
+                        if next_==target:return step
+                        if next_ in deadends or next_ in visited:continue
+                        q.append(next_)
+                        visited.add(next_)
+        return -1
+        
