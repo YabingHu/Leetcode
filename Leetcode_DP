@@ -21,3 +21,24 @@ class Solution:
                 dp[x1][y1][x2]+=grid[x2][y2]
         else:dp[x1][y1][x2]=-1
         return dp[x1][y1][x2]
+        
+#546. Remove Boxes
+#Time=O(n^4), space=O(n^3)
+class Solution:
+    def removeBoxes(self, boxes: List[int]) -> int:
+        N = len(boxes)
+        memo = [[[0]*N for _ in range(N) ] for _ in range(N) ]
+        def dp(l, r, k):
+            if l > r: return 0
+            if not memo[l][r][k]:
+                m = l
+                while m+1 <= r and boxes[m+1] == boxes[l]:
+                    m += 1
+                l, k = m, k + m - l
+                ans = dp(l+1, r, 0) + (k+1) ** 2
+                for i in range(l+1, r+1):
+                    if boxes[l] == boxes[i]:
+                        ans = max(ans, dp(l+1, i-1, 0) + dp(i, r, k+1))
+                memo[l][r][k] = ans
+            return memo[l][r][k]
+        return dp(0, N-1, 0)
