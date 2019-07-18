@@ -43,7 +43,32 @@ class Solution:
             return memo[l][r][k]
         return dp(0, N-1, 0)
 
-
+#980. Unique Paths III
+#Time=O(4^(m*n)), space=O(m*n)
+class Solution:
+    def uniquePathsIII(self, grid: List[List[int]]) -> int:
+        self.res = 0
+        m, n,empty = len(grid), len(grid[0]),1
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1: x,y = (i, j)
+                elif grid[i][j] == 2: end = (i, j)
+                elif grid[i][j] == 0: empty += 1
+        self.dfs(grid,x,y, empty,end)
+        return self.res
+    def dfs(self,grid,x, y, empty,end):
+        m, n= len(grid), len(grid[0])
+        if not (0 <= x < m and 0 <= y < n and grid[x][y] >= 0): return
+        if (x, y) == end:
+            self.res += empty == 0
+            return
+        grid[x][y] = -2
+        self.dfs(grid,x + 1, y, empty - 1,end)
+        self.dfs(grid,x - 1, y, empty - 1,end)
+        self.dfs(grid,x, y + 1, empty - 1,end)
+        self.dfs(grid,x, y - 1, empty - 1,end)
+        grid[x][y] = 0
+        
 #996. Number of Squareful Arrays
 #DFS,Time=O(n!), space=O(n)
 class Solution:
