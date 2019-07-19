@@ -21,6 +21,7 @@ class Solution:
             clone=self.helper(neighbor,dict)
             dup.neighbors.append(clone)
         return dup
+        
 #BFS Solution, both time and space are O(n)
 class Solution:
     def cloneGraph(self, node: 'Node') -> 'Node':
@@ -455,7 +456,6 @@ class Solution:
         graph = collections.defaultdict(list)
         q=[]
         min_price = float('inf')
-
         for u, v, w in flights: graph[u].append((w, v))
         q.append((src, 0, 0))
         while q:
@@ -514,6 +514,7 @@ class Solution:
         return ans
 
 #847. Shortest Path Visiting All Nodes
+#Time=O(n*2^n), space=O(n*2^n)
 class Solution:
     def shortestPathLength(self, graph: List[List[int]]) -> int:
         n=len(graph)
@@ -535,7 +536,6 @@ class Solution:
                 for next_ in graph[node]:
                     q.append((next_ , state | (1<<next_)))
             steps+=1
-              
         return -1
         
 #815. Bus Routes
