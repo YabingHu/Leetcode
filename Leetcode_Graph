@@ -601,3 +601,35 @@ class Solution:
                     seen[ny][nx][nkeys] = 1
             steps += 1
         return -1
+
+#924. Minimize Malware Spread
+#Time=O(n^2), space=O(n)
+class Solution:
+    def minMalwareSpread(self, graph: List[List[int]], initial: List[int]) -> int:
+        # init
+        n = len(graph)
+        parents = list(range(n))
+        # union
+        for i in range(n):
+            for j in range(i + 1, n):
+                if graph[i][j] == 1:
+                    self.union(i, j,parents)
+        area = collections.Counter(self.find(i,parents) for i in range(n))
+        malware = collections.Counter(self.find(i,parents) for i in initial)
+        save, res = 0, min(initial)
+        for i in initial:
+            if malware[self.find(i,parents)] == 1:
+                if area[self.find(i,parents)] > save:
+                    save, res = area[self.find(i,parents)], i
+                elif area[self.find(i,parents)] == save:
+                    res = min(res, i)
+        return res
+    
+    def find(self,x,parents):
+        while x != parents[x]:
+            parents[x] =parents[parents[x]]
+            x=parents[x]
+        return x
+    
+    def union(self,x, y,parents):
+        parents[self.find(x,parents)]=self.find(y,parents)
