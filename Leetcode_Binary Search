@@ -50,3 +50,32 @@ class Solution:
                 left=mid+1
             else: right=mid-1
         return left
+
+#778. Swim in Rising Water
+#Time = O( n^2*log(n^2)),Space = O(n^2)
+class Solution:
+    def swimInWater(self, grid: List[List[int]]) -> int:
+        n=len(grid)
+        left=grid[0][0]
+        right=n*n-1
+        while left <= right:
+            mid=left+(right-left)//2
+            if self.helper(grid,mid):
+                right=mid-1
+            else:left=mid+1
+        return left
+        
+    def helper(self,grid,mid):
+        q=[(0,0)]
+        visited=set((0,0))
+        n=len(grid)
+        while q:
+            x,y=q.pop(0)
+            if grid[x][y]<=mid:
+                if x==n-1 and y==n-1: return True
+                for i,j in [(0,1),(0,-1),(1,0),(-1,0)]:
+                    if x+i<0 or x+i>=n or y+j<0 or y+j>=n or (x+i,y+j) in visited: continue
+                    q.append((x+i,j+y))
+                    visited.add((x+i,j+y))
+        return False
+
