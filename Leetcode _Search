@@ -195,3 +195,49 @@ class Solution:
                 q.append((x,y))
         return matrix
         
+#675. Cut Off Trees for Golf Event
+#Time=O(m^2*n^2),Space=O(mn)
+class Solution:
+    def cutOffTree(self, forest: List[List[int]]) -> int:
+        m=len(forest)
+        n=len(forest[0])
+        tree=[]
+        for i in range(m):
+            for j in range(n):
+                if forest[i][j]>0:
+                    tree.append((forest[i][j],i,j))
+        tree.sort()
+        sx,sy=0,0
+        res=0
+        for i in range(len(tree)):
+            ex=tree[i][1]
+            ey=tree[i][2]
+            step=self.helper(forest,sx,sy,ex,ey) 
+            if step != float('Inf'):
+                res+=step
+            else: return -1
+            sx=ex
+            sy=ey
+        return res
+    
+    def helper(self,forest,sx,sy,ex,ey):
+        q=[(sx,sy)]
+        m=len(forest)
+        n=len(forest[0])
+        visited=[[0]*n for _ in range(m)]
+        visited[sx][sy]=1
+        step=0
+        while q:
+            size=len(q)
+            for k in range(size):
+                cur=q.pop(0)
+                cx=cur[0]
+                cy=cur[1]
+                if cx==ex and cy==ey: return step
+
+                for i,j in [(1,0),(-1,0),(0,1),(0,-1)]:
+                    if cx+i<0 or cx+i>=m or cy+j<0 or cy+j>=n or visited[cx+i][cy+j]!=0 or forest[cx+i][cy+j]==0:continue
+                    visited[cx+i][cy+j]=1
+                    q.append((cx+i,cy+j))
+            step+=1
+        return float('Inf')
