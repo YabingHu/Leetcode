@@ -95,3 +95,19 @@ class Solution:
                 dp[i][j]=max(1,min(dp[i+1][j],dp[i][j+1])-dungeon[i][j])
         return dp[0][0]
     
+#875. Koko Eating Bananas
+#Time=O(NlogW), N is number of piles and W is 1e9,space=O(1)
+class Solution:
+    def minEatingSpeed(self, piles: List[int], H: int) -> int:
+        left=1
+        right=1e9
+        while left <= right:
+            mid=left+(right-left)//2
+            cnt=0
+            for p in piles:
+                cnt+=math.ceil(p/mid)
+            if cnt>H:
+                left=mid+1
+            else:
+                right=mid-1
+        return int(left)
