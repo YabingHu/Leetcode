@@ -241,3 +241,5 @@ class Solution:
                     q.append((cx+i,cy+j))
             step+=1
         return float('Inf')
+
+#934. Shortest Bridge
