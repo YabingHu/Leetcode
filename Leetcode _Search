@@ -299,3 +299,22 @@ class Solution:
             if self.helper(nums,k,target,i+1,curSum+nums[i],visited): return True
             visited[i]=False
         return False
+
+#698. Partition to K Equal Sum Subsets
+#Time=O(k! * k^(n-k)), space=O(n)
+class Solution:
+    def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
+        if sum(nums)%k !=0: return False
+        nums.sort(reverse=True)
+        visited=[0]*len(nums)
+        return self.helper(nums,k,sum(nums)/k,0,0,visited)
+    def helper(self,nums,k,target,start,cur_sum,visited):
+        if k==1:return True
+        if cur_sum>target: return False
+        if cur_sum==target: return self.helper(nums,k-1,target,0,0,visited)
+        for i in range(start, len(nums)):
+            if visited[i]==1: continue
+            visited[i]=1
+            if self.helper(nums,k,target,i+1,cur_sum+nums[i],visited): return True
+            visited[i]=0
+        return False
