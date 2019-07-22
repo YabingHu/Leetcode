@@ -633,3 +633,42 @@ class Solution:
     
     def union(self,x, y,parents):
         parents[self.find(x,parents)]=self.find(y,parents)
+
+#934. Shortest Bridge
+#Time=O(m*n), space=O(m*n)
+class Solution:
+    def shortestBridge(self, A: List[List[int]]) -> int:
+        q=[]
+        found=False
+        for i in range(len(A)):
+            for j in range(len(A[0])):
+                if found:break
+                if A[i][j]:
+                    self.helper(A,i,j,q)
+                    found=True
+        step=0
+        dirs=[(0,1),(0,-1),(1,0),(-1,0)]
+        while q:
+            size=len(q)
+            for k in range(size):
+                t=q.pop(0)
+                x=t[0]
+                y=t[1]
+                for i in range(4):
+                    tx=x+dirs[i][0]
+                    ty=y+dirs[i][1]
+                    if tx<0 or ty<0 or tx>=len(A) or ty>=len(A[0]) or A[tx][ty]==2:continue
+                    if A[tx][ty]==1:return step
+                    A[tx][ty]=2
+                    q.append((tx,ty))
+            step+=1
+        return -1
+    def helper(self,A,x,y,q):
+        #dfs for finding a island
+        if x<0 or y<0 or x>=len(A) or y>=len(A[0]) or A[x][y]!=1:return
+        A[x][y]=2
+        q.append((x,y))
+        self.helper(A,x-1,y,q)
+        self.helper(A,x+1,y,q)
+        self.helper(A,x,y+1,q)
+        self.helper(A,x,y-1,q)
