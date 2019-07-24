@@ -634,3 +634,40 @@ class Solution:
     def union(self,x, y,parents):
         parents[self.find(x,parents)]=self.find(y,parents)
 
+#959. Regions Cut By Slashes
+#Time=O(n^2), space=O(n^2)
+class Solution:
+    def regionsBySlashes(self, grid: List[str]) -> int:
+        n=len(grid)
+        p=list(range(4*n*n))
+        for r in range(n):
+            for c in range(n):
+                print(r,c)
+                index=4*(r*n+c)
+                if grid[r][c]=='/':
+                    self.union(p,index+0,index+3)
+                    self.union(p,index+1,index+2)
+                elif grid[r][c]=='\\':
+                    self.union(p,index+0,index+1)
+                    self.union(p,index+2,index+3)
+                else:
+                    self.union(p,index+0,index+1)
+                    self.union(p,index+1,index+2)
+                    self.union(p,index+2,index+3)
+                if r+1<n:
+                    self.union(p,index+2,index+4*n+0)
+                if c+1<n:
+                    self.union(p,index+1,index+4+3)
+        ans=0
+        for i in range(4*n*n):
+            if self.find(p,i)==i:
+                ans+=1
+        return ans
+
+    def find(self,p,x):
+        while x !=p[x]:
+            p[x]=p[p[x]]
+            x=p[x]
+        return x
+    def union(self,p,x,y):
+        p[self.find(p,x)]=self.find(p,y)
