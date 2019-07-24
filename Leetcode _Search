@@ -1,3 +1,239 @@
+#17. Letter Combinations of a Phone Number
+#Time=O(4^n),space=O(4^n+n)
+class Solution:
+    def letterCombinations(self, digits):
+        if not digits:return []
+        dict = {"1":"", "2":"abc", "3":"def", "4":"ghi", "5":"jkl", "6":"mno", "7":"pqrs","8":"tuv","9":"wxyz","10":" "}
+        res = []        
+        self.dfs(dict,digits,0,"",res)
+        return res
+            
+    def dfs(self,dict,string,level,out,res):
+        if level ==len(string):
+            res.append(out)
+            return
+        for i in dict[string[level]]:
+            self.dfs(dict,string,level+1,out+i,res)
+    
+#39. Combination Sum
+#Time=(2^n),space=O(k*n) where k is the number of answers
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        res=[]
+        self.helper(candidates,target,[],0,res)
+        return res
+    def helper(self,candidates,target,out,index,res):
+        if target<0:return
+        if target==0:
+            res.append(out)
+        for i in range(index,len(candidates)):
+            self.helper(candidates,target-candidates[i],out+[candidates[i]],i,res)
+        
+    
+#40. Combination Sum II
+#Time=(2^n),space=O(k*n) where k is the number of answers
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        res=[]
+        candidates.sort()
+        self.helper(candidates,target,[],0,res)
+        return res
+    def helper(self,candidates,target,out,index,res):
+        if target<0:return
+        if target==0:
+            res.append(out)
+        for i in range(index,len(candidates)):
+            if i>index and candidates[i]==candidates[i-1]:continue
+            self.helper(candidates,target-candidates[i],out+[candidates[i]],i+1,res)
+            
+#77. Combinations
+#Time=O(k*C^n_{k}), space=O(C^n_{k})
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        res=[]
+        self.helper(n,k,1,[],res)
+        return res
+    def helper(self,n,k,index,out,res):
+        if len(out)==k:
+            res.append(out)
+            return
+        for i in range(index,n+1):
+            self.helper(n,k,i+1,out+[i],res)
+        return
+            
+#78. Subsets
+#Time=O(n!),space=(n!)
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        res=[]
+        self.helper(nums,0,[],res)
+        return res
+    def helper(self,nums,start,out,res):
+        res.append(out)
+        for i in range(start,len(nums)):
+            self.helper(nums,i+1,out+[nums[i]],res)
+        return
+            
+#90. Subsets II
+#Time=O(n!),space=(n!)
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        res=[]
+        nums.sort()
+        self.helper(nums,[],0,res)
+        return res
+    def helper(self,nums,out,index,res):
+        res.append(out)
+        for i in range(index,len(nums)):
+            if i>index and nums[i]==nums[i-1]:continue
+            self.helper(nums,out+[nums[i]],1+i,res)
+            
+#216. Combination Sum III
+#Time=(2^n),space=O(k*n) where k is the number of answers
+class Solution:
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        res=[]
+        candidates=[1,2,3,4,5,6,7,8,9]
+        self.helper(candidates,n,[],0,res,k)
+        return res
+    def helper(self,candidates,target,out,index,res,k):
+        if target<0:return
+        if target==0 and len(out)==k:
+            res.append(out)
+        for i in range(index,len(candidates)):
+            if i>index and candidates[i]==candidates[i-1]:continue
+            self.helper(candidates,target-candidates[i],out+[candidates[i]],i+1,res,k)
+
+#46. Permutations
+#Time=O(n!), space=O(n!), in fact recusion has the form T(n)=T(n-1）+T（n-2）+.... has the time complexity O(2^(n)),here since 
+#this line: if visited[i]==1: continue , it reduce the time complexity from O(2^n) to O(n!)
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        res=[]
+        out=[]
+        visited=[0]*len(nums)
+        self.helper(nums,0,visited,out,res)
+        return res
+    
+    def helper(self,nums,level,visited,out,res):
+        if level==len(nums):
+            res.append(out[:])
+            return
+        for i in range(len(nums)):
+            if visited[i]==1: continue
+            visited[i]=1
+            out.append(nums[i])
+            self.helper(nums,level+1,visited,out,res)
+            out.pop()
+            visited[i]=0
+            
+#Time=O(n!), space=O(n)
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        res=[]
+        self.helper(nums,0,res)
+        return res
+    def helper(self,nums,start,res):
+        if start==len(nums):
+            res.append(nums[:])
+            return
+        for i in range(start,len(nums)):
+            nums[start],nums[i]=nums[i],nums[start]
+            self.helper(nums,start+1,res)
+            nums[start],nums[i]=nums[i],nums[start]
+
+#47. Permutations II          
+#Time=O(n!), space=O(n!)
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        res=[]
+        out=[]
+        visited=[0]*len(nums)
+        nums.sort()
+        self.helper(nums,0,visited,out,res)
+        return res
+    def helper(self,nums,level,visited,out,res):
+        if level==len(nums):
+            res.append(out[:])
+            return
+        for i in range(len(nums)):
+            if visited[i]==1: continue
+            if i>0 and nums[i]==nums[i-1] and visited[i-1]==0: continue
+            visited[i]=1
+            out.append(nums[i])
+            self.helper(nums,level+1,visited,out,res)
+            out.pop()
+            visited[i]=0
+
+#784. Letter Case Permutation
+#Time=O(n* 2^l, l the number of letters in a string), space=O(n)+O(n*2^l)
+class Solution:
+    def letterCasePermutation(self, S: str) -> List[str]:
+        ans = []
+        self.helper(list(S), 0, len(S),ans)
+        return ans
+    def helper(self,S, i, n,ans):
+        if i == n:
+            ans.append(''.join(S))
+            return
+        self.helper(S, i + 1, n,ans)      
+        if not S[i].isalpha(): return      
+        S[i] = chr(ord(S[i]) ^ (1<<5))
+        self.helper(S, i + 1, n,ans)
+        S[i] = chr(ord(S[i]) ^ (1<<5))
+
+#22. Generate Parentheses
+#Time=O(n!)， seems like O(2^n) but using Catalan number theory, get O(n!), space=O(n)
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        res=[]
+        self.helper(n,n,'',res)
+        return res
+    def helper(self,left,right,out,res):
+        if left<0 or right<0 or left>right: return
+        if left==0 and right==0:
+            res.append(out)
+            return
+        self.helper(left-1,right,out+'(',res)
+        self.helper(left,right-1,out+')',res)
+
+#301. Remove Invalid Parentheses
+#Time=O(2^n), space=O(n)
+class Solution:
+    def removeInvalidParentheses(self, s: str) -> List[str]:
+        l,r=0,0
+        for ch in s:
+            l+=int(ch=='(')
+            if l==0:
+                r+=int(ch==')')
+            else:
+                l-=int(ch==')')
+        ans=[]
+        self.dfs(s,0,l,r,ans)
+        return ans
+        
+    def isValid(self,s):
+        count=0
+        for ch in s:
+            if ch=='(': count+=1
+            if ch==')': count-=1
+            if count<0: return False
+        return count==0
+
+    def dfs(self,s,start,l,r,ans):
+        if l==0 and r==0:
+            if self.isValid(s):
+                ans.append(s)
+                return
+        for i in range(start,len(s)):
+            if i!=start and s[i]==s[i-1]: continue
+            if s[i]=='(' or s[i]==')':
+                curr = s[:i] + s[(i+1):]
+                if r>0 and s[i]==')':
+                    self.dfs(curr,i,l,r-1,ans)
+                elif l>0 and s[i]=='(':
+                    self.dfs(curr,i,l-1,r,ans)
+
 #37. Sudoku Solver
 #Time=O(9^81) much less than that, space=O(9^81) recusion on stack
 class Solution:
