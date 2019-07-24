@@ -1,3 +1,353 @@
+#70. Climbing Stairs
+# Time and Space O(n) for all methods
+
+#recursive
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        res=[0]*(n+1)
+        return self.helper(n,res)
+
+    def helper(self,n,res):
+        if(n<=1): return 1
+        if res[n]>0: return res[n]
+        res[n]=self.helper(n-1,res)+self.helper(n-2,res)
+        return res[n]
+#iterative,dp     
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        dp=[0]*(n+1)
+        dp[0],dp[1]=1,1
+        for i in range(2,n+1):
+            dp[i]=dp[i-1]+dp[i-2]
+        return dp[n]
+    
+#DP with space=O(1)
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        dp=1
+        dp1=dp2=1
+        for i in range(2,n+1):
+            dp=dp1+dp2
+            dp2=dp1
+            dp1=dp
+        return dp
+        
+  
+#746. Min Cost Climbing Stairs
+# Time and Space O(n) for all methods
+# Or space O(1)
+
+#Itrative,space O(1)    
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        res=0
+        dp1,dp2=0,0
+        for i in range(2,len(cost)+1):
+            dp=min(dp1+cost[i-1],dp2+cost[i-2])
+            dp2=dp1
+            dp1=dp
+        return dp
+    
+#Itrative,space O(n)    
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        res=0
+        dp=[0]*(len(cost)+1)
+        dp[0],dp[1]=0,0
+        for i in range(2,len(cost)+1):
+            dp[i]=min(dp[i-1]+cost[i-1],dp[i-2]+cost[i-2])
+        return dp[len(cost)]        
+       
+#303. Range Sum Query - Immutable   
+class NumArray:
+    def __init__(self, nums: List[int]):
+        self.dp = nums
+        for i in range(1,len(nums)):
+            self.dp[i]+=self.dp[i-1]
+    def sumRange(self, i: int, j: int) -> int:
+        if i==0:
+            return self.dp[j]
+        else:
+            return self.dp[j]-self.dp[i-1]
+        
+#53. Maximum Subarray    
+#Time O(n), space O(1)
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        cursum=0
+        res=float('-Inf')
+        for i in range(len(nums)):
+            cursum = max(cursum + nums[i], nums[i])
+            res = max(res, cursum)
+        return res
+
+#121. Best Time to Buy and Sell Stock
+#Time O(n),space O(1)
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        buy=float('Inf')
+        res=0
+        for i in range(len(prices)):
+            buy=min(prices[i],buy)
+            res=max(res,prices[i]-buy)
+        return res
+
+#198. House Robber
+#Time=O(n),space=O(n)
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        if len(nums)==0:return 0
+        dp=[0]*(len(nums))
+        for i in range(len(nums)):
+            a=0 if i==0 else dp[i-1]
+            b=0 if i<=1 else dp[i-2]
+            dp[i]=max(a,b+nums[i])
+        return dp[-1]
+    
+#213. House Robber II
+#Time=O(n),space=O(n)
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        if len(nums)==0:return 0
+        if len(nums)<=2:return max(nums)
+        return max(self.helper(nums[1:]),self.helper(nums[:-1]))
+    def helper(self,nums):
+        dp=[0]*len(nums)
+        for i in range(len(nums)):
+            a=0 if i==0 else dp[i-1]
+            b=0 if i<=1 else dp[i-2]
+            dp[i]=max(a,b+nums[i])
+        return dp[-1]
+        
+# 309. Best Time to Buy and Sell Stock with Cooldown   
+#Time=O(n),space=O(n)->O(1)
+class Solution(object):
+    def maxProfit(self, prices):
+        n=len(prices)
+        if n<=1:return 0
+        hold=-prices[0]
+        rest=0
+        sold=float('-Inf')
+        for price in prices:
+            pre_rest=rest
+            rest=max(pre_rest,sold)
+            sold=hold+price
+            hold=max(pre_rest-price,hold)
+        return max(rest,sold)    
+    
+class Solution(object):
+    def maxProfit(self, prices):
+        n=len(prices)
+        if n<=1:return 0
+        hold=[0]*n
+        rest=[0]*n
+        sold=[0]*n
+        hold[0]= -prices[0]
+        rest[0]=0
+        sold[0]=float('-Inf')
+        for i in range(1,n):
+            rest[i]=max(rest[i-1],sold[i-1])
+            hold[i]=max(rest[i-1]-prices[i],hold[i-1])
+            sold[i]=hold[i-1]+prices[i]
+        return max(sold[n-1],rest[n-1])
+
+#740. Delete and Earn
+#Time=O(100001+n),space=O(n+10001)
+class Solution:
+    def deleteAndEarn(self, nums: List[int]) -> int:
+        sums=[0]*10001
+        for num in nums:
+            sums[num]+=num
+        dp=[0]*(len(sums))
+        for i in range(len(sums)):
+            a=0 if i==0 else dp[i-1]
+            b=0 if i<=1 else dp[i-2]
+            dp[i]=max(a,b+sums[i])
+        return dp[-1]
+
+
+#790. Domino and Tromino Tiling
+#Time=O(n),space=O(n)
+class Solution:
+    def numTilings(self, N: int) -> int:
+        if N==1:return 1
+        M=1e9+7
+        dp=[0]*(N+1)
+        dp[0]=1
+        dp[1]=1
+        dp[2]=2
+        for i in range(3,N+1):
+            dp[i]=(dp[i-1]*2+dp[i-3])%M
+        return int(dp[N])
+
+#801. Minimum Swaps To Make Sequences Increasing
+#Time=O(n),space=O(n)
+class Solution:
+    def minSwap(self, A: List[int], B: List[int]) -> int:
+        n=len(A)
+        swap=[n]*n
+        noSwap=[n]*n
+        swap[0] = 1
+        noSwap[0] = 0
+        for i in range(1,n):
+            if A[i]>A[i-1] and B[i]>B[i-1]:
+                swap[i]=swap[i-1]+1
+                noSwap[i]=noSwap[i-1]
+            if A[i]>B[i-1] and B[i]>A[i-1]:
+                swap[i]=min(swap[i],noSwap[i-1]+1)
+                noSwap[i]=min(noSwap[i],swap[i-1])
+        return min(swap[n - 1], noSwap[n - 1])
+
+#787. Cheapest Flights Within K Stops
+#Time=O(K*|E| |E| is ), space=O(K*n)
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, K: int) -> int:
+        kInfCost=1e9
+        dp=[[kInfCost]*(n) for _ in range(K+2)]
+        dp[0][src]=0
+        for i in range(1,K+2):
+            dp[i][src]=0
+            for p in flights:
+                dp[i][p[1]]=min(dp[i][p[1]],dp[i-1][p[0]]+p[2])
+        return -1 if dp[K+1][dst]>=kInfCost else dp[K+1][dst]
+    
+    
+# 309. Best Time to Buy and Sell Stock with Cooldown   
+#Time=O(n),space=O(n)->O(1)
+class Solution(object):
+    def maxProfit(self, prices):
+        n=len(prices)
+        if n<=1:return 0
+        hold=-prices[0]
+        rest=0
+        sold=float('-Inf')
+        for price in prices:
+            pre_rest=rest
+            rest=max(pre_rest,sold)
+            sold=hold+price
+            hold=max(pre_rest-price,hold)
+        return max(rest,sold)    
+    
+class Solution(object):
+    def maxProfit(self, prices):
+        n=len(prices)
+        if n<=1:return 0
+        hold=[0]*n
+        rest=[0]*n
+        sold=[0]*n
+        hold[0]= -prices[0]
+        rest[0]=0
+        sold[0]=float('-Inf')
+        for i in range(1,n):
+            rest[i]=max(rest[i-1],sold[i-1])
+            hold[i]=max(rest[i-1]-prices[i],hold[i-1])
+            sold[i]=hold[i-1]+prices[i]
+        return max(sold[n-1],rest[n-1])
+
+#139. Word Break
+#Time=O(n^2),space=O(n)
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        n= len(s)
+        dp= [0] * (n+1)
+        dp[0]=1
+        for i in range (1,n+1):
+            for j in range(i):
+                if dp[j] and (s[j:i] in wordDict):
+                    dp[i]=1
+                    break
+        return bool (dp[n])
+    
+#140. Word Break II
+#Time=O(n^2),space=O(n)
+class Solution:
+    def wordBreak(self, s, wordDict):
+        dp={}
+        return self.dfs(s, wordDict, dp)
+
+    def dfs(self,s,wordDict, dp):
+        if s in dp: return dp[s]
+        if not s: return [""]
+        res=[]
+        for word in wordDict:
+            if s[:len(word)] !=word:continue
+            memo=self.dfs(s[len(word):],wordDict,dp)
+            for string in memo:
+                res.append(word+("" if not string else " ") +string)
+        dp[s]=res
+        return res
+
+#818. Race Car
+#Time=(nlogn), space=O(n)
+class Solution:
+    def racecar(self, target: int) -> int:
+        dp = [0, 1, 4] + [float('inf')] * (target-2)
+        for t in range(3, target + 1):
+            k = t.bit_length()
+            if t == 2**k - 1:
+                dp[t] = k
+                continue
+            for j in range(k - 1):
+                dp[t] = min(dp[t], dp[t - 2**(k - 1) + 2**j] + k - 1 + j + 2)
+            if 2**k - 1 - t < t:
+                dp[t] = min(dp[t], dp[2**k - 1 - t] + k + 1)
+        return dp[target]
+
+#300. Longest Increasing Subsequence
+#Time=O(n^2), space=O(n)
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        n=len(nums)
+        if n==0:
+            return 0
+        dp=[1]*n
+        for i in range(n):
+            for j in range(i):
+                if nums[j]<nums[i]:
+                    dp[i]=max(dp[j]+1,dp[i])
+        res=max(dp)
+        return res
+
+#673. Number of Longest Increasing Subsequence
+#Suppose for sequences ending at nums[i], we knew the length length[i] of the longest sequence, and the number count[i] of such sequences with that length.
+#Time=O(n^2), space=O(n)
+class Solution:
+    def findNumberOfLIS(self, nums: List[int]) -> int:
+        n=len(nums)
+        if n==0 :return 0
+        cnt=[1]*n
+        length=[1]*n
+        res=0
+        for i in range(n):
+            for j in range(i):
+                if nums[i] <= nums[j]:continue
+                if length[i]==length[j]+1:
+                    cnt[i]+=cnt[j]
+                if length[i] < length[j]+1:
+                    length[i]=length[j]+1
+                    cnt[i]=cnt[j]
+        longest=max(length)
+        for i in range(len(length)):
+            if length[i]==longest:
+                res+=cnt[i]
+        return res
+
+
+1039. Minimum Score Triangulation of Polygon
+#dp[i][j] means the minimum score to triangulate A[i] ~ A[j],while there is edge connect A[i] and A[j].
+#Time=O(n^3), spcae=O(n^2)
+class Solution:
+    def minScoreTriangulation(self, A: List[int]) -> int:
+        n=len(A)
+        dp=[[0]*n for _ in range(n)]
+        for d in range(2,n):
+            for i in range(n-d):
+                j=i+d
+                dp[i][j]=float('Inf')
+                for k in range(i+1,j):
+                    dp[i][j]=min(dp[i][j],dp[i][k]+dp[k][j]+A[i]*A[k]*A[j])
+        return dp[0][n-1]
+
 #741. Cherry Pickup
 #Time=O(n^3), space=O(n^3)
 #Time=O(n^3), space=O(n^3)
