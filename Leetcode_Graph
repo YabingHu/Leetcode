@@ -671,3 +671,26 @@ class Solution:
         return x
     def union(self,p,x,y):
         p[self.find(p,x)]=self.find(p,y)
+
+
+#947. Most Stones Removed with Same Row or Column
+#Time=O(n), space=O(n)
+class Solution:
+    def removeStones(self, stones: List[List[int]]) -> int:
+        kSize=10000
+        p=list(range(kSize*2))
+        for stone in stones:
+            self.union(p,stone[0],stone[1]+kSize)
+        seen=set()
+        for stone in stones:
+            seen.add(self.find(p,stone[0]))
+        return len(stones)-len(seen)
+        
+    def find(self,p,x):
+        while x !=p[x]:
+            p[x]=p[p[x]]
+            x=p[x]
+        return x
+    def union(self,p,x,y):
+        p[self.find(p,x)]=self.find(p,y)
+            
