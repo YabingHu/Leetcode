@@ -1,3 +1,363 @@
+#Tree:
+#94. Binary Tree Inorder Traversal
+#Time=O(n), space=O(n) for all methods.
+#Recursive solution
+class Solution:
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        res=[]
+        if(not root): return res
+        self.helper(root,res)
+        return res
+    def helper(self,root,res):
+        if(not root): return
+        self.helper(root.left,res)
+        res.append(root.val)
+        self.helper(root.right,res)
+        
+#Using stack
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        res=[]
+        if(root==None): return res
+        s=[]
+        cur=root
+        while cur or s:
+            while cur:
+                s.append(cur)
+                cur=cur.left
+            cur=s.pop()
+            res.append(cur.val)
+            cur=cur.right
+        return res
+#144. Binary Tree Preorder Traversal
+#Time O(n), space=O(n) for both methods
+#Iterative:    
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def preorderTraversal(self, root: TreeNode) -> List[int]:
+        s=[root]
+        res=[]
+        if root==None:
+            return res
+        while s :
+            cur=s.pop()
+            res.append(cur.val)
+            if cur.right != None: s.append(cur.right)
+            if cur.left != None: s.append(cur.left)
+        return res
+#Recursive:
+class Solution:
+    def preorderTraversal(self, root: TreeNode) -> List[int]:     
+        res=[]
+        if root==None: return res
+        self.helper(root,res)
+        return res
+    def helper(self,root,res):
+        if root==None: return
+        res.append(root.val)
+        self.helper(root.left,res)
+        self.helper(root.right,res)
+            
+
+#589. N-ary Tree Preorder Traversal
+#Time O(n), space=O(n) for both methods
+#Iterative
+class Solution:
+def preorder(self, root: 'Node') -> List[int]:
+    res=[]
+    if root==None: return res
+    s=[root]
+    while s:
+        cur=s.pop()
+        res.append(cur.val)
+        for i in range(len(cur.children)-1,-1,-1):
+            s.append(cur.children[i])
+    return res
+#Recursive
+class Solution:
+def preorder(self, root: 'Node') -> List[int]:
+    res=[]
+    if root==None: return res
+    self.helper(root,res)
+    return res
+def helper(self,root,res):
+    if root==None: return 
+    res.append(root.val)
+    for child in root.children:
+        self.helper(child,res)
+
+#145. Binary Tree Postorder Traversal
+#Time=O(n), space=O(n)
+#Iterative
+class Solution:
+    def postorderTraversal(self, root: TreeNode) -> List[int]:
+        res=[]
+        if root==None: return res
+        s=[root]
+        while s:
+            cur=s.pop()
+            res.append(cur.val)
+            if cur.left:
+                s.append(cur.left)
+            if cur.right:
+                s.append(cur.right)
+        return res[::-1]
+#Recursive   
+class Solution:
+    def postorderTraversal(self, root: TreeNode) -> List[int]:
+        res=[]
+        if root==None: return res
+        self.helper(root,res)
+        return res
+    def helper(self,root,res):
+        if root==None: return 
+        self.helper(root.left,res)
+        self.helper(root.right,res)
+        res.append(root.val)
+        
+#590. N-ary Tree Postorder Traversal
+#Time=O(n), space=O(n)
+class Solution:
+    def postorder(self, root: 'Node') -> List[int]:
+        res=[]
+        if root==None:return res
+        s=[root]
+        while s:
+            cur=s.pop()
+            res.append(cur.val)
+            for child in cur.children:
+                s.append(child)
+        return res[::-1]
+                
+
+#114. Flatten Binary Tree to Linked List
+#Time=O(n), spcae=O(1)
+class Solution:
+    def flatten(self, root: TreeNode) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        self.pre = None
+        self.helper(root)
+
+    def helper(self,root):
+        if not root:return None
+        self.helper(root.right)
+        self.helper(root.left)
+        root.right = self.pre
+        root.left = None
+        self.pre = root
+
+#102. Binary Tree Level Order Traversal        
+#Time=O(n), space=O(n) for both BFS and DFS solutions
+#BFS solution
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        res=[]
+        if root == None:
+            return res
+        q=[root]
+        while q:
+            res_sub=[]
+            for i in range(len(q)):
+                t=q.pop(0)
+                res_sub.append(t.val)
+                if t.left !=None: 
+                    q.append(t.left)
+                if t.right !=None:
+                    q.append(t.right)
+            res.append(res_sub)
+        return res
+
+#DFS solution
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        res=[]
+        if root==None:return res
+        self.helper(0,root,res)
+        return res
+    def helper(self,depth,root,res):
+        if root==None:return 
+        if len(res)<=depth:
+            res.append([])
+        res[depth].append(root.val)
+        self.helper(depth+1,root.left,res)
+        self.helper(depth+1,root.right,res)
+    
+    
+    
+#99. Recover Binary Search Tree
+#Time=O(n),space=O(1)
+class Solution:
+    def recoverTree(self, root: TreeNode) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        pre,first,second=None,None,None
+        s=[]
+        cur=root
+        while s or cur:
+            while cur:
+                s.append(cur)
+                cur=cur.left
+            cur=s.pop()
+            if pre:
+                if pre.val>cur.val:
+                    if not first:
+                        first=pre
+                    second=cur
+            pre=cur
+            cur=cur.right
+        first.val,second.val=second.val,first.val
+
+#501. Find Mode in Binary Search Tree
+#Time=O(n),space=O(n)
+class Solution:
+    def findMode(self, root: TreeNode) -> List[int]:
+        if root==None:return []
+        s=[]
+        cur=root
+        m={}
+        mx=0
+        res=[]
+        while s or cur:
+            while cur:
+                s.append(cur)
+                cur=cur.left
+            cur=s.pop()
+            if cur.val in m:
+                m[cur.val]+=1
+            else:m[cur.val]=1
+            mx=max(mx,m[cur.val])
+            cur=cur.right
+        
+        for item in m:
+            if m[item]==mx:
+                res.append(item)
+        return res
+
+#DFS solution:
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        res=[]
+        self.helper(root,0,res)
+        return res
+    def helper(self,root,depth,res):
+        if root==None: return
+        while len(res)<=depth:
+            res.append([])
+        res[depth].append(root.val)
+        self.helper(root.left,depth+1,res)
+        self.helper(root.right,depth+1,res)
+        
+#107. Binary Tree Level Order Traversal II
+#Time=O(n), space=O(n) for both BFS and DFS solutions
+#BFS solution
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        res=[]
+        if root==None:return res
+        s=[root]
+        while s:
+            res_sub=[]
+            for i in range(len(s)):
+                cur=s.pop(0)
+                res_sub.append(cur.val)
+                if cur.left:
+                    s.append(cur.left)
+                if cur.right:
+                    s.append(cur.right)
+            res.append(res_sub)
+        return res
+
+#DFS, preorder
+class Solution:
+    def levelOrderBottom(self, root: TreeNode) -> List[List[int]]:
+        res=[]
+        self.helper(root,0,res)
+        return res[::-1]
+    def helper(self,root,depth,res):
+        if root==None: return
+        while len(res)<=depth:
+            res.append([])
+        res[depth].append(root.val)
+        self.helper(root.left,depth+1,res)
+        self.helper(root.right,depth+1,res)
+ 
+#108. Convert Sorted Array to Binary Search Tree
+#Time=O(logn),space=O(n)
+class Solution:
+    def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
+        return self.helper(nums,0,len(nums)-1)
+    def helper(self,nums,left,right):
+        if left>right: return None
+        mid=left+int((right-left)/2)
+        cur=TreeNode(nums[mid])
+        cur.left=self.helper(nums,left,mid-1)
+        cur.right=self.helper(nums,mid+1,right)
+        return cur
+
+#129. Sum Root to Leaf Numbers
+#Time=O(n),space=O(1)
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def sumNumbers(self, root: TreeNode) -> int:
+        return self.helper(root,0)
+    def helper(self,root,prefix):
+        if root==None: return 0
+        if root.left ==None and root.right==None:
+            return prefix*10+root.val  
+        return self.helper(root.left,prefix*10+root.val)+self.helper(root.right,prefix*10+root.val)
+
+#669. Trim a Binary Search Tree
+#Time=O(n),space=0(1)
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def trimBST(self, root: TreeNode, L: int, R: int) -> TreeNode:
+        if root==None: return None
+        if L<=root.val and R>=root.val:
+            root.left=self.trimBST(root.left,L,R)
+            root.right=self.trimBST(root.right,L,R)
+        elif root.val<L:
+            root=self.trimBST(root.right,L,R)
+        else:
+            root=self.trimBST(root.left,L,R)
+        return root
+    
+#100. Same Tree
+#Time=O(n),space=O(n)
+class Solution:
+    def isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
+        if not p and not q: return True
+        if not p or not q or p.val!=q.val:return False
+        return self.isSameTree(p.left,q.left) and self.isSameTree(p.right,q.right)
+        
+
 #124. Binary Tree 
 #Time=O(n), space=O(h)
 class Solution:
