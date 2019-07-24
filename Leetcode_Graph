@@ -158,6 +158,48 @@ class Solution:
         self.helper(image,x,y-1,preColor,newColor)
 
 #827. Making A Large Island
+#Time=O(m*n), space=O(m*n)
+class Solution:
+    def largestIsland(self, grid: List[List[int]]) -> int:
+        color=1
+        m=len(grid)
+        n=len(grid[0])
+        areas={}
+        ans=0
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j]==1:
+                    color+=1
+                    areas[color]=self.getArea(i,j,grid,0,color)
+                    ans=max(ans,areas[color])
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j]==0:
+                    area=1
+                    temp={self.getColor(i+1,j,grid),self.getColor(i-1,j,grid),self.getColor(i,j-1,grid),self.getColor(i,j+1,grid)}
+
+                    for c in temp:
+                        area+=areas[c]
+                    ans=max(ans,area)
+                
+    def getColor(self,x,y,grid):
+        m=len(grid)
+        n=len(grid[0])
+        if x<0 or x>=m or y<0 or y>=n:
+            return 0
+        else:
+            return grid[x][y]
+    def getArea(self,x,y,grid,area,color):
+        m=len(grid)
+        n=len(grid[0])
+        if x<0 or x>=m or y<0 or y>=n or grid[x][y]!=1:return area
+        grid[x][y]=color
+        area+=1
+        area=self.getArea(x+1,y,grid,area,color)
+        area=self.getArea(x-1,y,grid,area,color)
+        area=self.getArea(x,y+1,grid,area,color)
+        area=self.getArea(x,y-1,grid,area,color)
+        return area
 
 #841. Keys and Rooms
 #Time=O(E+V),space=O(V)
@@ -601,6 +643,120 @@ class Solution:
                     seen[ny][nx][nkeys] = 1
             steps += 1
         return -1
+        
+#943. Find the Shortest Superstring
+class Solution:
+    def shortestSuperstring(self, A: List[str]) -> str:
+        # construct a directed graph
+        #   node i => A[i]
+        #   weights are represented as an adjacency matrix:
+        #   shared[i][j] => length saved by concatenating A[i] and A[j]
+        n = len(A)
+        shared = [[0] * n for _ in range(n)]
+        for i in range(n):
+            for j in range(n):
+                for k in range(min(len(A[i]), len(A[j])), -1, -1):
+                    if A[i][-k:] == A[j][:k]:
+                        #print( A[i][-k:],A[i][(len(A[i])-k):],i,k)
+                        shared[i][j] = k
+                        break
+
+        # The problem becomes finding the shortest path that visits all nodes exactly once.
+        # Brute force DFS would take O(n!) time.
+        # A DP solution costs O(n^2 2^n) time.
+        # 
+        # Let's consider integer from 0 to 2^n - 1. 
+        # Each i contains 0-n 1 bits. Hence each i selects a unique set of strings in A.
+        # Let's denote set(i) => {A[j] | j-th bit of i is 1}
+        # dp[i][k] => shortest superstring of set(i) ending with A[k]
+        #
+        # e.g. 
+        #   if i = 6 i.e. 110 in binary. dp[6][k] considers superstring of A[2] and A[1].
+        #   dp[6][1] => the shortest superstring of {A[2], A[1]} ending with A[1].
+        #   For this simple case dp[6][1] = concatenate(A[2], A[1])
+        dp = [[''] * 12 for _ in range(1 << 12)]
+        for i in range(1 << n):
+            for k in range(n):
+                # skip if A[k] is not in set(i) 
+                if not (i & (1 << k)):
+                    continue
+                # if set(i) == {A[k]}
+                if i == 1 << k:
+                    dp[i][k] = A[k]
+                    continue
+                for j in range(n):
+                    if j == k:
+                        continue
+                    if i & (1 << j):
+                        # the shortest superstring if we remove A[k] from the set(i)
+                        s = dp[i ^ (1 << k)][j]
+                        s += A[k][shared[j][k]:]
+                        if dp[i][k] == '' or len(s) < len(dp[i][k]):
+                            dp[i][k] = s
+
+        min_len = float('inf')
+        result = ''
+
+        # find the shortest superstring of all candidates ending with different string
+        for i in range(n):
+            s = dp[(1 << n) - 1][i]
+            if len(s) < min_len:
+                min_len, result = len(s), s
+        return result
+
+#980. Unique Paths III
+#Time=O(4^(m*n)), space=O(m*n)
+class Solution:
+    def uniquePathsIII(self, grid: List[List[int]]) -> int:
+        self.res = 0
+        m, n,empty = len(grid), len(grid[0]),1
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1: x,y = (i, j)
+                elif grid[i][j] == 2: end = (i, j)
+                elif grid[i][j] == 0: empty += 1
+        self.dfs(grid,x,y, empty,end)
+        return self.res
+    def dfs(self,grid,x, y, empty,end):
+        m, n= len(grid), len(grid[0])
+        if not (0 <= x < m and 0 <= y < n and grid[x][y] >= 0): return
+        if (x, y) == end:
+            self.res += empty == 0
+            return
+        grid[x][y] = -2
+        self.dfs(grid,x + 1, y, empty - 1,end)
+        self.dfs(grid,x - 1, y, empty - 1,end)
+        self.dfs(grid,x, y + 1, empty - 1,end)
+        self.dfs(grid,x, y - 1, empty - 1,end)
+        grid[x][y] = 0
+
+#996. Number of Squareful Arrays
+#Time=O(n!), space=O(n)
+class Solution:
+    def numSquarefulPerms(self, A: List[int]) -> int:
+        self.ans=0
+        if not A: return ans
+        A.sort()
+        visited=[0]*len(A)
+        self.helper(A,0,visited,[])
+        return self.ans
+    
+    def sqr(self,a,b):
+        s=int(math.sqrt(a+b))
+        return s**2==a+b
+
+    def helper(self,A,level,visited,out):
+        if level==len(A):
+            self.ans+=1
+            return
+        for i in range(len(A)):
+            if visited[i]==1: continue
+            if i > 0 and A[i]==A[i-1] and visited[i-1]==0:continue
+            if out and not self.sqr(out[-1],A[i]): continue
+            visited[i]=1
+            self.helper(A,level+1,visited,out+[A[i]])
+            visited[i]=0
+
 
 #924. Minimize Malware Spread
 #Time=O(n^2), space=O(n)
