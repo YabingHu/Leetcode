@@ -462,3 +462,44 @@ class Solution:
             visited[i]=1
             self.helper(A,level+1,visited,out+[A[i]])
             visited[i]=0
+
+#85. Maximal Rectangle
+#Time=O(m*n*m), space=O(m*n
+#dp[i][j] is the max length of all 1 sequence ends with col j, at the i-th row.
+class Solution:
+    def maximalRectangle(self, matrix: List[List[str]]) -> int:
+        res=0
+        m=len(matrix)
+        if m==0: return 0
+        n=len(matrix[0])
+        if n==0: return 0
+        dp=[[0]*n for _ in range(m)]
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j]=='0':continue
+                dp[i][j]=dp[i][j-1]+1 if j!=0 else 1
+                w=float('Inf')
+                for k in range(i,-1,-1):
+                    w=min(w,dp[k][j])
+                    print(w)
+                    res=max(res,w*(i-k+1))
+        return res
+
+#221. Maximal Square
+#dp[i][i] denotes the lengtn of side of maximal square can be formed whose right corner is (i,j) 
+#Time=O(m*n), space=O(m*n)
+class Solution:
+    def maximalSquare(self, matrix: List[List[str]]) -> int:
+        if not len(matrix) or (not len(matrix[0])):return 0
+        m=len(matrix)
+        n=len(matrix[0])
+        dp=[[0]*n for _ in range(m)]
+        res=0
+        for i in range(m):
+            for j in range(n):
+                if i==0 or j==0:
+                    dp[i][j]=int(matrix[i][j])
+                elif matrix[i][j] == '1':
+                        dp[i][j] = min(dp[i - 1][j - 1], min(dp[i][j - 1], dp[i - 1][j])) + 1
+                res=max(res,dp[i][j])
+        return res**2
