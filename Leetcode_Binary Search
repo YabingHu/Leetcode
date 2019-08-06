@@ -31,7 +31,66 @@ class Solution:
         elif nums[mid]<target:
             return self.helper(nums,mid+1,right,target)
         else: return self.helper(nums,left,mid-1,target)
+
+
+#704. Binary Search
+#Time=O(logn), space=O(1)
+class Solution {
+    public int search(int[] nums, int target) {
+        int left=0;
+        int right=nums.length-1;
+        while(left<=right){
+            int mid=left+(right-left)/2;
+            if (nums[mid]==target) return mid;
+            else if (nums[mid]>target) right=mid-1;
+            else left=mid+1;
+        }
+        return -1;
+    }
+}
+
+#981.Time Based Key-Value Store
+#Time=O(logn), space=O(n)
+class TimeMap:
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.M = collections.defaultdict(list)
         
+    def set(self, key: str, value: str, timestamp: int) -> None:
+        self.M[key].append((timestamp, value))
+      
+    def get(self, key: str, timestamp: int) -> str:
+        A = self.M.get(key, None)
+        if A is None: return ""
+        i =self.helper(A, (timestamp, chr(127)))
+        if i==-1: return ''
+        return A[i][1] 
+        
+    def helper(self,nums,target):
+        left=0
+        right=len(nums)-1
+        while left <= right:
+            mid=left+(right-left)//2
+            if nums[mid][0]>target[0]:
+                right=mid-1
+            else: left=mid+1
+        return right
+
+#69. Sqrt(x)
+#Time=O(logn), space=O(1)
+class Solution:
+    def mySqrt(self, x: int) -> int:
+        if x <= 1:return x
+        left=0
+        right=x
+        while left <= right:
+            mid=left + (right-left)//2
+            if int(x/mid)>=mid:left=mid+1
+            else:right=mid-1
+        return right
+
 #33. Search in Rotated Sorted Array
 #Time O(logn), space O(n)
 class Solution:
