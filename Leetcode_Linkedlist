@@ -1,1 +1,71 @@
+#2. Add Two Numbers
+#Time=O(max(m,n)), space=O(max(m,n)+1)
+class Solution:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        dummy=ListNode(-1)
+        cur=dummy
+        carry=0
+        while l1 or l2:
+            d1=l1.val if l1 else 0
+            d2=l2.val if l2 else 0
+            sum_=d1+d2+carry
+            cur.next=ListNode(sum_%10)
+            carry=1 if sum_>9 else 0
+            l1=l1.next if l1 else None
+            l2=l2.next if l2 else None
+            cur=cur.next
+        if carry==1:
+            cur.next=ListNode(1)
+        return dummy.next
+        
+#445. Add Two Numbers II
+#Time=O(n), space=O(1)
+class Solution:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        s1,s2=[],[]
+        while l1:
+            s1.append(l1.val)
+            l1=l1.next
+        while l2:
+            s2.append(l2.val)
+            l2=l2.next
+        carry=ListNode(0)
+        while s1 or s2:
+            d1=s1.pop() if s1 else 0
+            d2=s2.pop() if s2 else 0
+            sum_=d1+d2+carry.val
+            carry.val=sum_%10
+            temp=ListNode(sum_//10)
+            temp.next=carry
+            carry=temp
+        if carry.val==0:
+            return carry.next
+        else:
+            return carry
+            
+#24. Swap Nodes in Pairs
+#Time=O(n), space=O(n)
+class Solution:
+    def swapPairs(self, head: ListNode) -> ListNode:
+        dummy= ListNode(0)
+        dummy.next=head
+        cur=dummy
+        while cur.next!=None and cur.next.next!=None:
+            t=cur.next
+            cur.next=t.next
+            t.next=t.next.next
+            cur.next.next=t
+            cur=cur.next.next
+        return dummy.next
+
+#Time=O(n), space=O(n)
+class Solution:
+    def swapPairs(self, head: ListNode) -> ListNode:
+        if not head or not head.next: return head
+        t=head.next
+        head.next=self.swapPairs(head.next.next)
+        t.next=head
+        return t
+        
+#25. Reverse Nodes in k-Group
 
