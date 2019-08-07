@@ -69,3 +69,22 @@ class Solution:
         
 #25. Reverse Nodes in k-Group
 
+#206. Reverse Linked List
+#Time=O(n),space=O(1)
+class Solution:
+    def reverseList(self, head: ListNode) -> ListNode:
+        if not head or not head.next:return head
+        res=self.reverseList(head.next)
+        head.next.next=head
+        head.next=None
+        return res
+        
+class Solution:
+    def reverseList(self, head: ListNode) -> ListNode:
+        newHead=None
+        while head !=None:
+            t=head.next
+            head.next=newHead
+            newHead=head
+            head=t
+        return newHead        
