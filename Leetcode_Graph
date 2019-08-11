@@ -157,6 +157,26 @@ class Solution:
         self.helper(image,x,y+1,preColor,newColor)
         self.helper(image,x,y-1,preColor,newColor)
 
+#463. Island Perimeter
+#Time=O(m*n),space=O(1)
+class Solution:
+    def islandPerimeter(self, grid: List[List[int]]) -> int:
+        m=len(grid)
+        if m==0: return 0
+        n=len(grid[0])
+        area=0
+        connect=0
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j]==1:
+                    area+=1
+                    if i<m-1 and grid[i+1][j]==1:connect+=1
+                    if i>0 and grid[i-1][j]==1:connect+=1
+                    if j<n-1 and grid[i][j+1]==1:connect+=1
+                    if j>0 and grid[i][j-1]==1:connect+=1
+        return area*4-connect
+        
+
 #827. Making A Large Island
 #Time=O(m*n), space=O(m*n)
 class Solution:
