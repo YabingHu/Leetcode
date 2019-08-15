@@ -425,9 +425,70 @@ class Solution:
         return res
     
     def helper(self,root,res,out):
-        if not root: return
+        if not root: ret
+        #Time=O(n), space=O(n)
+class Solution:
+    def distributeCoins(self, root: TreeNode) -> int:
+        self.ans=0
+        self.helper(root)
+        return self.ans
+    
+    def helper(self,root):
+        if not root: return 0
+        L=self.helper(root.left)
+        R=self.helper(root.right)
+        self.ans+=abs(L)+abs(R)
+        return root.val-1+L+Rurn
         if not root.left and not root.right:
             res.append(out+str(root.val))
         self.helper(root.left,res,out+str(root.val)+'->')
         self.helper(root.right,res,out+str(root.val)+'->')
-            
+
+#968. Binary Tree Cameras
+#Time=O(n), space=O(n)
+class Solution:
+    def distributeCoins(self, root: TreeNode) -> int:
+        self.ans=0
+        self.helper(root)
+        return self.ans
+    
+    def helper(self,root):
+        if not root: return 0
+        L=self.helper(root.left)
+        R=self.helper(root.right)
+        self.ans+=abs(L)+abs(R)
+        return root.val-1+L+R
+
+
+#337. House Robber III
+#Time=O(n), space=O(n)
+class Solution:
+    def rob(self, root: TreeNode) -> int:
+        self.m={}
+        return self.helper(root)
+    def helper(self,root):
+        if not root: return 0
+        if root in self.m: return self.m[root]
+        val=0
+        if root.left:
+            val+=self.helper(root.left.left)+self.helper(root.left.right)
+        if root.right:
+            val+= self.helper(root.right.left)+self.helper(root.right.right)
+        val= max(root.val+val,self.helper(root.left)+self.helper(root.right))
+        self.m[root]=val
+        return val
+
+#979. Distribute Coins in Binary Tree
+#Time=O(n), space=O(n)
+class Solution:
+    def distributeCoins(self, root: TreeNode) -> int:
+        self.ans=0
+        self.helper(root)
+        return self.ans
+    
+    def helper(self,root):
+        if not root: return 0
+        L=self.helper(root.left)
+        R=self.helper(root.right)
+        self.ans+=abs(L)+abs(R)
+        return root.val-1+L+R
