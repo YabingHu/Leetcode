@@ -78,19 +78,6 @@ class TimeMap:
             else: left=mid+1
         return right
 
-#69. Sqrt(x)
-#Time=O(logn), space=O(1)
-class Solution:
-    def mySqrt(self, x: int) -> int:
-        if x <= 1:return x
-        left=0
-        right=x
-        while left <= right:
-            mid=left + (right-left)//2
-            if int(x/mid)>=mid:left=mid+1
-            else:right=mid-1
-        return right
-
 #33. Search in Rotated Sorted Array
 #Time O(logn), space O(n)
 class Solution:
@@ -110,6 +97,109 @@ class Solution:
                     right=mid-1
                 else: left=mid+1
         return -1
+
+
+#81. Search in Rotated Sorted Array II
+#Time O(logn), space O(n)
+class Solution:
+    def search(self, nums: List[int], target: int) -> bool:
+        left=0
+        right=len(nums)-1
+        while left <=right:
+            mid=left+(right-left)//2
+            if nums[mid]==target: return True
+            elif nums[mid]<nums[right]:
+                if target>nums[mid] and target<=nums[right]:
+                    left=mid+1
+                else: right=mid-1
+            elif nums[mid]> nums[right]:
+                if target>=nums[left] and target<nums[mid]:
+                    right=mid-1
+                else: left=mid+1
+            else:
+                right-=1
+        return False
+ 
+#153. Find Minimum in Rotated Sorted Array
+#Time=O(logn), space=O(1)
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        if not nums: return None
+        return self.helper(nums,0,len(nums)-1)
+    def helper(self,nums,left,right):
+        mid=left+(right-left)//2
+        if left+1>=right: return min(nums)
+        if nums[left]<nums[right]: return nums[left]
+        return min(self.helper(nums,left,mid), self.helper(nums,mid+1,right))
+
+#154. Find Minimum in Rotated Sorted Array II
+#Time=O(logn), space=O(1)
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        if not nums: return None
+        return self.helper(nums,0,len(nums)-1)
+    def helper(self,nums,left,right):
+        mid=left+(right-left)//2
+        if left+1>=right: return min(nums)
+        if nums[left]<nums[right]: return nums[left]
+        return min(self.helper(nums,left,mid), self.helper(nums,mid+1,right))
+
+#162. Find Peak Element
+#Time=O(n), space=O(1)
+class Solution:
+    def findPeakElement(self, nums: List[int]) -> int:
+        for i in range(1, len(nums)):
+            if nums[i-1]>nums[i]:
+                return i-1
+        return len(nums)-1
+
+#Time=O(logn), space=O(1)
+class Solution:
+    def findPeakElement(self, nums: List[int]) -> int:
+        left=0
+        right=len(nums)-1
+        while left <right:
+            mid=left+(right-left)//2
+            if nums[mid]>nums[mid+1]:
+                right=mid
+            else:
+                left=mid+1
+        return right
+
+#852. Peak Index in a Mountain Array
+#Time=O(n), space=O(1)
+def peakIndexInMountainArray(self, A: List[int]) -> int:
+        for i in range(1,len(A)):
+            if A[i-1]>A[i]:
+                return i-1
+        return len(A)-1
+        
+#Time=O(logn), space=O(1)
+class Solution:
+    def peakIndexInMountainArray(self, A: List[int]) -> int:
+        left=0
+        right=len(A)-1
+        while left < right:
+            mid=left+(right-left)//2
+            if A[mid]>A[mid+1]:
+                right=mid
+            else: left=mid+1
+        return left
+
+#69. Sqrt(x)
+#Time=O(logn), space=O(1)
+class Solution:
+    def mySqrt(self, x: int) -> int:
+        if x <= 1:return x
+        left=0
+        right=x
+        while left <= right:
+            mid=left + (right-left)//2
+            if int(x/mid)>=mid:left=mid+1
+            else:right=mid-1
+        return right
+
+
 
 #74. Search a 2D Matrix
 #Time=O(log(m*n)), space=O(1)
