@@ -1,0 +1,13 @@
+#3. Longest Substring Without Repeating Characters
+#Time=O(n), space=O(n)
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        res=0
+        left=-1
+        dict={}
+        for i in range(len(s)):
+            if s[i] in dict and dict[s[i]]>left:
+                left=dict[s[i]]
+            dict[s[i]]=i
+            res=max(res,i-left)
+        return res
