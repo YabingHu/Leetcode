@@ -554,3 +554,17 @@ class Solution:
             if self.helper(nums,k,target,i+1,cur_sum+nums[i],visited): return True
             visited[i]=0
         return False
+
+#416. Partition Equal Subset Sum
+#Time=O(n^2),space=O(n) 
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        s=sum(nums)
+        if s%2 !=0: return False
+        target=s//2
+        dp=[False]*(target+1)
+        dp[0]=True
+        for num in nums:
+            for k in range(target,num-1,-1):
+                dp[k]=dp[k] or dp[k-num]
+        return dp[target]
