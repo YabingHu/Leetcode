@@ -590,3 +590,25 @@ class Solution:
                 if i==3 and s[0]!='0' and int(s[0:3])<=255:
                     self.helper(res,out+s[:i]+'.',s[i:],index+1)
     
+#241. Different Ways to Add Parentheses
+class Solution:
+    def diffWaysToCompute(self, input: str) -> List[int]:
+        res = []
+        # Base case.
+        if '+' not in input and '-' not in input and '*' not in input:
+            res.append(int(input))
+
+        # Recursive case.
+        for i in range(len(input)):
+            if input[i] == '+' or input[i] == '-' or input[i] == '*':
+                listFirst = self.diffWaysToCompute(input[:i])
+                listSecond = self.diffWaysToCompute(input[i + 1:])
+                for valuei in listFirst:
+                    for valuej in listSecond:
+                        if input[i] == '+':
+                            res.append(valuei + valuej)
+                        elif input[i] == '-':
+                            res.append(valuei - valuej)
+                        else:  # v == '*'
+                            res.append(valuei * valuej)
+        return res
