@@ -545,3 +545,23 @@ class Solution:
                 total+=dp0[i][j]
         return total/(8**K)
           
+#1147. Longest Chunked Palindrome Decomposition
+class Solution:
+    def longestDecomposition(self, text: str) -> int:
+        memo={}
+        return self.dp(0,len(text)-1,memo,text)
+    def dp(self,i,j,memo,text):
+        if i> j:
+            return 0
+        if i==j:
+            return 1
+        if (i,j) not in memo:
+            k=0
+            tmp=1
+            while i+k<j-k:
+                if text[i:i+k+1] == text[j-k:j+1]:
+                    tmp = max(tmp,2+self.dp(i+k+1,j-k-1,memo,text))
+                k += 1
+            memo[(i,j)]=tmp
+        return memo[(i,j)]
+    
