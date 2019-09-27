@@ -550,6 +550,25 @@ class Solution:
         res=max(dp)
         return -1 if res==MAX_TIME else res
 
+#DFS
+#Time=O(N^N+ElogE), space=O(N+E)
+class Solution:
+     def networkDelayTime(self, times, N, K):
+        graph = collections.defaultdict(list)
+        for u, v, w in times:
+            graph[u].append((v, w))
+        MAX_TIME=100*100+1
+        dp=[MAX_TIME]*N
+        self.dfs(graph,dp,K, 0)
+        res=max(dp)
+        return -1 if res==MAX_TIME else res
+
+     def dfs(self,graph,dp,node, elapsed):
+        if elapsed >= dp[node-1]: return
+        dp[node-1] = elapsed
+        for new_node,time in sorted(graph[node], key=lambda x: x[1]):
+            self.dfs(graph,dp,new_node,elapsed + time)
+
 #882. Reachable Nodes In Subdivided Graph
 #Time=E*log(E), space=O(E)
 class Solution:
