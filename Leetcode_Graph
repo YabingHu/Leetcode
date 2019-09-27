@@ -871,3 +871,27 @@ class Solution:
     def union(self,p,x,y):
         p[self.find(p,x)]=self.find(p,y)
             
+#332. Reconstruct Itinerary
+#Time=O(E*log(E)), space=O(E)
+class Solution:
+    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
+        m=collections.defaultdict(list)
+        for ticket in tickets:
+            m[ticket[0]].append(ticket[1])
+        for k,v in m.items():
+            m[k]=sorted(v)
+        n=len(tickets)
+        res=['JFK']
+        if self.helper(m,res,'JFK',n):
+            return res
+        return []
+    def helper(self,m,res,out,n):
+        if len(res)==n+1: return True
+        for i in range(len(m[out])):
+            cur=m[out].pop(0)
+            res.append(cur)
+            if self.helper(m,res,cur,n):
+                return True
+            res.pop()
+            m[out].append(cur)
+        return 
