@@ -45,3 +45,16 @@ class Solution:
             else:
                 m[t]=i
         return False
+
+#724. Find Pivot Index
+#Time=O(n),space=O(1)
+class Solution:
+    def pivotIndex(self, nums: List[int]) -> int:
+        sum_=0
+        total=sum(nums)
+        for i in range(len(nums)):
+            sum_+=nums[i]
+            if sum_==total-sum_+nums[i]:
+                return i
+        return -1
+            
