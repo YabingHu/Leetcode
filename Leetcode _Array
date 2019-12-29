@@ -1,0 +1,47 @@
+#560. Subarray Sum Equals K
+#Time=O(n),space=O(n)
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        dict_={}
+        dict_[0]=1
+        res=0
+        sum_=0
+        for num in nums:
+            sum_+=num
+            if sum_-k in dict_:
+                res+=dict_[sum_-k]
+            if sum_ in dict_:
+                dict_[sum_]+=1
+            else:
+                dict_[sum_]=1
+        return res
+        
+#523. Continuous Subarray Sum
+#Time=O(n*2),space=O(1)
+class Solution:
+    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        n=len(nums)
+        for i in range(n):
+            sum_=nums[i]
+            for j in range(i+1,n):
+                sum_+=nums[j]
+                if sum_==k:return True
+                if k!= 0 and sum_%k==0: return True
+        return False
+        
+#Time=O(n),space=O(n)
+class Solution:
+    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        n=len(nums)
+        sum_=0
+        m={}
+        m[0]=-1
+        for i in range(n):
+            sum_+=nums[i]
+            t=sum_ if k==0 else (sum_%k)
+            if t in m:
+                if i-m[t]>1:
+                    return True
+            else:
+                m[t]=i
+        return False
