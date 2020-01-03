@@ -29,3 +29,36 @@ class Solution:
             else:
                 right-=1
         return res
+
+#167. Two Sum II - Input array is sorted
+#Time= O(n), space=O(1)
+class Solution:
+    def twoSum(self, numbers: List[int], target: int) -> List[int]:
+        left=0
+        right=len(numbers)-1
+        while left <= right:
+            if numbers[left]+numbers[right]==target:
+                return [left+1,right+1]
+            elif numbers[left]+numbers[right]<target:
+                left+=1
+            else:
+                right-=1
+        return [-1,-1]
+        
+#977. Squares of a Sorted Array
+##Time= O(n), space=O(n)
+class Solution:
+    def sortedSquares(self, A: List[int]) -> List[int]:
+        n=len(A)
+        res=[0]*n
+        left=0
+        right=n-1
+        while left<=right:
+            if(abs(A[left])<abs(A[right])):
+                res[right-left]=A[right]**2
+                right-=1
+            else:
+                res[right-left]=A[left]**2
+                left+=1
+            
+        return res
