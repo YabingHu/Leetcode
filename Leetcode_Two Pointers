@@ -86,3 +86,17 @@ class Solution:
             nums1[k]=nums2[j]
             k-=1
             j-=1
+
+#925. Long Pressed Name
+#Time= O(n), space=O(n)
+class Solution:
+    def isLongPressedName(self, name: str, typed: str) -> bool:
+        m=len(name)
+        n=len(typed)
+        i=0
+        for j in range(n):
+            if i<m and name[i]==typed[j]:
+                i+=1
+            elif j==0 or typed[j] != typed[j-1]:
+                return False
+        return i==len(name)
