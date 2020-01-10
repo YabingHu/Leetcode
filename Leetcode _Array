@@ -58,3 +58,17 @@ class Solution:
                 return i
         return -1
             
+#268. Missing Number
+Time=O(n),space=O(1)
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
+        total=sum(nums)
+        res=(1+len(nums))*len(nums)/2-total
+        return int(res)
+        
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
+        res=0
+        for i in range(len(nums)):
+            res^=(i+1)^nums[i]
+        return res
